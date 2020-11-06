@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Add a movie</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h1>Form</h1>
+
+<form th:action="@{/movies/filmweb}" method="get">
+    <label for="page">Link do filmu z serwisu filmweb:</label>
+    <input type="text" id="page" th:value="${filmwebUrl}" name="filmwebUrl"/><br>
+    <input type="submit" value="Wyślij"/>
+</form>
+
+
+<form th:action="@{/movies/add}" th:object="${movie}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <p>Tytuł: <input type="text" th:field="*{title}"/></p>
+    <p>Reżyser: <input type="text" th:field="*{director}"/></p>
+    <p>Kraj produkcji: <input type="text" th:field="*{countryOrigin}"/></p>
+    <p>Opis: <input type="text" th:field="*{description}"/></p>
+    <p>Gatunek: <input type="text" th:field="*{genre}"/></p>
+    <p>Długość filmu: <input type="number" th:field="*{duration}"/></p>
+    <p>Adres url plakatu: <input type="text" th:field="*{posterUrl}"/></p>
+    <p><input type="submit" value="Dodaj"/> <input type="reset" value="Reset"/></p>
+</form>
+
+
+</body>
+</html>
