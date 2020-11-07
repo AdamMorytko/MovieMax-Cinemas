@@ -8,7 +8,6 @@ public class HomeController {
 
     @RequestMapping
     public String getHomePage(){
-        System.out.println("dupa");
         return "home";
     }
 }
