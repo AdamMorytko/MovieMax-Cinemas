@@ -28,23 +28,26 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#">MovieMax</a>
+        <a class="navbar-brand" th:href="@{/}">MovieMax</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Logowanie</a>
+                    <a class="nav-link" th:href="@{/}">Start</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Rejestracja</a>
+                    <a class="nav-link" th:href="@{/login}">Logowanie</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">O aplikacji</a>
+                    <a class="nav-link" th:href="@{/register}">Rejestracja</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Kontakt</a>
+                    <a class="nav-link" th:href="@{/about}">O aplikacji</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/contact}">Kontakt</a>
                 </li>
             </ul>
         </div>
@@ -56,7 +59,6 @@
         <div class="container">
             <h1 class="masthead-heading mb-0">Najlepsze emocje</h1>
             <h2 class="masthead-subheading mb-0">Tylko w MovieMax!</h2>
-            <a href="#" class="btn btn-primary btn-xl rounded-pill mt-5">Jakiś guzik(?)</a>
         </div>
     </div>
     <div class="bg-circle-1 bg-circle"></div>
@@ -69,16 +71,16 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-3">
-                <div class="p-1">
+                <div class="p-2">
                     <img class="img-fluid mx-auto d-block" th:src="@{${movie.posterUrl}}" alt=""/>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="p-1">
-                    <h2 class="display-4" th:text="${movie.title}">Title</h2>
-                    <p class="h1" th:text="${movie.genre}+' | '+${movie.duration}+' min'">Genre | Duration min</p>
-                    <p class="h2" th:text="${movie.countryOrigin}">Country Origin</p>
-                    <p th:text="${movie.description}">description</p>
+                <div class="p-2">
+                    <h2 class="text-center text-lg-left display-4" th:text="${movie.title}">Title</h2>
+                    <p class="text-center text-lg-left h1" th:text="${movie.genre}+' | '+${movie.duration}+' min'">Genre | Duration min</p>
+                    <p class="text-center text-lg-left h2" th:text="${movie.countryOrigin}">Country Origin</p>
+                    <p class="text-center text-lg-left" th:text="${movie.description}">description</p>
                 </div>
             </div>
         </div>

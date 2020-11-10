@@ -9,7 +9,6 @@ public class Filmweb {
     private final Document doc;
 
     public Filmweb(String url) throws IOException {
-        System.out.println(url);
         this.doc = Jsoup.connect(url).get();
     }
 
