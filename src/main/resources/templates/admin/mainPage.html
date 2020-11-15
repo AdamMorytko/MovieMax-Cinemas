@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+
+<head th:include="admin/fragments/sidebar :: head">
+
+    <title id="pageTitle">Panel Administratora</title>
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+<ul th:replace="admin/fragments/sidebar :: sidebar">
+
+</ul>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+
+        <!-- Footer -->
+        <footer th:replace="admin/fragments/footer :: footer">
+
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+
+<div th:replace="admin/fragments/footer :: scripts">
+
+</div>
+
+
+</body>
+
+</html>

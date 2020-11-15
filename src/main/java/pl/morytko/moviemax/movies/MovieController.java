@@ -21,19 +21,25 @@ public class MovieController {
         this.movieService = movieService;
     }
 
+    @GetMapping("/list")
+    public String showMovieList(Model model){
+        model.addAttribute("movies", movieService.getMovies());
+        return "admin/movieList";
+    }
+
     @GetMapping("/add")
     public String showAddForm(Model model){
         model.addAttribute("movie",new Movie());
-        return "/movies/addForm";
+        return "admin/movieAddForm";
     }
 
     @PostMapping("/add")
     public String addMovie(@Valid Movie movie, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
-            return "/movies/addForm";
+            return "admin/movieAddForm";
         }
         movieService.addMovie(movie);
-        return "redirect:/movies";
+        return "redirect:/admin/movieList";
     }
 
     @RequestMapping("/filmweb")
@@ -43,8 +49,8 @@ public class MovieController {
         try {
             filmweb = new Filmweb(filmwebUrl);
         }catch (IOException ioException){
-            model.addAttribute("errorLoadingPage","true");
-            return "movies/addForm";
+            model.addAttribute("errorLoadingFilmweb","true");
+            return "admin/movieAddForm";
         }
         movie.setTitle(filmweb.getTitle());
         movie.setDirector(filmweb.getDirector());
@@ -54,7 +60,7 @@ public class MovieController {
         movie.setGenre(filmweb.getGenre());
         movie.setPosterUrl(filmweb.getPosterUrl());
         model.addAttribute("movie",movie);
-        return "movies/addForm";
+        return "admin/movieAddForm";
     }
 
 

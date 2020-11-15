@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <head th:replace="admin/fragments/sidebar :: head"></head>
+    <title id="pageTitle">Lista filmów</title>
+
+    <link th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet" type="text/css">
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <ul th:replace="admin/fragments/sidebar :: sidebar">
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Tytuł</th>
+                                    <th>Reżyser</th>
+                                    <th>Gatunek</th>
+                                    <th>Kraj produkcji</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Tytuł</th>
+                                    <th>Reżyser</th>
+                                    <th>Gatunek</th>
+                                    <th>Kraj produkcji</th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                <tr th:each="movie : ${movies}">
+                                    <td th:text="${movie.id}">Id</td>
+                                    <td th:text="${movie.title}">Tytuł</td>
+                                    <td th:text="${movie.director}">Reżyser</td>
+                                    <td th:text="${movie.genre}">Gatunek</td>
+                                    <td th:text="${movie.countryOrigin}">Kraj produkcji</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+
+        <footer th:replace="admin/fragments/footer :: footer">
+
+        </footer>
+    </div>
+</div>
+
+<div th:include="admin/fragments/footer :: scripts">
+
+</div>
+<script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/dataTables.bootstrap4.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/datatables-demo.js}"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
+</body>
+</html>
