@@ -21,7 +21,6 @@ public class MovieJpaService implements MovieService{
 
     @Override
     public void addMovie(Movie movie) {
-        System.out.println(movie);
         movieRepository.save(movie);
     }
 

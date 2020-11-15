@@ -2,16 +2,15 @@
 <html xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <head th:replace="admin/fragments/sidebar :: head"></head>
-    <title id="pageTitle">Lista filmów</title>
+    <title id="pageTitle">Lista kin</title>
 
     <link th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet" type="text/css">
 </head>
-<body id="page-top">
+<body>
 <div id="wrapper">
     <ul th:replace="admin/fragments/sidebar :: sidebar">
     </ul>
     <div id="content-wrapper" class="d-flex flex-column">
-
         <div id="content">
 
             <!-- Begin Page Content -->
@@ -24,28 +23,22 @@
                                 <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Tytuł</th>
-                                    <th>Reżyser</th>
-                                    <th>Gatunek</th>
-                                    <th>Kraj produkcji</th>
+                                    <th>Miasto</th>
+                                    <th>Ulica</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Tytuł</th>
-                                    <th>Reżyser</th>
-                                    <th>Gatunek</th>
-                                    <th>Kraj produkcji</th>
+                                    <th>Miasto</th>
+                                    <th>Ulica</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
-                                <tr th:each="movie : ${movies}">
-                                    <td th:text="${movie.id}">Id</td>
-                                    <td th:text="${movie.title}">Tytuł</td>
-                                    <td th:text="${movie.director}">Reżyser</td>
-                                    <td th:text="${movie.genre}">Gatunek</td>
-                                    <td th:text="${movie.countryOrigin}">Kraj produkcji</td>
+                                <tr th:each="cinema : ${cinemas}">
+                                    <td th:text="${cinema.id}">Id</td>
+                                    <td th:text="${cinema.city}">Miasto</td>
+                                    <td th:text="${cinema.street}">Ulica</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -57,16 +50,13 @@
             <!-- /.container-fluid -->
 
         </div>
-
         <footer th:replace="admin/fragments/footer :: footer">
 
         </footer>
     </div>
 </div>
 
-<div th:include="admin/fragments/footer :: scripts">
-
-</div>
+<div th:replace="admin/fragments/footer :: scripts"></div>
 <script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/dataTables.bootstrap4.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/datatables-demo.js}"></script>

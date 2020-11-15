@@ -39,7 +39,7 @@ public class MovieController {
             return "admin/movieAddForm";
         }
         movieService.addMovie(movie);
-        return "redirect:/admin/movieList";
+        return "redirect:/movies/list";
     }
 
     @RequestMapping("/filmweb")
