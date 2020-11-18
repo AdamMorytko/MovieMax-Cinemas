@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,6 +24,12 @@ public class CinemaController {
     public String showAddForm(Model model) {
         model.addAttribute("cinema", new Cinema());
         return "admin/cinemaAddForm";
+    }
+
+    @GetMapping("/details/{id}")
+    public String showCinemaDetails(@PathVariable long id, Model model){
+        model.addAttribute("cinema", cinemaService.getMovieById(id).get());
+        return "admin/cinemaDetails";
     }
 
     @PostMapping("/add")

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -17,6 +18,11 @@ public class CinemaJpaService implements CinemaService{
     @Override
     public List<Cinema> getCinemas() {
         return cinemaRepository.findAll();
+    }
+
+    @Override
+    public Optional<Cinema> getMovieById(long id) {
+        return cinemaRepository.findById(id);
     }
 
     @Override

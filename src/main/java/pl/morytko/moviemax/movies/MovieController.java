@@ -3,10 +3,7 @@ package pl.morytko.moviemax.movies;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -25,6 +22,12 @@ public class MovieController {
     public String showMovieList(Model model){
         model.addAttribute("movies", movieService.getMovies());
         return "admin/movieList";
+    }
+
+    @GetMapping("/details/{id}")
+    public String showMovieDetails(@PathVariable long id, Model model){
+        model.addAttribute("movie", movieService.getMovieById(id).get());
+        return "admin/movieDetails";
     }
 
     @GetMapping("/add")

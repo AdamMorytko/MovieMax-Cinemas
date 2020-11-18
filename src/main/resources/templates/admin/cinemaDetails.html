@@ -2,15 +2,16 @@
 <html xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <head th:replace="admin/fragments/sidebar :: head"></head>
-    <title id="pageTitle">Lista kin</title>
+    <title id="pageTitle">Szczegóły kina</title>
 
     <link th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet" type="text/css">
 </head>
-<body>
+<body id="page-top">
 <div id="wrapper">
     <ul th:replace="admin/fragments/sidebar :: sidebar">
     </ul>
     <div id="content-wrapper" class="d-flex flex-column">
+
         <div id="content">
 
             <!-- Begin Page Content -->
@@ -25,31 +26,36 @@
                                     <th>Id</th>
                                     <th>Miasto</th>
                                     <th>Ulica</th>
-                                    <th>Akcja</th>
+                                    <th>Akcje</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Miasto</th>
-                                    <th>Ulica</th>
-                                    <th>Akcja</th>
-                                </tr>
-                                </tfoot>
                                 <tbody>
-                                <tr th:each="cinema : ${cinemas}">
+                                <tr>
                                     <td th:text="${cinema.id}">Id</td>
-                                    <td th:text="${cinema.city}">Miasto</td>
-                                    <td th:text="${cinema.street}">Ulica</td>
+                                    <td th:text="${cinema.city}">Tytuł</td>
+                                    <td th:text="${cinema.street}">Reżyser</td>
                                     <td>
-                                        <a th:href="@{/cinemas/details/{id}(id=${cinema.id})}">
-                                            <i class="fas fa-info-circle"></i>
-                                            Szczegóły
+                                        <a th:href="@{/cinemas/delete/{id}(id=${movie.id})}">
+                                            <i class="fas fa-trash"></i>
+                                            Usuń
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/cinemas/edit/{id}(id=${movie.id})}">
+                                            <i class="fas fa-edit"></i>
+                                            Edytuj
                                         </a>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="text-center">
+                            <p class="mb-4" th:text="${movie.description}">Opis</p>
+                        </div>
+                        <div class="align-content-center">
+                            <img class="img-fluid mx-auto d-block" th:src="@{${movie.posterUrl}}"/>
                         </div>
                     </div>
                 </div>
@@ -58,15 +64,16 @@
             <!-- /.container-fluid -->
 
         </div>
+
         <footer th:replace="admin/fragments/footer :: footer">
 
         </footer>
     </div>
 </div>
 
-<div th:replace="admin/fragments/footer :: scripts"></div>
-<script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/dataTables.bootstrap4.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/datatables-demo.js}"></script>
+<div th:include="admin/fragments/footer :: scripts">
+
+</div>
+
 </body>
 </html>
