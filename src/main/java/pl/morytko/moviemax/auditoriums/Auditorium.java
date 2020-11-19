@@ -21,5 +21,7 @@ public class Auditorium {
     private Cinema cinema;
     @OneToMany(mappedBy = "auditorium")
     private List<Seat> seatList;
+    private int seatRowCount;
+    private int seatNumberCount;
 
 }

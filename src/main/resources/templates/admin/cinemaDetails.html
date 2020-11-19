@@ -36,13 +36,13 @@
                                     <td th:text="${cinema.city}">Tytuł</td>
                                     <td th:text="${cinema.street}">Reżyser</td>
                                     <td>
-                                        <a th:href="@{/cinemas/delete/{id}(id=${movie.id})}">
+                                        <a th:href="@{/cinemas/delete/{id}(id=${cinema.id})}">
                                             <i class="fas fa-trash"></i>
                                             Usuń
                                         </a>
                                     </td>
                                     <td>
-                                        <a th:href="@{/cinemas/edit/{id}(id=${movie.id})}">
+                                        <a th:href="@{/cinemas/edit/{id}(id=${cinema.id})}">
                                             <i class="fas fa-edit"></i>
                                             Edytuj
                                         </a>
@@ -51,11 +51,29 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="text-center">
-                            <p class="mb-4" th:text="${movie.description}">Opis</p>
-                        </div>
-                        <div class="align-content-center">
-                            <img class="img-fluid mx-auto d-block" th:src="@{${movie.posterUrl}}"/>
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary"
+                                    th:text="'Ilość sal: '+${#lists.size(auditoriums)}"></h6>
+                            </div>
+                            <ul class="list-group">
+                                <li class="list-group-item" th:each="auditorium : ${auditoriums}">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" width="100%" cellspacing="0"
+                                               th:id="'table'+${auditorium.id}">
+                                            <tbody>
+                                            <tr th:each="i : ${#numbers.sequence(1,auditorium.seatRowCount)}"
+                                                th:value="${i}">
+                                                <td th:each="j: ${#numbers.sequence(1,auditorium.seatNumberCount)}"
+                                                    th:value="${j}"
+                                                    th:id="'_'+${auditorium.id}+'a'+${i}+'n'+${j}">
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -74,6 +92,33 @@
 <div th:include="admin/fragments/footer :: scripts">
 
 </div>
+<script th:inline="javascript">
+    const allAuditoriumsSeats = JSON.parse(/*[[${allAuditoriumsSeats}]]*/ 'default');
+    // let start = 1;
+    // allAuditoriumsSeats.forEach(function (el){
+    //     el.forEach(function (elem){
+    //         let selector = "#_"+start+"a"+elem.row+"n"+elem.number;
+    //         document.querySelector(selector).classList.add("bg-success");
+    //     })
+    //     start++;
+    // })
+    // const auditoriumsCount = /*[[${auditoriumsCount}]]*/ 'default';
+    // for (let i = 0; i < auditoriumsCount; i++) {
+    //     for (let j = 0; j < allAuditoriumsSeats[i].length; j++) {
+    //         let selector = "#_"+(i+1)+"a"+allAuditoriumsSeats[i][j].row+"n"+allAuditoriumsSeats[i][j].number;
+    //         console.log(selector);
+    //         document.querySelector(selector).classList.add("bg-success");
+    //     }
+    // }
 
+        for (let j = 140; j < allAuditoriumsSeats[3].length; j++) {
+            let selector = "#_"+4+"a"+allAuditoriumsSeats[3][j].row+"n"+allAuditoriumsSeats[3][j].number;
+            console.log(selector);
+            document.querySelector(selector).classList.add("bg-success");
+        }
+
+
+
+</script>
 </body>
 </html>
