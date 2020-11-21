@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface CinemaService {
     List<Cinema> getCinemas();
-    Optional<Cinema> getMovieById(long id);
+    Optional<Cinema> getCinemaById(long id);
     void addCinema(Cinema cinema);
     void updateCinema(Cinema cinema);
     void deleteCinema(long id);

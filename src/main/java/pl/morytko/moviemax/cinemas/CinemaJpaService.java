@@ -21,7 +21,7 @@ public class CinemaJpaService implements CinemaService{
     }
 
     @Override
-    public Optional<Cinema> getMovieById(long id) {
+    public Optional<Cinema> getCinemaById(long id) {
         return cinemaRepository.findById(id);
     }
 

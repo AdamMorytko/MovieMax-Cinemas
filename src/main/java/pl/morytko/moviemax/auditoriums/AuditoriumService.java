@@ -9,4 +9,5 @@ public interface AuditoriumService {
     void addAuditorium(Auditorium auditorium);
     void updateAuditorium(Auditorium auditorium);
     void deleteAuditorium(long id);
+    List<Long> getListOfAuditoriumIdOfCinema(long cinemaId);
 }

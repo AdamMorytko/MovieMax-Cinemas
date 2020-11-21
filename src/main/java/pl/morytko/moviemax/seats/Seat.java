@@ -6,6 +6,7 @@ import lombok.Setter;
 import pl.morytko.moviemax.auditoriums.Auditorium;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -19,6 +20,10 @@ public class Seat {
     @ManyToOne(fetch = FetchType.EAGER)
     private Auditorium auditorium;
 
+    @NotNull
     private int row;
+    @NotNull
     private int number;
+    @NotNull
+    private short status;
 }

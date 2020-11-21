@@ -38,4 +38,9 @@ public class AuditoriumJpaService implements AuditoriumService {
     public void deleteAuditorium(long id) {
         auditoriumRepository.deleteById(id);
     }
+
+    @Override
+    public List<Long> getListOfAuditoriumIdOfCinema(long cinemaId) {
+        return auditoriumRepository.getIdsByCinema_Id(cinemaId);
+    }
 }
