@@ -59,15 +59,17 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered w-auto">
                                         <tbody>
-                                        <tr th:each="i,iterStat : ${#numbers.sequence(1,auditorium.seatRowCount)}">
-                                            <th th:text="'Rząd '+${iterStat.count}"></th>
+                                        <tr th:each="i,iterStat : ${#numbers.sequence(1,auditorium.seatRowCount)}" th:value="${i}">
+                                            <th th:text="${iterStat.count}"></th>
                                             <td th:each="j: ${#numbers.sequence(1,auditorium.seatNumberCount)}"
+                                                th:value="${j}"
                                                 th:with="index = ${counter.getAndIncrement()}"
-                                                th:classappend="${((seats.get(index).status == 1) ? 'bg-success' : '')}">
-                                            <th th:text="'Rząd '+${iterStat.count}"></th>
+                                                th:classappend="${((seats.get(index).status == 1) ? 'bg-success' : '')}"
+                                                th:text="${seats.get(index).status} == 1 ? ${#numbers.formatInteger(seats.get(index).getNumber(),2)}: ''">
                                             </td>
+                                            <th th:text="${iterStat.count}"></th>
                                         </tr>
                                         </tbody>
                                     </table>
