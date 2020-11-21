@@ -20,8 +20,8 @@ public class AuditoriumJpaService implements AuditoriumService {
     }
 
     @Override
-    public Optional<Auditorium> getAuditoriumOfCinemaById(long auditoriumId, long cinemaId) {
-        return auditoriumRepository.getByIdAndCinema_Id(auditoriumId, cinemaId);
+    public Optional<Auditorium> getAuditoriumById(long auditoriumId) {
+        return auditoriumRepository.findById(auditoriumId);
     }
 
     @Override
