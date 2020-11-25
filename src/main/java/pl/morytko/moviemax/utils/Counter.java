@@ -1,4 +1,4 @@
-package pl.morytko.moviemax.auditoriums;
+package pl.morytko.moviemax.utils;
 
 public class Counter {
     private int count;

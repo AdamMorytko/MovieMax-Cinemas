@@ -8,9 +8,8 @@ import pl.morytko.moviemax.cinemas.Cinema;
 import pl.morytko.moviemax.cinemas.CinemaService;
 import pl.morytko.moviemax.seats.Seat;
 import pl.morytko.moviemax.seats.SeatService;
+import pl.morytko.moviemax.utils.Counter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 

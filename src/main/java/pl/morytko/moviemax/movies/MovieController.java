@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.morytko.moviemax.utils.Filmweb;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -55,13 +56,20 @@ public class MovieController {
             model.addAttribute("errorLoadingFilmweb","true");
             return "admin/movies/movieAddForm";
         }
-        movie.setTitle(filmweb.getTitle());
-        movie.setDirector(filmweb.getDirector());
-        movie.setCountryOrigin(filmweb.getCountryOfOrigin());
-        movie.setDuration(filmweb.getDuration());
-        movie.setDescription(filmweb.getDescription());
-        movie.setGenre(filmweb.getGenre());
-        movie.setPosterUrl(filmweb.getPosterUrl());
+        String title = filmweb.getTitle();
+        movie.setTitle(title);
+        String director = filmweb.getDirector();
+        movie.setDirector(director);
+        String countryOfOrigin = filmweb.getCountryOfOrigin();
+        movie.setCountryOrigin(countryOfOrigin);
+        int duration = filmweb.getDuration();
+        movie.setDuration(duration);
+        String description = filmweb.getDescription();
+        movie.setDescription(description);
+        String genre = filmweb.getGenre();
+        movie.setGenre(genre);
+        String posterUrl = filmweb.getPosterUrl();
+        movie.setPosterUrl(posterUrl);
         model.addAttribute("movie",movie);
         return "admin/movies/movieAddForm";
     }
