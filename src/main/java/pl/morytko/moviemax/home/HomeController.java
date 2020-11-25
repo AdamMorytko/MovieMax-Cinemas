@@ -9,7 +9,7 @@ import pl.morytko.moviemax.movies.MovieService;
 @Controller
 @AllArgsConstructor
 public class HomeController {
-    private MovieService movieService;
+    private final MovieService movieService;
 
     @RequestMapping
     public String getHomePage(Model model){

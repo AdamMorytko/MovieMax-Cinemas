@@ -40,10 +40,10 @@
                                 </h6>
                             </div>
                             <ul class="list-group">
-                                <li class="list-group-item" th:each="auditoriumId : ${auditoriumsIds}">
+                                <li class="list-group-item" th:each="auditoriumId,iterStatus : ${auditoriumsIds}">
                                     <a th:href="@{/auditoriums/details/{auditoriumId}(auditoriumId=${auditoriumId})}"
                                        th:inline="text">
-                                        Sala [[${auditoriumId}]] <i class="fas fa-info-circle"></i> Szczegóły</a>
+                                        Sala [[${iterStatus.count}]] <i class="fas fa-info-circle"></i> Szczegóły</a>
                                 </li>
                             </ul>
                         </div>
