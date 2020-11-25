@@ -23,5 +23,7 @@ public class Auditorium {
     private List<Seat> seatList;
     private int seatRowCount;
     private int seatNumberCount;
+    private int screenStart;
+    private int screenEnd;
 
 }

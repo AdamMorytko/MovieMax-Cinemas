@@ -17,4 +17,9 @@ public class SeatJpaService implements SeatService{
     public List<Seat> getSeatsByAuditoriumId(long auditoriumId) {
         return seatRepository.findAllByAuditorium_Id(auditoriumId);
     }
+
+    @Override
+    public void addSeat(Seat seat) {
+        seatRepository.save(seat);
+    }
 }

@@ -19,42 +19,25 @@
 
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Miasto</th>
-                                    <th>Ulica</th>
-                                    <th>Akcje</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td th:text="${cinema.id}">Id</td>
-                                    <td th:text="${cinema.city}">Tytuł</td>
-                                    <td th:text="${cinema.street}">Reżyser</td>
-                                    <td>
-                                        <a th:href="@{/cinemas/delete/{id}(id=${cinema.id})}">
-                                            <i class="fas fa-trash"></i>
-                                            Usuń
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a th:href="@{/cinemas/edit/{id}(id=${cinema.id})}">
-                                            <i class="fas fa-edit"></i>
-                                            Edytuj
-                                        </a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div class="row align-items-center">
+                            <div class="col-lg-9">
+                                <div class="p-2">
+                                    <p class="text-center text-lg-left h1" th:text="${cinema.city}+' | '+${cinema.street}">City | Street</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="card shadow mb-4">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"
                                     th:text="'Ilość sal: '+${#lists.size(auditoriumsIds)}"></h6>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">
+                                    <a th:href="@{/auditoriums/add/{id}(id=${cinema.id})}">
+                                        <i class="fas fa-plus-square"></i>
+                                        Dodaj nową salę
+                                    </a>
+                                </h6>
                             </div>
                             <ul class="list-group">
                                 <li class="list-group-item" th:each="auditoriumId : ${auditoriumsIds}">

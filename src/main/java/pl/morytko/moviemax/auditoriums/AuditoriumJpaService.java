@@ -25,8 +25,8 @@ public class AuditoriumJpaService implements AuditoriumService {
     }
 
     @Override
-    public void addAuditorium(Auditorium auditorium) {
-        auditoriumRepository.save(auditorium);
+    public Auditorium addAuditorium(Auditorium auditorium) {
+        return auditoriumRepository.save(auditorium);
     }
 
     @Override

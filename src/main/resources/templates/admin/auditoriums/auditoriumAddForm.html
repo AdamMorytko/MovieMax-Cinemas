@@ -1,0 +1,253 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <head th:replace="admin/fragments/sidebar :: head"></head>
+    <title id="pageTitle">Dodawanie sali</title>
+
+    <link th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/seats.css}" rel="stylesheet" type="text/css">
+
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <ul th:replace="admin/fragments/sidebar :: sidebar">
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-lg-9">
+                                <div class="p-2">
+                                    <p class="text-center text-lg-left h1"
+                                       th:text="'Dodawanie sali do kina id '+${cinemaId}">Dodawanie do kina o id</p>
+                                </div>
+                            </div>
+                        </div>
+                        <form th:action="@{/auditoriums/add}" th:object="${auditorium}" method="post" class="user">
+                            <input type="hidden" name="cinemaId" th:value="${cinemaId}"/>
+                            <div class="row align-items-center">
+                                <div class="col-lg-9">
+                                    <div class="p-2">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <p class="text-center text-lg-left">Instrukcja dodawania sali:</p>
+                                                <ul class="list-group w-50">
+                                                    <li class="list-group-item">
+                                                        1. Podaj liczbę rzędów
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        2. Podaj maksymalną ilość miejsc w rzędzie
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        3. Ustaw schemat miejsc sali
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        4. Ustaw schemat ekranu
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        5. Zatwierdź klikając przycisk "Dodaj salę"
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="text-center">
+                                                <p class="text-center text-lg-left">Liczba rzędów</p>
+                                            </div>
+                                            <input type="number" min="0" class="form-control form-control-user w-25"
+                                                   id="seatRowCount"
+                                                   th:field="*{seatRowCount}"
+                                                   placeholder="Liczba rzędów"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <div>
+                                                <p class="text-center text-lg-left">Maksymalna ilość miejsc w
+                                                    rzędzie</p>
+                                            </div>
+                                            <input type="number" min="0" class="form-control form-control-user w-25"
+                                                   id="seatNumberCount"
+                                                   th:field="*{seatNumberCount}"
+                                                   placeholder="Maksymalna ilość miejsc w rzędzie"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <p class="text-center text-lg-left">Legenda</p>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered w-auto">
+                                        <tbody>
+                                            <tr>
+                                                <td class="bg-success">
+                                                    miejsce
+                                                </td>
+                                                <td class="bg-info">
+                                                    ekran
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div>
+                                        <p class="text-center text-lg-left">W celu zmiany stanu pola - naciśnij na nie</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered w-auto">
+                                        <tbody id="tableBody">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <input class="btn btn-primary btn-user btn-block" type="submit"
+                                   value="Dodaj salę"/>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+
+        <footer th:replace="admin/fragments/footer :: footer">
+
+        </footer>
+    </div>
+</div>
+
+<div th:include="admin/fragments/footer :: scripts">
+</div>
+<script>
+    Number.prototype.pad = function (size) {
+        let s = String(this);
+        while (s.length < (size || 2)) {
+            s = "0" + s;
+        }
+        return s;
+    }
+
+    let rowInput = document.querySelector("#seatRowCount");
+    let numberInput = document.querySelector("#seatNumberCount");
+    const tableBody = document.querySelector("#tableBody");
+
+    let rows;
+    let numbers;
+
+    rowInput.addEventListener("change", function (ev) {
+        rows = ev.target.value;
+        if (rows > 0 && numbers > 0) {
+            printTable(rows, numbers);
+        }
+    })
+    numberInput.addEventListener("change", function (ev) {
+        numbers = ev.target.value;
+        if (rows > 0 && numbers > 0) {
+            printTable(rows, numbers);
+        }
+    })
+
+    function printTable(rowNumber, columnNumber) {
+        tableBody.innerHTML = "";
+        let counter = 1;
+
+        let tableRowZero = document.createElement("tr");
+        let tableHeader01 = document.createElement("th");
+        tableRowZero.appendChild(tableHeader01);
+        for (let i = 1; i <= columnNumber; i++) {
+            let tableData = document.createElement("td");
+            let inputElement = document.createElement("input");
+            inputElement.type = "hidden";
+            inputElement.name = ''.concat("screen"+i);
+            inputElement.value = "1";
+            tableData.appendChild(inputElement);
+
+            if (i >= 2 && i <= columnNumber - 1) {
+                tableData.classList.add("bg-info");
+                tableData.firstChild.value = "2";
+            }
+
+
+
+            tableData.addEventListener("click", function (ev) {
+                let cell = ev.target.firstChild;
+                cell.value = parseInt(cell.value) + 1;
+                if (parseInt(cell.value) > 2) {
+                    cell.value = 1;
+                }
+
+                let classList = cell.parentElement.classList;
+                while (classList.length > 0) {
+                    classList.remove(classList.item(0));
+                }
+
+                if (cell.value === "2") {
+                    cell.parentElement.classList.add("bg-info");
+                }
+            });
+            tableRowZero.appendChild(tableData);
+        }
+        let tableHeader02 = document.createElement("th");
+        tableRowZero.appendChild(tableHeader02);
+        tableBody.appendChild(tableRowZero);
+
+
+
+        for (let i = 1; i <= rowNumber; i++) {
+            let tableRow = document.createElement("tr");
+
+            let tableHeader1 = document.createElement("th");
+            tableHeader1.innerText = i.toString();
+            tableRow.appendChild(tableHeader1);
+
+            for (let j = 1; j <= columnNumber; j++) {
+                let tableData = document.createElement("td");
+                tableData.innerText = (j).pad(2).toString();
+                tableData.classList.add("bg-success");
+
+                let inputElement = document.createElement("input");
+                inputElement.type = "hidden";
+                inputElement.name = ''.concat(i + "n" + j);
+                inputElement.value = "1";
+                tableData.appendChild(inputElement);
+
+                tableData.addEventListener("click", function (ev) {
+                    let cell = ev.target.firstChild.nextSibling;
+                    cell.value = parseInt(cell.value) + 1;
+                    if (parseInt(cell.value) > 2) {
+                        cell.value = 1;
+                    }
+
+                    let classList = cell.parentElement.classList;
+                    while (classList.length > 0) {
+                        classList.remove(classList.item(0));
+                    }
+
+                    if (cell.value === "1") {
+                        cell.parentElement.classList.add("bg-success");
+                    }
+                });
+
+                tableRow.appendChild(tableData);
+                counter++;
+            }
+
+            let tableHeader2 = document.createElement("th");
+            tableHeader2.innerText = i.toString();
+            tableRow.appendChild(tableHeader2);
+            tableBody.appendChild(tableRow);
+        }
+    }
+
+</script>
+</body>
+</html>

@@ -25,7 +25,16 @@ public class CinemaController {
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("cinema", new Cinema());
-        return "admin/cinemaAddForm";
+        return "admin/cinemas/cinemaAddForm";
+    }
+
+    @PostMapping("/add")
+    public String addCinema(@Valid Cinema cinema, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "admin/cinemas/cinemaAddForm";
+        }
+        cinemaService.addCinema(cinema);
+        return "redirect:/cinemas/list";
     }
 
     @GetMapping("/details/{id}")
@@ -35,21 +44,12 @@ public class CinemaController {
             model.addAttribute("cinema", cinemaOptional.get());
             model.addAttribute("auditoriumsIds",auditoriumService.getListOfAuditoriumIdOfCinema(id));
         }
-        return "admin/cinemaDetails";
-    }
-
-    @PostMapping("/add")
-    public String addCinema(@Valid Cinema cinema, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "admin/cinemaAddForm";
-        }
-        cinemaService.addCinema(cinema);
-        return "redirect:/cinemas/list";
+        return "admin/cinemas/cinemaDetails";
     }
 
     @GetMapping("/list")
     public String showCinemasList(Model model) {
         model.addAttribute("cinemas", cinemaService.getCinemas());
-        return "admin/cinemaList";
+        return "admin/cinemas/cinemaList";
     }
 }

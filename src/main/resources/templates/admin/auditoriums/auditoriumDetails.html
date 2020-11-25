@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <head th:replace="admin/fragments/sidebar :: head"></head>
+    <title id="pageTitle">Szczegóły sali</title>
+
+    <link th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/seats.css}" rel="stylesheet" type="text/css">
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <ul th:replace="admin/fragments/sidebar :: sidebar">
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-lg-9">
+                                <div class="p-2">
+                                    <p class="text-center text-lg-left h1"
+                                       th:text="${cinema.city}+' | '+${cinema.street}">City | Street</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary"
+                                    th:text="'Sala '+${auditorium.id}"></h6>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary"
+                                    th:text="'Ilość rzędów: '+${auditorium.getSeatRowCount()}"></h6>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary"
+                                    th:text="'Maksymalnie w rzędzie: '+${auditorium.getSeatNumberCount()}"></h6>
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <p class="text-center text-lg-left">Legenda</p>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered w-auto">
+                                        <tbody>
+                                        <tr>
+                                            <td class="bg-success">
+                                                miejsce
+                                            </td>
+                                            <td class="bg-info">
+                                                ekran
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered w-auto">
+                                        <tbody>
+                                        <tr>
+                                            <th></th>
+                                            <td th:each="i : ${#numbers.sequence(1,auditorium.seatNumberCount)}"
+                                                th:value="${i}"
+                                                th:classappend="${(i >= auditorium.screenStart && i <= auditorium.screenEnd) ? 'bg-info' : ''}">
+                                            </td>
+                                            <th></th>
+                                        </tr>
+                                        <tr th:each="i,iterStat : ${#numbers.sequence(1,auditorium.seatRowCount)}"
+                                            th:value="${i}">
+                                            <th th:text="${iterStat.count}"></th>
+                                            <td th:each="j: ${#numbers.sequence(1,auditorium.seatNumberCount)}"
+                                                th:value="${j}"
+                                                th:with="index = ${counter.getAndIncrement()}"
+                                                th:classappend="${((seats.get(index).status == 1) ? 'bg-success' : '')}"
+                                                th:text="${seats.get(index).status} == 1 ? ${#numbers.formatInteger(seats.get(index).getNumber(),2)}: ''">
+                                            </td>
+                                            <th th:text="${iterStat.count}"></th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+
+        <footer th:replace="admin/fragments/footer :: footer">
+
+        </footer>
+    </div>
+</div>
+
+<div th:include="admin/fragments/footer :: scripts">
+
+</div>
+</body>
+</html>
