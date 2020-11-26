@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AuditoriumService {
+    List<Auditorium> getAuditoriums();
     List<Auditorium> getCinemaAuditoriums(long cinemaId);
     Optional<Auditorium> getAuditoriumById(long auditoriumId);
     Auditorium addAuditorium(Auditorium auditorium);

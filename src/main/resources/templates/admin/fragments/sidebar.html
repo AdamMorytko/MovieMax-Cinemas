@@ -56,12 +56,12 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-           aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#cinemasCollapse"
+           aria-expanded="true">
             <i class="fas fa-fw fa-film"></i>
             <span>Kina</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="cinemasCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Wybierz</h6>
                 <a class="collapse-item" href="/cinemas/list">Lista</a>
@@ -72,17 +72,34 @@
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-           aria-expanded="true" aria-controls="collapseUtilities">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#moviesCollapse"
+           aria-expanded="true">
             <i class="fas fa-fw fa-compact-disc"></i>
             <span>Filmy</span>
         </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+        <div id="moviesCollapse" class="collapse" aria-labelledby="headingUtilities"
              data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Wybierz</h6>
                 <a class="collapse-item" href="/movies/list">Lista</a>
                 <a class="collapse-item" href="/movies/add">Dodaj</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Utilities Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#screeningsCollapse"
+           aria-expanded="true">
+            <i class="fas fa-play-circle"></i>
+            <span>Seanse</span>
+        </a>
+        <div id="screeningsCollapse" class="collapse" aria-labelledby="headingUtilities"
+             data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Wybierz</h6>
+                <a class="collapse-item" href="/screenings/list">Lista</a>
+                <a class="collapse-item" href="/screenings/add">Dodaj</a>
             </div>
         </div>
     </li>

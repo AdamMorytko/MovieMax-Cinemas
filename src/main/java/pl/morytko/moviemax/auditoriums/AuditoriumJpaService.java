@@ -15,6 +15,11 @@ public class AuditoriumJpaService implements AuditoriumService {
     private final AuditoriumRepository auditoriumRepository;
 
     @Override
+    public List<Auditorium> getAuditoriums() {
+        return auditoriumRepository.findAll();
+    }
+
+    @Override
     public List<Auditorium> getCinemaAuditoriums(long cinemaId) {
         return auditoriumRepository.getAllByCinema_Id(cinemaId);
     }

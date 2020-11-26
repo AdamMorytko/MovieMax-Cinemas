@@ -3,6 +3,7 @@ package pl.morytko.moviemax.auditoriums;
 import lombok.Getter;
 import lombok.Setter;
 import pl.morytko.moviemax.cinemas.Cinema;
+import pl.morytko.moviemax.screenings.Screening;
 import pl.morytko.moviemax.seats.Seat;
 
 import javax.persistence.*;
@@ -25,5 +26,7 @@ public class Auditorium {
     private int seatNumberCount;
     private int screenStart;
     private int screenEnd;
+    @OneToMany(mappedBy = "auditorium")
+    private List<Screening> screeningList;
 
 }
