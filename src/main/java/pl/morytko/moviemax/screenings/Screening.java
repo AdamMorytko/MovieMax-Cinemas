@@ -2,6 +2,7 @@ package pl.morytko.moviemax.screenings;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import pl.morytko.moviemax.auditoriums.Auditorium;
 import pl.morytko.moviemax.movies.Movie;
 

@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <head th:replace="admin/fragments/sidebar :: head"></head>
+    <title id="pageTitle">Dodawanie Seansu</title>
+
+
+</head>
+<body>
+<div id="wrapper">
+    <ul th:replace="admin/fragments/sidebar :: sidebar">
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div class="container">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Kreator Seansu</h1>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <div class="text-center">
+                                            <p>Wybierz dzień</p>
+                                        </div>
+                                        <div>
+                                            <form th:action="@{/screenings/date}" method="post"
+                                                  th:each="date : ${dates}"
+                                                  th:inline="text"
+                                                  class="d-inline">
+                                                <input type="hidden" th:value="${date}" name="chosenDate">
+                                                <button class="btn btn-info btn-icon-split m-1" type="submit" th:inline="text">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-calendar-day"></i>
+                                                    </span>
+                                                    <span class="text" th:text="${date}"></span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="admin/fragments/footer :: footer">
+
+        </footer>
+    </div>
+</div>
+
+<div th:replace="admin/fragments/footer :: scripts">
+
+</div>
+
+</body>
+</html>

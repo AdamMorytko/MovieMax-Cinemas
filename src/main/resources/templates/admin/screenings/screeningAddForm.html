@@ -1,7 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org" lang="en">
-<head th:include="admin/fragments/sidebar :: head">
+<head>
+    <head th:replace="admin/fragments/sidebar :: head"></head>
     <title id="pageTitle">Dodawanie Seansu</title>
+
 
 </head>
 <body>
@@ -22,15 +24,29 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <form th:action="@{/screenings/add}" th:object="${screening}" method="post" class="user">
+                                    <form th:action="@{/screenings/add}" th:object="${screening}" method="post"
+                                          class="user">
+                                        <input type="hidden" th:value="${chosenDate}" name="screeningDate">
+                                        <div class="form-group">
+                                            <div class="text-center">
+                                                <span th:inline="text">
+                                                    <i class="fas fa-calendar-day"></i>
+                                                    Wybrano datę: [[${chosenDate}]]
+                                                </span>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <div class="text-center">
                                                 <p>Wybierz salę</p>
                                             </div>
-                                            <select class="form-control" name="auditoriumId" onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                                            <select class="form-control" name="auditoriumId" onfocus='this.size=5;'
+                                                    onblur='this.size=1;' onchange='this.size=1; this.blur();'>
                                                 <option th:each="auditorium : ${auditoriums}"
-                                                        th:inline="text">
-                                                    Sala id = [[${auditorium.id}]] w kinie [[${auditorium.cinema.city}]] [[${auditorium.cinema.street}]]
+                                                        th:inline="text"
+                                                        th:value="${auditorium.id}"
+                                                        th:field="*{auditorium}">
+                                                    Sala id = [[${auditorium.id}]] w kinie [[${auditorium.cinema.city}]]
+                                                    [[${auditorium.cinema.street}]]
                                                 </option>
                                             </select>
                                         </div>
@@ -38,26 +54,49 @@
                                             <div class="text-center">
                                                 <p>Wybierz film</p>
                                             </div>
-                                            <select class="form-control" name="movieId" onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                                            <select class="form-control" name="movieId" onfocus='this.size=5;'
+                                                    onblur='this.size=1;' onchange='this.size=1; this.blur();'>
                                                 <option th:each="movie: ${movies}"
-                                                        th:inline="text">
+                                                        th:inline="text"
+                                                        th:value="${movie.id}"
+                                                        th:field="*{movie}">
                                                     [[${movie.title}]]
                                                 </option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <div class="text-center">
-                                                <p>Wybierz dzień seansu</p>
+                                                <p>Wybierz godzinę</p>
                                             </div>
-                                            <div class="md-form md-outline input-with-post-icon datepicker">
-                                                <input placeholder="Wybierz datę" type="text" id="datepicker" class="form-control">
-                                                <label for="datepicker">Data...</label>
-                                                <i class="fas fa-calendar input-prefix" tabindex=0></i>
+                                            <div id="choosingHour">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <input class="btn btn-primary btn-user btn-block" type="submit"
-                                                   value="Dodaj seans"/>
+                                            <div class="text-center">
+                                                <p>Wybierz minutę</p>
+                                            </div>
+                                            <div id="choosingMinute">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="hidden" id="localTimeField" name="screeningTime">
+                                            <div class="text-center">
+                                                <p>Wybrana godzina:</p>
+                                            </div>
+                                            <button class="btn btn-success btn-icon-split m-1" type="button"
+                                                    th:inline="text">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-hourglass">
+                                                        </i>
+                                                    </span>
+                                                <span class="text" id="finalHour"></span>
+                                            </button>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <input class="btn btn-primary btn-user btn-block" type="submit"
+                                                       value="Dodaj"/>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
@@ -80,7 +119,101 @@
 
 </div>
 <script>
-    $('.datepicker').datepicker();
+    Number.prototype.pad = function (size) {
+        let s = String(this);
+        while (s.length < (size || 2)) {
+            s = "0" + s;
+        }
+        return s;
+    }
+    let hour = "00";
+    let minute = "00";
+    const choosingHourElement = document.querySelector("#choosingHour");
+    const choosingMinuteElement = document.querySelector("#choosingMinute");
+    let screeningTimeInput = document.querySelector("#localTimeField");
+    const finalHourElement = document.querySelector("#finalHour");
+    let lastSelectedHour;
+    let lastSelectedMinute;
+    for (let i = 0; i <= 23; i++) {
+        let buttonElement = document.createElement("button");
+        buttonElement.classList.add("btn", "btn-info", "btn-icon-split", "m-1");
+        buttonElement.type = "button";
+        buttonElement.addEventListener("click", function (ev) {
+            if (typeof lastSelectedHour !== 'undefined') {
+                lastSelectedHour.classList.remove("btn-success");
+                lastSelectedHour.classList.add("btn-info");
+            }
+            hour = ev.target.parentElement.firstChild.nextSibling.innerText;
+            finalHourElement.innerText = hour + ":" + minute;
+            screeningTimeInput.value = hour + ":" + minute;
+            console.log(screeningTimeInput.value);
+            ev.target.parentElement.classList.remove("btn-info");
+            ev.target.parentElement.classList.add("btn-success");
+            lastSelectedHour = ev.target.parentElement;
+        })
+
+        let span1 = document.createElement("span");
+        span1.classList.add("icon", "text-white-50");
+
+        let iElement = document.createElement("i");
+        iElement.classList.add("fas", "fa-hourglass-start");
+
+        let span2 = document.createElement("span");
+        span2.classList.add("text");
+        span2.innerText = (i).pad(2).toString();
+
+        span1.appendChild(iElement);
+        buttonElement.appendChild(span1);
+        buttonElement.appendChild(span2);
+
+        choosingHourElement.appendChild(buttonElement);
+    }
+    for (let i = 0; i <= 11; i++) {
+        let buttonElement = document.createElement("button");
+        buttonElement.classList.add("btn", "btn-info", "btn-icon-split", "m-1");
+        buttonElement.type = "button";
+        buttonElement.addEventListener("click", function (ev) {
+            if (typeof lastSelectedMinute !== 'undefined') {
+                lastSelectedMinute.classList.remove("btn-success");
+                lastSelectedMinute.classList.add("btn-info");
+            }
+            let clickedNodeName = ev.target.nodeName;
+            let mainParent;
+            if (clickedNodeName === "BUTTON") {
+                mainParent = ev.target;
+            }
+            if (clickedNodeName === "I") {
+                mainParent = ev.target.parentElement.parentElement;
+            }
+            if (clickedNodeName === "SPAN") {
+                mainParent = ev.target.parentElement;
+            }
+            minute = mainParent.firstChild.nextSibling.innerText;
+            finalHourElement.innerText = hour + ":" + minute;
+            screeningTimeInput.value = hour + ":" + minute;
+            console.log(screeningTimeInput.value);
+            mainParent.classList.remove("btn-info");
+            mainParent.classList.add("btn-success");
+            lastSelectedMinute = mainParent;
+        })
+
+        let span1 = document.createElement("span");
+        span1.classList.add("icon", "text-white-50");
+
+        let iElement = document.createElement("i");
+        iElement.classList.add("fas", "fa-hourglass-end");
+
+        let span2 = document.createElement("span");
+        span2.classList.add("text");
+        span2.innerText = (i * 5).pad(2).toString();
+
+        span1.appendChild(iElement);
+        buttonElement.appendChild(span1);
+        buttonElement.appendChild(span2);
+
+        choosingMinuteElement.appendChild(buttonElement);
+    }
 </script>
+
 </body>
 </html>
