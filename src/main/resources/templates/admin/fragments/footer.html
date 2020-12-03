@@ -15,7 +15,7 @@
 </footer>
 <!-- End of Footer -->
 
-<div th:fragment="scripts">
+<div th:fragment="scripts" th:remove="tag">
     <script type="text/javascript" th:src="@{/webjars/jquery/3.5.1/jquery.min.js/}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.bundle.min.js}"></script>
 

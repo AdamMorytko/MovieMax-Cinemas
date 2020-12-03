@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <head th:replace="main/fragments/header :: head"></head>
+    <title id="pageTitle">MovieMax Cinemas</title>
+    <link th:href="@{/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<nav th:replace="main/fragments/header :: navbar">
+
+</nav>
+
+<header class="masthead text-center text-white">
+    <div class="masthead-content">
+        <div class="container">
+            <h1 class="masthead-heading mb-0">Najlepsze emocje</h1>
+            <h2 class="masthead-subheading mb-0">Tylko w MovieMax!</h2>
+        </div>
+    </div>
+    <div class="bg-circle-1 bg-circle"></div>
+    <div class="bg-circle-2 bg-circle"></div>
+    <div class="bg-circle-3 bg-circle"></div>
+    <div class="bg-circle-4 bg-circle"></div>
+</header>
+
+<section>
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="p-2">
+                <form th:action="@{/screenings}" th:object="${cinemas}" method="get"
+                      class="user">
+                    <div class="form-group">
+                        <div class="text-center">
+                            <p>Wybierz kino</p>
+                        </div>
+                        <select class="form-control" name="cinemaId">
+                            <option th:each="cinema : ${cinemas}"
+                                    th:inline="text"
+                                    th:value="${cinema.id}">
+                                [[${cinema.city}]] [[${cinema.street}]]
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <input class="btn btn-primary btn-user btn-block" type="submit"
+                                   value="Dodaj"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="main/fragments/footer :: footer">
+
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<div th:replace="main/fragments/footer :: scripts">
+
+</div>
+
+</body>
+
+</html>

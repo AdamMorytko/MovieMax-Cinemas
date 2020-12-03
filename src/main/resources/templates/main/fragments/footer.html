@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:include="main/fragments/header :: head">
+    <title id="pageTitle">footer</title>
+
+</head>
+<body>
+<!-- Footer -->
+<footer class="py-5 bg-black" th:fragment="footer">
+    <div class="container">
+        <p class="m-0 text-center text-white small">Copyright &copy; Adam Morytko 2020</p>
+    </div>
+    <!-- /.container -->
+</footer>
+<div th:fragment="scripts" th:remove="tag">
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.5.1/jquery.min.js/}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.bundle.min.js}"></script>
+</div>
+</body>
+</html>

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -15,6 +16,11 @@ public class ScreeningJpaService implements ScreeningService{
     @Override
     public List<Screening> getScreeningsByAuditoriumId(long auditoriumId) {
         return screeningRepository.findAllByAuditoriumId(auditoriumId);
+    }
+
+    @Override
+    public List<Screening> getScreeningsByCinemaAndDate(long cinemaId, LocalDate screeningDate) {
+        return screeningRepository.findAllByAuditorium_Cinema_IdAndScreeningDate(cinemaId,screeningDate);
     }
 
     @Override

@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-
 <head>
+    <title th:include=":: #pageTitle">Layout Generic Title </title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>MovieMax Cinemas</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.5.3/css/bootstrap.min.css}"/>
@@ -19,14 +18,11 @@
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" th:href="@{/css/one-page-wonder.min.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
 
 </head>
-
 <body>
-
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" th:fragment="navbar">
     <div class="container">
         <a class="navbar-brand" th:href="@{/}">MovieMax</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,52 +52,5 @@
         </div>
     </div>
 </nav>
-
-<header class="masthead text-center text-white">
-    <div class="masthead-content">
-        <div class="container">
-            <h1 class="masthead-heading mb-0">Najlepsze emocje</h1>
-            <h2 class="masthead-subheading mb-0">Tylko w MovieMax!</h2>
-        </div>
-    </div>
-    <div class="bg-circle-1 bg-circle"></div>
-    <div class="bg-circle-2 bg-circle"></div>
-    <div class="bg-circle-3 bg-circle"></div>
-    <div class="bg-circle-4 bg-circle"></div>
-</header>
-
-<section th:each="movie : ${movies}">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-3">
-                <div class="p-2">
-                    <img class="img-fluid mx-auto d-block" th:src="@{${movie.posterUrl}}" alt="PlakatFilmu"/>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="p-2">
-                    <h2 class="text-center text-lg-left display-4" th:text="${movie.title}">Title</h2>
-                    <p class="text-center text-lg-left h1" th:text="${movie.genre}+' | '+${movie.duration}+' min'">Genre | Duration min</p>
-                    <p class="text-center text-lg-left h2" th:text="${movie.countryOrigin}">Country Origin</p>
-                    <p class="text-center text-lg-left" th:text="${movie.description}">description</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Footer -->
-<footer class="py-5 bg-black">
-    <div class="container">
-        <p class="m-0 text-center text-white small">Copyright &copy; Adam Morytko 2020</p>
-    </div>
-    <!-- /.container -->
-</footer>
-
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" th:src="@{/webjars/jquery/3.5.1/jquery.min.js/}"></script>
-<script type="text/javascript" th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.bundle.min.js}"></script>
-
 </body>
-
 </html>

@@ -48,19 +48,14 @@ public class ScreeningController {
     public String addScreening(@RequestParam Map<String,String> allRequestParams, Model model){
         long movieId = Long.parseLong(allRequestParams.get("movieId"));
         long auditoriumId = Long.parseLong(allRequestParams.get("auditoriumId"));
-        System.out.println(allRequestParams.get("screeningDate"));
-        System.out.println(allRequestParams.get("screeningTime"));
         LocalDate screeningDate = LocalDate.parse(allRequestParams.get("screeningDate"));
         LocalTime screeningTime = LocalTime.parse(allRequestParams.get("screeningTime"));
-        System.out.println(screeningDate);
-        System.out.println(screeningTime);
         Screening screening = new Screening();
         screening.setAuditorium(auditoriumService.getAuditoriumById(auditoriumId).get());
         screening.setMovie(movieService.getMovieById(movieId).get());
         screening.setScreeningDate(screeningDate);
         screening.setScreeningTime(screeningTime);
         screeningService.addScreening(screening);
-        System.out.println(screeningService.getScreeningsByAuditoriumId(auditoriumId).get(0).getScreeningTime());
         return "redirect:/screenings/list";
     }
 
