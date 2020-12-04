@@ -1,10 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head th:include="admin/fragments/sidebar :: head">
+    <title id="pageTitle">Rezerwacja</title>
+
 </head>
 <body>
+<div id="wrapper">
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div class="container">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Nowa Rezerwacja</h1>
+                                </div>
 
+                                <div class="form-group">
+                                    <form th:action="@{/reservations/fourth}" method="post" class="user">
+                                        <input type="hidden" name="screeningId" th:value="${screeningId}"/>
+                                        <input type="hidden" name="reservedSeatNumber" th:value="${reservedSeatNumber}"/>
+                                        <input type="hidden" name="reservedSeats" th:value="${}" th:each="reservedSeat : ${reservedSeats}"/>
+                                        <div class="text-center">
+                                            <p class="mb-4">Podaj imię</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" min="0" class="form-control form-control-user"
+                                                   name="userName"/>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="mb-4">Podaj nazwisko</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" min="0" class="form-control form-control-user"
+                                                   name="userSurname"/>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="mb-4">Podaj email</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" min="0" class="form-control form-control-user"
+                                                   name="userEmail"/>
+                                        </div>
+                                        <hr>
+                                        <div class="form-group">
+                                            <input class="btn btn-primary btn-user btn-block" type="submit"
+                                                   value="Przejdź do podsumowania"/>
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer th:replace="admin/fragments/footer :: footer">
+
+        </footer>
+    </div>
+</div>
+
+<div th:replace="admin/fragments/footer :: scripts">
+
+</div>
 </body>
 </html>

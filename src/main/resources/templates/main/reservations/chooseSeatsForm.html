@@ -82,7 +82,7 @@
                                     </div>
                                     <form th:action="@{/reservations/third}" method="post">
                                         <input type="hidden" name="screeningId" th:value="${screeningId}"/>
-                                        <input type="hidden" th:value="${reservedSeatNumber}" id="maxReservations"/>
+                                        <input type="hidden" name="reservedSeatNumber" th:value="${reservedSeatNumber}" id="maxReservations"/>
                                         <div class="text-center">
                                             <p class="mb-4" id="chosenSeatsCounter">
 
