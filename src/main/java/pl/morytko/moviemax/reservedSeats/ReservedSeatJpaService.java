@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -19,5 +21,10 @@ public class ReservedSeatJpaService implements ReservedSeatService{
     @Override
     public void getReservedSeatById(long id) {
         reservedSeatRepository.findById(id);
+    }
+
+    @Override
+    public List<ReservedSeat> getReservedSeatsByScreeningId(long screeningId) {
+        return  reservedSeatRepository.findAllByScreeningId(screeningId);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -26,5 +27,10 @@ public class ScreeningJpaService implements ScreeningService{
     @Override
     public void addScreening(Screening screening) {
         screeningRepository.save(screening);
+    }
+
+    @Override
+    public Optional<Screening> getScreeningById(long id) {
+        return screeningRepository.findById(id);
     }
 }

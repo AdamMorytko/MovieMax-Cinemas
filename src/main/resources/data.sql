@@ -34,9 +34,9 @@ INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) 
 INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (1, 18, CURDATE(),'17:00:00');
 INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (2, 18, CURDATE(),'17:00:00');
 INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (4, 18, CURDATE(),'17:00:00');
-INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (1, 10, CURDATE(),'19:45:00');
-INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (2, 10, CURDATE(),'19:45:00');
-INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (4, 10, CURDATE(),'19:45:00');
+INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (1, 10, CURDATE(),'20:45:00');
+INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (2, 10, CURDATE(),'21:45:00');
+INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (4, 10, CURDATE(),'23:45:00');
 INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (1, 17, DATE_ADD(CURDATE(),INTERVAL 1 DAY),'15:00:00');
 INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (1, 17, DATE_ADD(CURDATE(),INTERVAL 1 DAY),'10:15:00');
 INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (2, 17, DATE_ADD(CURDATE(),INTERVAL 1 DAY),'10:15:00');
@@ -50,6 +50,10 @@ INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) 
 INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (1, 10, DATE_ADD(CURDATE(),INTERVAL 1 DAY),'19:45:00');
 INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (2, 10, DATE_ADD(CURDATE(),INTERVAL 1 DAY),'19:45:00');
 INSERT INTO screening (auditorium_id, movie_id, screening_date, screening_time) VALUES (4, 10, DATE_ADD(CURDATE(),INTERVAL 1 DAY),'19:45:00');
+INSERT INTO reservation (email, reserved_seat_number, user_name, user_surname, screening_id) VALUES ('adikmor@o2.pl',3,'Adam','Morytko',10);
+INSERT INTO reserved_seat (number, row, reservation_id,screening_id) VALUES (5,4,1,10);
+INSERT INTO reserved_seat (number, row, reservation_id,screening_id) VALUES (6,4,1,10);
+INSERT INTO reserved_seat (number, row, reservation_id,screening_id) VALUES (7,4,1,10);
 INSERT INTO seat (row,number,auditorium_id,status) VALUES (1,1,1,1);
 INSERT INTO seat (row,number,auditorium_id,status) VALUES (1,2,1,1);
 INSERT INTO seat (row,number,auditorium_id,status) VALUES (1,3,1,2);

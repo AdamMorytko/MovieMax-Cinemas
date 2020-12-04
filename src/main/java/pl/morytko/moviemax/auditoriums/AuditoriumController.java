@@ -30,8 +30,11 @@ public class AuditoriumController {
             model.addAttribute("cinema",auditorium.get().getCinema());
             model.addAttribute("seats",seatService.getSeatsByAuditoriumId(auditoriumId));
             model.addAttribute("counter",new Counter());
+            return "admin/auditoriums/auditoriumDetails";
+        }else{
+            return "redirect:cinemas/list";
         }
-        return "admin/auditoriums/auditoriumDetails";
+
     }
 
     @GetMapping("/add/{cinemaId}")

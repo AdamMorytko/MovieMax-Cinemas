@@ -45,14 +45,12 @@ public class HomeController {
         }
         long cinemaId = Long.parseLong(allRequestParams.get("cinemaId"));
         String screeningDateParam = allRequestParams.get("screeningDate");
-        System.out.println(screeningDateParam);
         LocalDate screeningDate;
         if (screeningDateParam == null) {
             screeningDate = LocalDate.now();
         } else {
             screeningDate = LocalDate.parse(screeningDateParam);
         }
-        System.out.println(screeningDate);
         List<Screening> screeningList = screeningService.getScreeningsByCinemaAndDate(cinemaId, screeningDate);
         Multimap<Movie,Screening> screeningMultimap = Multimaps.newSetMultimap(
                 new TreeMap<>(),
