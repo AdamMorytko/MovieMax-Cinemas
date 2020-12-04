@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Movie {
+public class Movie implements Comparable<Movie>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -34,4 +34,9 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     private List<Screening> screeningList;
 
+    @Override
+    public int compareTo(Movie o) {
+        int last = this.title.compareTo(o.title);
+        return last == 0 ? this.title.compareTo(o.title) : last;
+    }
 }

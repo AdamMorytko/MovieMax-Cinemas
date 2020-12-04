@@ -16,18 +16,45 @@
 
 </nav>
 
-<header class="masthead text-center text-white">
-    <div class="masthead-content">
-        <div class="container">
-            <h1 class="masthead-heading mb-0">Najlepsze emocje</h1>
-            <h2 class="masthead-subheading mb-0">Tylko w MovieMax!</h2>
+<header th:replace="main/fragments/header :: mainPageHeader">
+
+</header>
+
+<section>
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="p-2">
+                <form th:action="@{/screenings}" class="d-inline justify-content-center" method="get">
+                    <div class="form-group">
+                        <div class="text-center">
+                            <p>Wybierz kino</p>
+                        </div>
+                        <select class="form-control" name="cinemaId">
+                            <option th:each="cinema : ${cinemas}"
+                                    th:inline="text"
+                                    th:value="${cinema.id}">
+                                [[${cinema.city}]] [[${cinema.street}]]
+                            </option>
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <div th:each="date : ${dates}" th:remove="tag">
+                            <button class="btn btn-info btn-icon-split m-1"
+                                    type="submit"
+                                    th:inline="text"
+                                    th:value="${date}" name="screeningDate">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-calendar-day"></i>
+                                </span>
+                                <span class="text" th:text="${#temporals.format(date,'MM-dd')}"></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    <div class="bg-circle-1 bg-circle"></div>
-    <div class="bg-circle-2 bg-circle"></div>
-    <div class="bg-circle-3 bg-circle"></div>
-    <div class="bg-circle-4 bg-circle"></div>
-</header>
+</section>
 
 <section th:each="movie : ${screenings.keySet()}">
     <div class="container">
@@ -40,15 +67,16 @@
             <div class="col-lg-6">
                 <div class="p-2">
                     <h2 class="text-center text-lg-left display-4" th:text="${movie.title}">Title</h2>
-                    <p class="text-center text-lg-left h1" th:text="${movie.genre}+' | '+${movie.duration}+' min'">Genre | Duration min</p>
+                    <p class="text-center text-lg-left h1" th:text="${movie.genre}+' | '+${movie.duration}+' min'">Genre
+                        | Duration min</p>
                     <p class="text-center text-lg-left h2" th:text="${movie.countryOrigin}">Country Origin</p>
                     <p class="text-center text-lg-left" th:text="${movie.description}">description</p>
                 </div>
-                <form th:action="@{/reservations/screeningId(screeningId=${screening.id})}" method="post"
+                <form th:action="@{/reservations/new}" method="post"
                       th:each="screening : ${screenings.get(movie)}"
                       th:inline="text"
                       class="d-inline">
-                    <input type="hidden" th:value="${screening}" name="chosenDate">
+                    <input type="hidden" th:value="${screening}" name="screening">
                     <button class="btn btn-info btn-icon-split m-1" type="submit" th:inline="text">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-clock"></i>

@@ -143,13 +143,23 @@
                 lastSelectedHour.classList.remove("btn-success");
                 lastSelectedHour.classList.add("btn-info");
             }
-            hour = ev.target.parentElement.firstChild.nextSibling.innerText;
+            let clickedNodeName = ev.target.nodeName;
+            let mainParent;
+            if (clickedNodeName === "BUTTON") {
+                mainParent = ev.target;
+            }
+            if (clickedNodeName === "I") {
+                mainParent = ev.target.parentElement.parentElement;
+            }
+            if (clickedNodeName === "SPAN") {
+                mainParent = ev.target.parentElement;
+            }
+            hour = mainParent.firstChild.nextSibling.innerText;
             finalHourElement.innerText = hour + ":" + minute;
             screeningTimeInput.value = hour + ":" + minute;
-            console.log(screeningTimeInput.value);
-            ev.target.parentElement.classList.remove("btn-info");
-            ev.target.parentElement.classList.add("btn-success");
-            lastSelectedHour = ev.target.parentElement;
+            mainParent.classList.remove("btn-info");
+            mainParent.classList.add("btn-success");
+            lastSelectedHour = mainParent;
         })
 
         let span1 = document.createElement("span");
@@ -191,7 +201,6 @@
             minute = mainParent.firstChild.nextSibling.innerText;
             finalHourElement.innerText = hour + ":" + minute;
             screeningTimeInput.value = hour + ":" + minute;
-            console.log(screeningTimeInput.value);
             mainParent.classList.remove("btn-info");
             mainParent.classList.add("btn-success");
             lastSelectedMinute = mainParent;
