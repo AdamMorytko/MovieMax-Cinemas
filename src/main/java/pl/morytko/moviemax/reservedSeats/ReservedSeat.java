@@ -1,5 +1,6 @@
 package pl.morytko.moviemax.reservedSeats;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import pl.morytko.moviemax.reservations.Reservation;
@@ -14,12 +15,15 @@ import java.util.Objects;
 public class ReservedSeat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private long id;
     private int row;
     private int number;
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private Reservation reservation;
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private Screening screening;
 
     @Override
