@@ -14,8 +14,9 @@ public class ReservedSeatUtil {
         boolean found = false;
         for (ReservedSeat reservedSeat:
              reservedSeats) {
-            if (reservedSeat.equals(suspectedReservedSeat)){
+            if (reservedSeat.equals(suspectedReservedSeat)) {
                 found = true;
+                break;
             }
         }
         return found;

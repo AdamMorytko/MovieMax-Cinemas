@@ -1,6 +1,5 @@
 package pl.morytko.moviemax.home;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import lombok.AllArgsConstructor;
@@ -14,8 +13,6 @@ import pl.morytko.moviemax.screenings.Screening;
 import pl.morytko.moviemax.screenings.ScreeningService;
 import pl.morytko.moviemax.utils.DateUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;

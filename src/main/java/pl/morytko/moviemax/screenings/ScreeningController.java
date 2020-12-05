@@ -1,21 +1,16 @@
 package pl.morytko.moviemax.screenings;
 
 import lombok.AllArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.morytko.moviemax.auditoriums.AuditoriumService;
-import pl.morytko.moviemax.movies.Movie;
 import pl.morytko.moviemax.movies.MovieService;
 import pl.morytko.moviemax.utils.DateUtil;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/screenings")
@@ -56,7 +51,7 @@ public class ScreeningController {
         screening.setScreeningDate(screeningDate);
         screening.setScreeningTime(screeningTime);
         screeningService.addScreening(screening);
-        return "redirect:/screenings/list";
+        return "redirect:/screenings/date";
     }
 
 }
