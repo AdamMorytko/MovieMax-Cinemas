@@ -1,5 +1,10 @@
 package pl.morytko.moviemax.reservations;
 
+
+import java.util.Optional;
+
 public interface ReservationService {
-    void addReservation(Reservation reservation);
+    Reservation addReservation(Reservation reservation);
+    void updateReservation(Reservation reservation);
+    Optional<Reservation> getReservation(long id);
 }

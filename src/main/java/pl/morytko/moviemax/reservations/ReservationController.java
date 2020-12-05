@@ -148,9 +148,52 @@ public class ReservationController {
         model.addAttribute("reservedSeatNumber", reservedSeatNumber);
         model.addAttribute("reservedSeats", reservedSeats);
         model.addAttribute("userName", userName);
-        model.addAttribute("userSurname",userSurname);
-        model.addAttribute("userEmail",userEmail);
+        model.addAttribute("userSurname", userSurname);
+        model.addAttribute("userEmail", userEmail);
         return "main/reservations/reservationSummary";
+    }
+
+    @PostMapping("/fifth")
+    public String showReservation(@RequestParam Map<String, String> allRequestParams, Model model) {
+        String screeningIdParam = allRequestParams.get("screeningId");
+        String reservedSeatNumberParam = allRequestParams.get("reservedSeatNumber");
+        long screeningId = 0;
+        int reservedSeatNumber = 0;
+        if (screeningIdParam.isEmpty() || reservedSeatNumberParam.isEmpty()) {
+            return "redirect:/";
+        } else {
+            screeningId = Long.parseLong(screeningIdParam);
+            reservedSeatNumber = Integer.parseInt(reservedSeatNumberParam);
+        }
+        String userName = allRequestParams.get("userName");
+        String userSurname = allRequestParams.get("userSurname");
+        String userEmail = allRequestParams.get("userEmail");
+
+        Reservation reservation = new Reservation();
+        reservation.setUserName(userName);
+        reservation.setUserSurname(userSurname);
+        reservation.setEmail(userEmail);
+        reservation.setReservedSeatNumber(reservedSeatNumber);
+        Screening screening = screeningService.getScreeningById(screeningId).get();
+        reservation.setScreening(screening);
+        Reservation savedReservation = reservationService.addReservation(reservation);
+
+        for (int i = 1; i <= reservedSeatNumber; i++) {
+            ReservedSeat reservedSeat = new ReservedSeat();
+            String[] inputValue = allRequestParams.get("reservedSeat" + i).split("n");
+            System.out.println(Arrays.toString(inputValue));
+            int row = Integer.parseInt(inputValue[0]);
+            int number = Integer.parseInt(inputValue[1]);
+            reservedSeat.setRow(row);
+            reservedSeat.setNumber(number);
+            reservedSeat.setScreening(screening);
+            reservedSeat.setReservation(savedReservation);
+            reservedSeatService.addReservedSeat(reservedSeat);
+        }
+        long savedReservationId = savedReservation.getId();
+        Optional<Reservation> reservationOptional = reservationService.getReservation(savedReservationId);
+        model.addAttribute("reservation",reservationOptional.get());
+        return "main/reservations/displayReservation";
     }
 
 }

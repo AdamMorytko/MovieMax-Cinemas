@@ -62,7 +62,7 @@
                                         <input type="hidden" name="reservedSeatNumber"
                                                th:value="${reservedSeatNumber}"/>
                                         <input type="hidden" th:each="reservedSeat,iterStatus : ${reservedSeats}"
-                                               th:name="'reservedSeat'+${iterStatus}"
+                                               th:name="'reservedSeat'+${iterStatus.count}"
                                                th:value="${reservedSeat.row}+'n'+${reservedSeat.number}"/>
                                         <input type="hidden" name="userName"
                                                th:value="${userName}"/>
