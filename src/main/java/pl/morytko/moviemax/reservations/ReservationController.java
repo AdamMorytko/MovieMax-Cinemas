@@ -97,7 +97,6 @@ public class ReservationController {
         for (int i = 0; i < reservedSeatNumber; i++) {
             ReservedSeat reservedSeat = new ReservedSeat();
             String[] inputValue = allRequestParams.get("reservedSeat" + i).split("n");
-            System.out.println(Arrays.toString(inputValue));
             int row = Integer.parseInt(inputValue[0]);
             int number = Integer.parseInt(inputValue[1]);
             reservedSeat.setRow(row);
@@ -180,7 +179,6 @@ public class ReservationController {
         for (int i = 1; i <= reservedSeatNumber; i++) {
             ReservedSeat reservedSeat = new ReservedSeat();
             String[] inputValue = allRequestParams.get("reservedSeat" + i).split("n");
-            System.out.println(Arrays.toString(inputValue));
             int row = Integer.parseInt(inputValue[0]);
             int number = Integer.parseInt(inputValue[1]);
             reservedSeat.setRow(row);

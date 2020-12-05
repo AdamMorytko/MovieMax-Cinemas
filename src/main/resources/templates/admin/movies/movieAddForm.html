@@ -41,35 +41,40 @@
                                     </form>
                                 </div>
                                 <hr>
-                                <form th:action="@{/movies/add}" th:object="${movie}" method="post" class="user">
+                                <form action="#" th:action="@{/movies/add}" th:object="${movie}" method="post" class="user">
                                     <input type="hidden" th:field="*{id}"/>
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                             <input type="text" class="form-control form-control-user"
                                                    th:field="*{title}"
                                                    placeholder="Tytuł">
+                                            <p class="m-0 text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">error</p>
                                         </div>
                                         <div class="col-sm-6">
                                             <input type="text" class="form-control form-control-user"
                                                    th:field="*{director}"
                                                    placeholder="Reżyser">
+                                            <p class="m-0 text-danger" th:if="${#fields.hasErrors('director')}" th:errors="*{director}">error</p>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-user"
                                                th:field="*{description}"
                                                placeholder="Opis Filmu">
+                                        <p class="m-0 text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">error</p>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                             <input type="text" class="form-control form-control-user"
                                                    th:field="*{countryOrigin}"
                                                    placeholder="Kraj Produkcji">
+                                            <p class="m-0 text-danger" th:if="${#fields.hasErrors('countryOrigin')}" th:errors="*{countryOrigin}">error</p>
                                         </div>
                                         <div class="col-sm-6">
                                             <input type="text" class="form-control form-control-user"
                                                    th:field="*{genre}"
                                                    placeholder="Gatunek">
+                                            <p class="m-0 text-danger" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}">error</p>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -80,6 +85,7 @@
                                             <input type="number" min="0" class="form-control form-control-user"
                                                    th:field="*{duration}"
                                                    placeholder="Czas Trwania">
+                                            <p class="m-0 text-danger" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}">error</p>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="text-center">
@@ -88,10 +94,11 @@
                                             <input type="text" class="form-control form-control-user"
                                                    th:field="*{posterUrl}"
                                                    placeholder="Link Do Plakatu">
+                                            <p class="m-0 text-danger" th:if="${#fields.hasErrors('posterUrl')}" th:errors="*{posterUrl}">error</p>
                                         </div>
                                     </div>
                                     <div class="form-group align-content-center">
-                                        <img class="img-fluid mx-auto d-block" th:src="@{${movie.posterUrl}}" alt="MoviePoster"/>
+                                        <img class="img-fluid mx-auto d-block" th:src="@{${movie.posterUrl}}"/>
                                     </div>
                                     <input class="btn btn-primary btn-user btn-block" type="submit"
                                            value="Dodaj Film"/>

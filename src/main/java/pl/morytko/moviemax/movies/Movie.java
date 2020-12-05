@@ -2,34 +2,36 @@ package pl.morytko.moviemax.movies;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import pl.morytko.moviemax.screenings.Screening;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@ToString
 public class Movie implements Comparable<Movie>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Size(min = 1, max = 100, message = "Tytuł musi mieć min 1 i max 100 znaków.")
     private String title;
-    @NotBlank
+    @NotBlank(message = "To pole nie może byc puste!")
     private String director;
-    @NotBlank
+    @NotBlank(message = "To pole nie może byc puste!")
     private String countryOrigin;
-    @Size(min = 1, max = 600)
+    @Size(max = 600, message = "Opis może mieć maksymalnie 600 znaków.")
     private String description;
-    @NotBlank
+    @NotBlank(message = "To pole nie może byc puste!")
     private String genre;
+    @NotNull(message = "To pole nie może byc puste!")
+    @Min(value = 1,message = "Czas trwania musi być większy od 0!")
     private int duration;
-    @NotBlank
+    @NotBlank(message = "To pole nie może byc puste!")
     private String posterUrl;
     @OneToMany(mappedBy = "movie")
     private List<Screening> screeningList;
