@@ -8,6 +8,7 @@ import pl.morytko.moviemax.utils.Filmweb;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/movies")
@@ -72,6 +73,65 @@ public class MovieController {
         movie.setPosterUrl(posterUrl);
         model.addAttribute("movie",movie);
         return "admin/movies/movieAddForm";
+    }
+
+    @GetMapping("/delete")
+    public String showDeleteConfirmation(@RequestParam("movieId") String movieIdParam, Model model) throws NumberFormatException{
+        long movieId;
+        if (movieIdParam.isEmpty()){
+            return "redirect:/movies/list";
+        }else{
+            try {
+                movieId = Long.parseLong(movieIdParam);
+            }catch (NumberFormatException nfe){
+                throw new NumberFormatException();
+            }
+        }
+        Optional<Movie> movieOptional = movieService.getMovieById(movieId);
+        if (movieOptional.isPresent()){
+            model.addAttribute("movie",movieOptional.get());
+            return "admin/movies/movieDeleteConfirmation";
+        }
+        return "redirect:/movies/list";
+    }
+
+    @GetMapping("/edit")
+    public String showEditForm(@RequestParam("movieId") String movieIdParam, Model model) throws NumberFormatException{
+        long movieId;
+        if (movieIdParam.isEmpty()){
+            return "redirect:/movies/list";
+        }else{
+            try {
+                movieId = Long.parseLong(movieIdParam);
+            }catch (NumberFormatException nfe){
+                throw new NumberFormatException();
+            }
+        }
+        Optional<Movie> movieOptional = movieService.getMovieById(movieId);
+        if (movieOptional.isPresent()){
+            model.addAttribute("movie",movieOptional.get());
+            return "admin/movies/movieEditForm";
+        }
+        return "redirect:/movies/list";
+    }
+
+    @PostMapping("/delete")
+    public String deleteMovie(@RequestParam("movieId") String movieIdParam) throws NumberFormatException{
+        long movieId;
+        if (movieIdParam.isEmpty()){
+            return "redirect:/movies/list";
+        }else{
+            try {
+                movieId = Long.parseLong(movieIdParam);
+            }catch (NumberFormatException nfe){
+                throw new NumberFormatException();
+            }
+        }
+        Optional<Movie> movieOptional = movieService.getMovieById(movieId);
+        if (movieOptional.isPresent()){
+            movieService.deleteMovie(movieId);
+        }
+        return "redirect:/movies/list";
     }
 
 

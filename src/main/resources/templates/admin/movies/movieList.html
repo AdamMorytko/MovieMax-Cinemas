@@ -23,12 +23,14 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>Lp</th>
                                     <th>Tytuł</th>
                                     <th>Reżyser</th>
                                     <th>Gatunek</th>
                                     <th>Kraj produkcji</th>
-                                    <th>Akcja</th>
+                                    <th>Akcje</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tfoot>
@@ -39,21 +41,54 @@
                                     <th>Gatunek</th>
                                     <th>Kraj produkcji</th>
                                     <th>Akcja</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
-                                <tr th:each="movie : ${movies}">
-                                    <td th:text="${movie.id}">Id</td>
+                                <tr th:each="movie,iterStatus : ${movies}">
+                                    <td th:text="${iterStatus.count}">Lp</td>
                                     <td th:text="${movie.title}">Tytuł</td>
                                     <td th:text="${movie.director}">Reżyser</td>
                                     <td th:text="${movie.genre}">Gatunek</td>
                                     <td th:text="${movie.countryOrigin}">Kraj produkcji</td>
                                     <td>
-                                        <a th:href="@{/movies/details/{id}(id=${movie.id})}">
-                                            <i class="fas fa-info-circle"></i>
-                                            Szczegóły
-                                        </a>
+                                        <form th:action="@{/movies/details}" method="get">
+                                            <input type="hidden" th:value="${movie.id}" name="movieId">
+                                            <button class="btn btn-info btn-icon-split m-1" type="submit"
+                                                    th:inline="text">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </span>
+                                                <span class="text">Szczegóły</span>
+                                            </button>
+                                        </form>
                                     </td>
+                                    <td>
+                                        <form th:action="@{/movies/delete}" method="get">
+                                            <input type="hidden" th:value="${movie.id}" name="movieId">
+                                            <button class="btn btn-info btn-icon-split m-1" type="submit"
+                                                    th:inline="text">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-trash"></i>
+                                                    </span>
+                                                <span class="text">Usuń</span>
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form th:action="@{/movies/edit}" method="get">
+                                            <input type="hidden" th:value="${movie.id}" name="movieId">
+                                            <button class="btn btn-info btn-icon-split m-1" type="submit"
+                                                    th:inline="text">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-edit"></i>
+                                                    </span>
+                                                <span class="text">Edytuj</span>
+                                            </button>
+                                        </form>
+                                    </td>
+
                                 </tr>
                                 </tbody>
                             </table>

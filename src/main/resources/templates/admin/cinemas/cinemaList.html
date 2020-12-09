@@ -33,7 +33,8 @@
                                     <th>Id</th>
                                     <th>Miasto</th>
                                     <th>Ulica</th>
-                                    <th>Akcja</th>
+                                    <th>Akcje</th>
+                                    <th></th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
@@ -42,9 +43,15 @@
                                     <td th:text="${cinema.city}">Miasto</td>
                                     <td th:text="${cinema.street}">Ulica</td>
                                     <td>
-                                        <a th:href="@{/cinemas/details/{id}(id=${cinema.id})}">
-                                            <i class="fas fa-info-circle"></i>
-                                            Szczegóły
+                                        <a th:href="@{/cinemas/delete/{id}(id=${cinema.id})}">
+                                            <i class="fas fa-trash"></i>
+                                            Usuń
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/cinemas/edit/{id}(id=${cinema.id})}">
+                                            <i class="fas fa-edit"></i>
+                                            Edytuj
                                         </a>
                                     </td>
                                 </tr>
