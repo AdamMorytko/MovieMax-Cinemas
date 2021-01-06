@@ -1,6 +1,7 @@
 # MovieMax-Cinemas
 An application to book tickets for a movie in a cinema.
 # Already done:
+- An interesting feature to fill database with movies from Filmweb without using API (because it is not public). I used jsoup to manipulate DOM tree and retrieve movie title, director, URL for a poster etc.
 - Admin page to manage cinemas, movies, screenings.
 - Main page to book tickets
 - Some validation
