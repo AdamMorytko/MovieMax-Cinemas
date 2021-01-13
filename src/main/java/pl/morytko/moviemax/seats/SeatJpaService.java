@@ -22,4 +22,9 @@ public class SeatJpaService implements SeatService{
     public void addSeat(Seat seat) {
         seatRepository.save(seat);
     }
+
+    @Override
+    public void addSeats(List<Seat> seatList) {
+        seatRepository.saveAll(seatList);
+    }
 }
