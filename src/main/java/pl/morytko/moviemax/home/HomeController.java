@@ -52,10 +52,15 @@ public class HomeController {
         Multimap<Movie,Screening> screeningMultimap = Multimaps.newSetMultimap(
                 new TreeMap<>(),
                 LinkedHashSet::new);
-        List<Screening> futureScreenings = screeningList
-                .stream()
-                .filter(s -> s.getScreeningTime().isAfter(LocalTime.now()))
-                .collect(Collectors.toList());
+        List<Screening> futureScreenings = new ArrayList<>();
+        if (!screeningDate.isAfter(LocalDate.now())){
+            futureScreenings = screeningList
+                    .stream()
+                    .filter(s -> s.getScreeningTime().isAfter(LocalTime.now()))
+                    .collect(Collectors.toList());
+        }else{
+            futureScreenings = screeningList;
+        }
         futureScreenings = futureScreenings.stream()
                 .sorted(Comparator.comparing(Screening::getScreeningTime))
                 .collect(Collectors.toList());
