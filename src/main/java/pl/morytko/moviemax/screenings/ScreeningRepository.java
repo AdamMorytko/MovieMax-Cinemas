@@ -10,4 +10,5 @@ import java.util.List;
 public interface ScreeningRepository extends JpaRepository<Screening, Long> {
     List<Screening> findAllByAuditoriumId(long auditoriumId);
     List<Screening> findAllByAuditorium_Cinema_IdAndScreeningDate(long cinemaId, LocalDate screeningDate);
+    List<Screening> findAllByAuditorium_IdAndScreeningDate(long auditoriumId, LocalDate screeningDate);
 }

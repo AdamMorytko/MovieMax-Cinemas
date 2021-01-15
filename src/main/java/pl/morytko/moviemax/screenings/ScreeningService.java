@@ -9,5 +9,7 @@ public interface ScreeningService {
     List<Screening> getScreeningsByCinemaAndDate(long cinemaId, LocalDate screeningDate);
     void addScreening(Screening screening);
     Optional<Screening> getScreeningById(long id);
+    boolean checkOverlapping(Screening screeningToCheck);
+    List<Screening> getScreeningsByAuditoriumAndDate(long auditoriumId, LocalDate screeningDate);
 
 }
