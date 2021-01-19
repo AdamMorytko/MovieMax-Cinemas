@@ -32,6 +32,11 @@ public class ScreeningJpaService implements ScreeningService {
     }
 
     @Override
+    public void saveAll(List<Screening> screenings) {
+        screeningRepository.saveAll(screenings);
+    }
+
+    @Override
     public void addScreening(Screening screening) {
         screeningRepository.save(screening);
     }
@@ -45,7 +50,7 @@ public class ScreeningJpaService implements ScreeningService {
     public boolean checkOverlapping(Screening screeningToCheck) {
         long auditoriumId = screeningToCheck.getAuditorium().getId();
         List<Screening> sameDayScreenings = screeningRepository.findAllByAuditorium_IdAndScreeningDate(auditoriumId, screeningToCheck.getScreeningDate());
-        AtomicBoolean available = new AtomicBoolean(true);
+        AtomicBoolean available = new AtomicBoolean(false);
         sameDayScreenings.forEach(screening -> {
             LocalDateTime screeningStart = LocalDateTime.of
                     (screening.getScreeningDate(),
@@ -60,8 +65,8 @@ public class ScreeningJpaService implements ScreeningService {
                     (screeningToCheck.getScreeningDate(),
                             screeningToCheck.getScreeningTime().plusMinutes(screeningToCheck.getMovie().getDuration()));
             if (checkedScreeningStart.isBefore(screeningEnd) && checkedScreeningEnd.isAfter(screeningStart)){
-                available.set(false);
-            }
+                available.set(true);
+            }   
         });
         return available.get();
     }

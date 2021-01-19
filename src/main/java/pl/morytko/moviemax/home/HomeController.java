@@ -53,12 +53,12 @@ public class HomeController {
                 new TreeMap<>(),
                 LinkedHashSet::new);
         List<Screening> futureScreenings = new ArrayList<>();
-        if (!screeningDate.isAfter(LocalDate.now())){
+        if (screeningDate.isEqual(LocalDate.now())){
             futureScreenings = screeningList
                     .stream()
                     .filter(s -> s.getScreeningTime().isAfter(LocalTime.now()))
                     .collect(Collectors.toList());
-        }else{
+        }else if (screeningDate.isAfter(LocalDate.now())){
             futureScreenings = screeningList;
         }
         futureScreenings = futureScreenings.stream()

@@ -18,10 +18,7 @@ import pl.morytko.moviemax.utils.DateUtil;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
@@ -40,76 +37,56 @@ public class DatabaseInitialization {
     public void appStart() throws InterruptedException {
         List<Cinema> cinemaList = cinemaService.getCinemas();
         List<Movie> movieList = movieService.getMovies();
-        if (cinemaList.size() == 0) {
+        if (cinemaList.size() < 3) {
             Thread.sleep(1000);
-            cinemaList = cinemaService.getCinemas();
-            ;
         }
+        cinemaList = cinemaService.getCinemas();
+        List<Screening> newScreenings = new ArrayList<>();
+        List<LocalDate> twoWeeks = DateUtil.getTwoWeeks();
         cinemaList.forEach(cinema -> {
-            for (int h = 0; h < 5; h++) {
+            for (int h = 0; h < 3; h++) {
                 Auditorium newAuditorium = new Auditorium();
                 int seatsInARow = random.nextInt(20 - 16) + 16;
                 newAuditorium.setSeatNumberCount(seatsInARow);
                 int rows = random.nextInt(13 - 5) + 5;
                 newAuditorium.setSeatRowCount(rows);
                 int screenStart = random.nextInt(4 - 2) + 2;
-                System.out.println("start: " + screenStart);
                 newAuditorium.setScreenStart(screenStart);
                 newAuditorium.setScreenEnd(seatsInARow - screenStart + 1);
                 newAuditorium.setCinema(cinema);
                 Auditorium savedAuditorium = auditoriumService.addAuditorium(newAuditorium);
-
-                List<Long> uniqueMovieIndexList = new ArrayList<>();
-                for (int i = 0; i < 5; i++) {
-                    long newIndex = 0;
-                    while (!uniqueMovieIndexList.contains(newIndex)) {
-                        newIndex = random.nextInt(movieList.size() - 1) + 1;
-                        if (!uniqueMovieIndexList.contains(newIndex)) {
-                            uniqueMovieIndexList.add(newIndex);
-                        }
-                    }
-                }
-                List<LocalDate> twoWeeks = DateUtil.getTwoWeeks();
                 twoWeeks.forEach(day -> {
-                    AtomicInteger loopCount = new AtomicInteger(1);
-                    uniqueMovieIndexList.forEach(index -> {
-                        Optional<Movie> movieOptional = movieService.getMovieById(index);
-                        if (movieOptional.isPresent()){
-                            LocalTime screeningTime;
-                            switch(loopCount.getAndIncrement()){
-                                case 1:{
-                                    screeningTime = LocalTime.of(10,0);
-                                    break;
-                                }
-                                case 2:{
-                                    screeningTime = LocalTime.of(12,15);
-                                    break;
-                                }
-                                case 3:{
-                                    screeningTime = LocalTime.of(15,30);
-                                    break;
-                                }
-                                case 4:{
-                                    screeningTime = LocalTime.of(18,45);
-                                    break;
-                                }
-                                case 5:{
-                                    screeningTime = LocalTime.of(22,35);
-                                    break;
-                                }
-                                default:{
-                                    screeningTime = LocalTime.of(16,35);
-                                }
-                            }
-                            Screening screening = new Screening();
+                    List<LocalTime> timesList = Arrays.asList(
+                            LocalTime.of(10, 0),
+                            LocalTime.of(11, 5),
+                            LocalTime.of(12, 10),
+                            LocalTime.of(13, 15),
+                            LocalTime.of(14, 20),
+                            LocalTime.of(15, 25),
+                            LocalTime.of(16, 30),
+                            LocalTime.of(17, 35),
+                            LocalTime.of(18, 40),
+                            LocalTime.of(19, 45),
+                            LocalTime.of(20, 55),
+                            LocalTime.of(21, 0),
+                            LocalTime.of(22, 5),
+                            LocalTime.of(23, 10)
+                    );
+                    for (int i = 0; i < 3; i++) {
+                        Movie movie = movieList.get(random.nextInt(movieList.size()));
+                        Screening screening = new Screening();
+                        LocalTime screeningTime;
+                        do {
+                            screeningTime = timesList.get(random.nextInt(timesList.size()));
                             screening.setScreeningDate(day);
                             screening.setScreeningTime(screeningTime);
                             screening.setAuditorium(savedAuditorium);
-                            screening.setMovie(movieOptional.get());
-                            screeningService.addScreening(screening);
-                        }
-                    });
+                            screening.setMovie(movie);
+                        } while (screeningService.checkOverlapping(screening));
+                        newScreenings.add(screening);
+                    }
                 });
+                screeningService.saveAll(newScreenings);
 
                 List<Seat> seatList = new ArrayList<>();
                 int firstStairs = 3;

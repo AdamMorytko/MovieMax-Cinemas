@@ -31,7 +31,6 @@ public class ScreeningController {
         model.addAttribute("auditoriums",auditoriumService.getAuditoriums());
         model.addAttribute("movies",movieService.getMovies());
         model.addAttribute("screening",new Screening());
-        model.addAttribute("time",LocalTime.now());
         String chosenDate = allRequestParams.get("chosenDate");
         if (!chosenDate.isEmpty()){
             model.addAttribute("chosenDate",chosenDate);
@@ -43,13 +42,33 @@ public class ScreeningController {
     public String addScreening(@RequestParam Map<String,String> allRequestParams, Model model){
         long movieId = Long.parseLong(allRequestParams.get("movieId"));
         long auditoriumId = Long.parseLong(allRequestParams.get("auditoriumId"));
-        LocalDate screeningDate = LocalDate.parse(allRequestParams.get("screeningDate"));
-        LocalTime screeningTime = LocalTime.parse(allRequestParams.get("screeningTime"));
+        String screeningDateParam = allRequestParams.get("screeningDate");
+        LocalDate screeningDate = LocalDate.parse(screeningDateParam);
+        String screeningTimeParam = allRequestParams.get("screeningTime");
+        if (screeningTimeParam.isEmpty()){
+            model.addAttribute("timeEmpty",true);
+            model.addAttribute("chosenDate",screeningDate);
+            model.addAttribute("auditoriums",auditoriumService.getAuditoriums());
+            model.addAttribute("movies",movieService.getMovies());
+            model.addAttribute("screening",new Screening());
+            return "admin/screenings/screeningAddForm";
+        }
+
+        LocalTime screeningTime = LocalTime.parse(screeningTimeParam);
         Screening screening = new Screening();
         screening.setAuditorium(auditoriumService.getAuditoriumById(auditoriumId).get());
         screening.setMovie(movieService.getMovieById(movieId).get());
         screening.setScreeningDate(screeningDate);
         screening.setScreeningTime(screeningTime);
+        boolean overlapping = screeningService.checkOverlapping(screening);
+        if (overlapping){
+            model.addAttribute("overlapping",true);
+            model.addAttribute("chosenDate",screeningDate);
+            model.addAttribute("auditoriums",auditoriumService.getAuditoriums());
+            model.addAttribute("movies",movieService.getMovies());
+            model.addAttribute("screening",new Screening());
+            return "admin/screenings/screeningAddForm";
+        }
         screeningService.addScreening(screening);
         return "redirect:/screenings/date";
     }

@@ -91,6 +91,12 @@
                                                     </span>
                                                 <span class="text" id="finalHour"></span>
                                             </button>
+                                            <div th:if="${timeEmpty}" class="text-center text-danger">
+                                                <p>Nie wybrano godziny!</p>
+                                            </div>
+                                            <div th:if="${overlapping}" class="text-center text-danger">
+                                                <p>W wybranym czasie już istnieje seans!</p>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="form-group">

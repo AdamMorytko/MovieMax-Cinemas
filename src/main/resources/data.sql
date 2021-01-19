@@ -1,8 +1,3 @@
-INSERT INTO cinema (city, street) VALUES ('Gliwice','Zwycięstwa 13');
-INSERT INTO cinema (city, street) VALUES ('Warszawa','Polna 77');
-INSERT INTO cinema (city, street) VALUES ('Zabrze','Leśna 34');
-INSERT INTO cinema (city, street) VALUES ('Poznań','Słoneczna 19');
-INSERT INTO cinema (city, street) VALUES ('Gdańsk','Lipowa 93');
 INSERT INTO movie (title, director, country_origin, description, genre, duration, poster_url) VALUES ('W deszczowy dzień w Nowym Jorku','Woody Allen','USA','Gdy dwoje młodych ludzi przyjeżdża na weekend do Nowego Jorku, miasto wita ich niepogodą i serią przygód.','Komedia',92,'https://fwcdn.pl/fpo/41/94/794194/7889452.6.jpg');
 INSERT INTO movie (title, director, country_origin, description, genre, duration, poster_url) VALUES ('1917','Sam Mendes','Hiszpania Indie Kanada USA Wielka Brytania','Dwóch młodych żołnierzy - Schofield i Blake dostają rozkaz przedostania się za linie wroga, aby dostarczyć tajną wiadomość, która pozwoli brytyjskim żołnierzy uniknąć wpadnięcia w śmiertelną pułapkę.','Wojenny',119,'https://fwcdn.pl/fpo/69/80/816980/7913530.6.jpg');
 INSERT INTO movie (title, director, country_origin, description, genre, duration, poster_url) VALUES ('Joker','Todd Phillips','Kanada USA','Strudzony życiem komik popada w obłęd i staje się psychopatycznym mordercą.','Dramat / Kryminał',122,'https://fwcdn.pl/fpo/01/67/810167/7905225.6.jpg');
@@ -23,3 +18,8 @@ INSERT INTO movie (title, director, country_origin, description, genre, duration
 INSERT INTO movie (title, director, country_origin, description, genre, duration, poster_url) VALUES ('Parasite','Joon-ho Bong','Korea Południowa','Kiedy Ki-woo dostaje pracę jako korepetytor córki zamożnego małżeństwa, wymyśla sposób na zapewnienie zatrudnienia również reszcie swojej rodziny.','Dramat',132,'https://fwcdn.pl/fpo/81/43/798143/7895390.6.jpg');
 INSERT INTO movie (title, director, country_origin, description, genre, duration, poster_url) VALUES ('Green Book','Peter Farrelly','USA','Drobny cwaniaczek z Bronksu zostaje szoferem ekstrawaganckiego muzyka z wyższych sfer i razem wyruszają na wielotygodniowe tournée.','Dramat / Komedia',130,'https://fwcdn.pl/fpo/96/30/809630/7873350.6.jpg');
 INSERT INTO movie (title, director, country_origin, description, genre, duration, poster_url) VALUES ('Bohemian Rhapsody','Bryan Singer','USA Wielka Brytania','Dzięki oryginalnemu brzmieniu Queen staje się jednym z najpopularniejszych zespołów w historii muzyki.','Biograficzny / Dramat / Muzyczny',134,'https://fwcdn.pl/fpo/92/01/619201/7863181.6.jpg');
+INSERT INTO cinema (city, street) VALUES ('Gliwice','Zwycięstwa 13');
+INSERT INTO cinema (city, street) VALUES ('Warszawa','Polna 77');
+INSERT INTO cinema (city, street) VALUES ('Zabrze','Leśna 34');
+INSERT INTO cinema (city, street) VALUES ('Poznań','Słoneczna 19');
+INSERT INTO cinema (city, street) VALUES ('Gdańsk','Lipowa 93');

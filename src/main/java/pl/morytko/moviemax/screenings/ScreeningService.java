@@ -11,5 +11,6 @@ public interface ScreeningService {
     Optional<Screening> getScreeningById(long id);
     boolean checkOverlapping(Screening screeningToCheck);
     List<Screening> getScreeningsByAuditoriumAndDate(long auditoriumId, LocalDate screeningDate);
+    void saveAll(List<Screening> screenings);
 
 }
