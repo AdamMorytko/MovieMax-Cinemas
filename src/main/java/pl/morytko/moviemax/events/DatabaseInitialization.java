@@ -56,7 +56,7 @@ public class DatabaseInitialization {
                 newAuditorium.setCinema(cinema);
                 Auditorium savedAuditorium = auditoriumService.addAuditorium(newAuditorium);
                 twoWeeks.forEach(day -> {
-                    List<LocalTime> timesList = Arrays.asList(
+                    List<LocalTime> timesList = new LinkedList<>(Arrays.asList(
                             LocalTime.of(10, 0),
                             LocalTime.of(11, 5),
                             LocalTime.of(12, 10),
@@ -71,7 +71,7 @@ public class DatabaseInitialization {
                             LocalTime.of(21, 0),
                             LocalTime.of(22, 5),
                             LocalTime.of(23, 10)
-                    );
+                    ));
                     for (int i = 0; i < 3; i++) {
                         Movie movie = movieList.get(random.nextInt(movieList.size()));
                         Screening screening = new Screening();
@@ -83,6 +83,7 @@ public class DatabaseInitialization {
                             screening.setAuditorium(savedAuditorium);
                             screening.setMovie(movie);
                         } while (screeningService.checkOverlapping(screening));
+                        timesList.remove(screeningTime);
                         newScreenings.add(screening);
                     }
                 });
