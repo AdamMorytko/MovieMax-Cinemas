@@ -20,6 +20,6 @@ public class Cinema {
     private String city;
     @NotBlank
     private String street;
-    @OneToMany(mappedBy = "cinema")
+    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL)
     private List<Auditorium> auditoriumList;
 }

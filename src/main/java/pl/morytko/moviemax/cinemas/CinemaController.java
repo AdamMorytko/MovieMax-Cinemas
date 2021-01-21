@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.morytko.moviemax.auditoriums.AuditoriumService;
+
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -51,5 +49,44 @@ public class CinemaController {
     public String showCinemasList(Model model) {
         model.addAttribute("cinemas", cinemaService.getCinemas());
         return "admin/cinemas/cinemaList";
+    }
+
+    @GetMapping("/delete/{cinemaId}")
+    public String showDeleteConfirmation(@PathVariable("cinemaId") String cinemaIdParam, Model model) throws NumberFormatException{
+        long cinemaId;
+        if (cinemaIdParam.isEmpty()){
+            return "redirect:/cinemas/list";
+        }else{
+            try {
+                cinemaId = Long.parseLong(cinemaIdParam);
+            }catch (NumberFormatException nfe){
+                throw new NumberFormatException();
+            }
+        }
+        Optional<Cinema> cinemaOptional = cinemaService.getCinemaById(cinemaId);
+        if (cinemaOptional.isPresent()){
+            model.addAttribute("cinema",cinemaOptional.get());
+            return "admin/cinemas/cinemaDeleteConfirmation";
+        }
+        return "redirect:/cinemas/list";
+    }
+
+    @PostMapping("/delete")
+    public String deleteCinema(@RequestParam("cinemaId") String cinemaIdParam) throws NumberFormatException{
+        long cinemaId;
+        if (cinemaIdParam.isEmpty()){
+            return "redirect:/cinemas/list";
+        }else{
+            try {
+                cinemaId = Long.parseLong(cinemaIdParam);
+            }catch (NumberFormatException nfe){
+                throw new NumberFormatException();
+            }
+        }
+        Optional<Cinema> cinemaOptional = cinemaService.getCinemaById(cinemaId);
+        if (cinemaOptional.isPresent()){
+            cinemaService.deleteCinema(cinemaId);
+        }
+        return "redirect:/cinemas/list";
     }
 }

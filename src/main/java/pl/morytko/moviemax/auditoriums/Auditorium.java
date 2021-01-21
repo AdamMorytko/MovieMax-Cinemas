@@ -20,13 +20,13 @@ public class Auditorium {
     private long id;
     @ManyToOne(fetch = FetchType.EAGER)
     private Cinema cinema;
-    @OneToMany(mappedBy = "auditorium")
+    @OneToMany(mappedBy = "auditorium", cascade = CascadeType.ALL)
     private List<Seat> seatList;
     private int seatRowCount;
     private int seatNumberCount;
     private int screenStart;
     private int screenEnd;
-    @OneToMany(mappedBy = "auditorium")
+    @OneToMany(mappedBy = "auditorium", cascade = CascadeType.ALL)
     private List<Screening> screeningList;
 
 }
