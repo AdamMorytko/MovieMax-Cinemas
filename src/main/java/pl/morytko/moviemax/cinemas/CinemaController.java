@@ -89,4 +89,24 @@ public class CinemaController {
         }
         return "redirect:/cinemas/list";
     }
+
+    @GetMapping("/edit/{cinemaId}")
+    public String showEditForm(@PathVariable("cinemaId") String cinemaIdParam, Model model) throws NumberFormatException{
+        long cinemaId;
+        if (cinemaIdParam.isEmpty()){
+            return "redirect:/cinemas/list";
+        }else{
+            try {
+                cinemaId = Long.parseLong(cinemaIdParam);
+            }catch (NumberFormatException nfe){
+                throw new NumberFormatException();
+            }
+        }
+        Optional<Cinema> cinemaOptional = cinemaService.getCinemaById(cinemaId);
+        if (cinemaOptional.isPresent()){
+            model.addAttribute("cinema",cinemaOptional.get());
+            return "admin/cinemas/cinemaEditForm";
+        }
+        return "redirect:/cinemas/list";
+    }
 }
