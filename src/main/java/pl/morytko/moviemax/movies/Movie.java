@@ -20,18 +20,18 @@ public class Movie implements Comparable<Movie>{
     private long id;
     @Size(min = 1, max = 100, message = "Tytuł musi mieć min 1 i max 100 znaków.")
     private String title;
-    @NotBlank(message = "To pole nie może byc puste!")
+    @NotBlank
     private String director;
-    @NotBlank(message = "To pole nie może byc puste!")
+    @NotBlank
     private String countryOrigin;
     @Size(max = 600, message = "Opis może mieć maksymalnie 600 znaków.")
     private String description;
-    @NotBlank(message = "To pole nie może byc puste!")
+    @NotBlank
     private String genre;
-    @NotNull(message = "To pole nie może byc puste!")
+    @NotNull
     @Min(value = 1,message = "Czas trwania musi być większy od 0!")
     private int duration;
-    @NotBlank(message = "To pole nie może byc puste!")
+    @NotBlank
     private String posterUrl;
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Screening> screeningList;

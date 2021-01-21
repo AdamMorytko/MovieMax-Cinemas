@@ -29,11 +29,13 @@
                                             <input type="text" class="form-control form-control-user"
                                                    th:field="*{city}"
                                                    placeholder="Miasto"/>
+                                            <p class="m-0 text-danger" th:if="${#fields.hasErrors('city')}" th:errors="*{city}">error</p>
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
                                                    th:field="*{street}"
                                                    placeholder="Ulica (Np. Aleja Jeziorańskiego 1)"/>
+                                            <p class="m-0 text-danger" th:if="${#fields.hasErrors('street')}" th:errors="*{street}">error</p>
                                         </div>
                                         <div class="form-group">
                                             <input class="btn btn-primary btn-user btn-block" type="submit"
