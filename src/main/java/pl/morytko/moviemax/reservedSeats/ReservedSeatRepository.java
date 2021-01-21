@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface ReservedSeatRepository extends JpaRepository<ReservedSeat, Long> {
     Optional<ReservedSeat> findByRowAndNumber(int row, int number);
-    List<ReservedSeat> findAllByScreeningId(long screeningId);
+    List<ReservedSeat> findAllByReservationScreeningId(long screeningId);
 }

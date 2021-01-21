@@ -24,6 +24,6 @@ public class ReservedSeatJpaService implements ReservedSeatService{
 
     @Override
     public List<ReservedSeat> getReservedSeatsByScreeningId(long screeningId) {
-        return  reservedSeatRepository.findAllByScreeningId(screeningId);
+        return  reservedSeatRepository.findAllByReservationScreeningId(screeningId);
     }
 }

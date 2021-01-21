@@ -75,8 +75,8 @@ public class MovieController {
         return "admin/movies/movieAddForm";
     }
 
-    @GetMapping("/delete")
-    public String showDeleteConfirmation(@RequestParam("movieId") String movieIdParam, Model model) throws NumberFormatException{
+    @GetMapping("/delete/{movieId}")
+    public String showDeleteConfirmation(@PathVariable("movieId") String movieIdParam, Model model) throws NumberFormatException{
         long movieId;
         if (movieIdParam.isEmpty()){
             return "redirect:/movies/list";
@@ -95,8 +95,8 @@ public class MovieController {
         return "redirect:/movies/list";
     }
 
-    @GetMapping("/edit")
-    public String showEditForm(@RequestParam("movieId") String movieIdParam, Model model) throws NumberFormatException{
+    @GetMapping("/edit/{movieId}")
+    public String showEditForm(@PathVariable("movieId") String movieIdParam, Model model) throws NumberFormatException{
         long movieId;
         if (movieIdParam.isEmpty()){
             return "redirect:/movies/list";

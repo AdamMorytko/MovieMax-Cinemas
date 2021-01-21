@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.morytko.moviemax.auditoriums.Auditorium;
 import pl.morytko.moviemax.movies.Movie;
+import pl.morytko.moviemax.reservations.Reservation;
 import pl.morytko.moviemax.reservedSeats.ReservedSeat;
 
 import javax.persistence.*;
@@ -24,6 +25,6 @@ public class Screening {
     private Movie movie;
     private LocalDate screeningDate;
     private LocalTime screeningTime;
-    @OneToMany(mappedBy = "screening")
-    private List<ReservedSeat> reservedSeats;
+    @OneToMany(mappedBy = "screening", cascade = CascadeType.ALL)
+    private List<Reservation> reservationList;
 }

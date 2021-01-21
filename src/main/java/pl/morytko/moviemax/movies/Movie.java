@@ -33,7 +33,7 @@ public class Movie implements Comparable<Movie>{
     private int duration;
     @NotBlank(message = "To pole nie może byc puste!")
     private String posterUrl;
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Screening> screeningList;
 
     @Override

@@ -17,7 +17,7 @@ public class Reservation {
     private long id;
     @ManyToOne(fetch = FetchType.EAGER)
     private Screening screening;
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
     private List<ReservedSeat> reservedSeats;
     private int reservedSeatNumber;
     private String userName;

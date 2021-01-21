@@ -183,7 +183,6 @@ public class ReservationController {
             int number = Integer.parseInt(inputValue[1]);
             reservedSeat.setRow(row);
             reservedSeat.setNumber(number);
-            reservedSeat.setScreening(screening);
             reservedSeat.setReservation(savedReservation);
             reservedSeatService.addReservedSeat(reservedSeat);
         }

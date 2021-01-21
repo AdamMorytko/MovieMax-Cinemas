@@ -22,9 +22,7 @@ public class ReservedSeat {
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     private Reservation reservation;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Screening screening;
+
 
     @Override
     public boolean equals(Object o) {
