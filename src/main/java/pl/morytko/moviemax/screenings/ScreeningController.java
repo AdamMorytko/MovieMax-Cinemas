@@ -28,6 +28,12 @@ public class ScreeningController {
         return "admin/screenings/screeningsTypesList";
     }
 
+    @GetMapping("/all")
+    public String showAllAuditoriumsScreenings(Model model){
+        model.addAttribute("screenings",screeningService.getScreenings());
+        return "admin/screenings/screeningsAllList";
+    }
+
     @GetMapping("/date")
     public String showChooseDate(Model model){
         model.addAttribute("dates", DateUtil.getTwoWeeks());

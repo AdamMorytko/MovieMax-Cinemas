@@ -17,6 +17,11 @@ public class ScreeningJpaService implements ScreeningService {
     private final ScreeningRepository screeningRepository;
 
     @Override
+    public List<Screening> getScreenings() {
+        return screeningRepository.findAll();
+    }
+
+    @Override
     public List<Screening> getScreeningsByAuditoriumId(long auditoriumId) {
         return screeningRepository.findAllByAuditoriumId(auditoriumId);
     }
