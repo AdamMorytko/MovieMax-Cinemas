@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.morytko.moviemax.auditoriums.AuditoriumService;
+import pl.morytko.moviemax.cinemas.CinemaService;
 import pl.morytko.moviemax.movies.MovieService;
 import pl.morytko.moviemax.utils.DateUtil;
 
@@ -19,6 +20,13 @@ public class ScreeningController {
     private final ScreeningService screeningService;
     private final AuditoriumService auditoriumService;
     private final MovieService movieService;
+    private final CinemaService cinemaService;
+
+    @GetMapping("/types")
+    public String showTypesList(Model model){
+        model.addAttribute("cinemas",cinemaService.getCinemas());
+        return "admin/screenings/screeningsTypesList";
+    }
 
     @GetMapping("/date")
     public String showChooseDate(Model model){
