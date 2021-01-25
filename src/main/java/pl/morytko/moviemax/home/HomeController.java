@@ -56,7 +56,8 @@ public class HomeController {
         if (screeningDate.isEqual(LocalDate.now())){
             futureScreenings = screeningList
                     .stream()
-                    .filter(s -> s.getScreeningTime().isAfter(LocalTime.now()))
+                    .filter(s -> (s.getScreeningTime().isAfter(LocalTime.now()) ||
+                            s.getScreeningTime().equals(LocalTime.now())))
                     .collect(Collectors.toList());
         }else if (screeningDate.isAfter(LocalDate.now())){
             futureScreenings = screeningList;

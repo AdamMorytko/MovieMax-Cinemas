@@ -6,7 +6,6 @@ import java.util.Optional;
 
 public interface ScreeningService {
     List<Screening> getScreenings();
-    List<Screening> getFutureScreenings();
     List<Screening> getScreeningsByAuditoriumId(long auditoriumId);
     List<Screening> getScreeningsByCinemaAndDate(long cinemaId, LocalDate screeningDate);
     void addScreening(Screening screening);

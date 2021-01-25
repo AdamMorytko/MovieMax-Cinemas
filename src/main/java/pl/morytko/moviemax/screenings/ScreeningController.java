@@ -13,8 +13,11 @@ import pl.morytko.moviemax.utils.DateUtil;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/screenings")
@@ -39,7 +42,17 @@ public class ScreeningController {
 
     @GetMapping("/all/future")
     public String showAllAuditoriumsFutureScreenings(Model model){
-        model.addAttribute("screenings",screeningService.getFutureScreenings());
+        List<Screening> screeningList = screeningService.getScreenings();
+        List<Screening> futureScreenings = new ArrayList<>();
+        screeningList.forEach(screening -> {
+            if (screening.getScreeningDate().isAfter(LocalDate.now())){
+                futureScreenings.add(screening);
+            }else if (screening.getScreeningTime().isAfter(LocalTime.now()) ||
+            screening.getScreeningTime().equals(LocalTime.now())){
+                futureScreenings.add(screening);
+            }
+        });
+        model.addAttribute("screenings",futureScreenings);
         return "admin/screenings/screeningsAllFutureList";
     }
 
@@ -50,6 +63,28 @@ public class ScreeningController {
             model.addAttribute("screenings",screeningService.getScreeningsByAuditoriumId(auditoriumId));
             model.addAttribute("auditoriumId",auditoriumId);
             return "admin/screenings/screeningsAllAuditoriumScreenings";
+        }else{
+            return "redirect:/screenings/types";
+        }
+    }
+
+    @GetMapping("/auditoriums/future/{auditoriumId}")
+    public String showAllAuditoriumFutureScreenings(@PathVariable long auditoriumId, Model model){
+        Optional<Auditorium> optionalAuditorium = auditoriumService.getAuditoriumById(auditoriumId);
+        if (optionalAuditorium.isPresent()){
+            List<Screening> screeningList = screeningService.getScreeningsByAuditoriumId(auditoriumId);
+            List<Screening> futureScreenings = new ArrayList<>();
+            screeningList.forEach(screening -> {
+                if (screening.getScreeningDate().isAfter(LocalDate.now())){
+                    futureScreenings.add(screening);
+                }else if (screening.getScreeningTime().isAfter(LocalTime.now()) ||
+                        screening.getScreeningTime().equals(LocalTime.now())){
+                    futureScreenings.add(screening);
+                }
+            });
+            model.addAttribute("screenings",futureScreenings);
+            model.addAttribute("auditoriumId",auditoriumId);
+            return "admin/screenings/screeningsAllAuditoriumFutureScreenings";
         }else{
             return "redirect:/screenings/types";
         }

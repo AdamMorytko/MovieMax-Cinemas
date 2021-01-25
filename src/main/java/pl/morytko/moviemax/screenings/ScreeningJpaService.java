@@ -23,11 +23,6 @@ public class ScreeningJpaService implements ScreeningService {
     }
 
     @Override
-    public List<Screening> getFutureScreenings() {
-        return screeningRepository.findAllFutureScreenings(LocalDate.now(), LocalTime.now());
-    }
-
-    @Override
     public List<Screening> getScreeningsByAuditoriumId(long auditoriumId) {
         return screeningRepository.findAllByAuditoriumId(auditoriumId);
     }
