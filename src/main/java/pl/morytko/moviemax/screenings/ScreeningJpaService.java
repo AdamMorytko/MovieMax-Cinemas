@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -19,6 +20,11 @@ public class ScreeningJpaService implements ScreeningService {
     @Override
     public List<Screening> getScreenings() {
         return screeningRepository.findAll();
+    }
+
+    @Override
+    public List<Screening> getFutureScreenings() {
+        return screeningRepository.findAllFutureScreenings(LocalDate.now(), LocalTime.now());
     }
 
     @Override

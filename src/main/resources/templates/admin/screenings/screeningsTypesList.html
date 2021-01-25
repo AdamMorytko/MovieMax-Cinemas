@@ -19,49 +19,47 @@
 
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <form th:action="@{/screenings}" class="d-inline justify-content-center" method="get">
-                            <div class="form-group">
-                                <a class="btn btn-primary" th:href="@{/screenings/all}">
-                                    <i class="fas fa-list"></i> Pokaż wszystkie seanse w każdym kinie
-                                </a>
-                            </div>
-                            <hr>
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>Lp</th>
-                                    <th>Kino</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>Lp</th>
-                                    <th>Kino</th>
-                                    <th></th>
-                                    <th></th>
+                        <div class="form-group">
+                            <a class="btn btn-primary" th:href="@{/screenings/all}">
+                                <i class="fas fa-list"></i> Pokaż wszystkie seanse w każdym kinie
+                            </a>
+                        </div>
+                        <hr>
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Lp</th>
+                                <th>Kino</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Lp</th>
+                                <th>Kino</th>
+                                <th></th>
+                                <th></th>
 
-                                </tr>
-                                </tfoot>
-                                <tbody>
-                                <tr th:each="cinema,iterStatus : ${cinemas}">
-                                    <td th:text="${iterStatus.count}">Lp</td>
-                                    <td th:text="${cinema.city}+' '+${cinema.street}">Kino</td>
-                                    <td>
-                                        <a th:href="@{/screenings/all/{id}(id=${cinema.id})}">
-                                            <i class="fas fa-list"></i> wszystkie seanse
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a th:href="@{/screenings/auditoriums/{id}(id=${cinema.id})}">
-                                            <i class="fas fa-info-circle"></i> wybierz po sali
-                                        </a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </form>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <tr th:each="cinema,iterStatus : ${cinemas}">
+                                <td th:text="${iterStatus.count}">Lp</td>
+                                <td th:text="${cinema.city}+' '+${cinema.street}">Kino</td>
+                                <td>
+                                    <a th:href="@{/screenings/all/{id}(id=${cinema.id})}">
+                                        <i class="fas fa-list"></i> wszystkie seanse
+                                    </a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/screenings/auditoriums/{id}(id=${cinema.id})}">
+                                        <i class="fas fa-info-circle"></i> wybierz po sali
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
