@@ -40,6 +40,30 @@ public class ScreeningController {
         return "admin/screenings/screeningsAllList";
     }
 
+    @GetMapping("/cinema/all/{cinemaId}")
+    public String showAllCinemaScreenings(@PathVariable long cinemaId, Model model){
+        model.addAttribute("screenings",screeningService.getScreeningsByCinema(cinemaId));
+        System.out.println(screeningService.getScreeningsByCinema(cinemaId).size());
+        return "admin/screenings/screeningsAllCinemaScreenings";
+    }
+
+    @GetMapping("/cinema/future/{cinemaId}")
+    public String showAllFutureCinemaScreenings(@PathVariable long cinemaId, Model model){
+        List<Screening> screeningList = screeningService.getScreeningsByCinema(cinemaId);
+        System.out.println(screeningList.size());
+        List<Screening> futureScreenings = new ArrayList<>();
+        screeningList.forEach(screening -> {
+            if (screening.getScreeningDate().isAfter(LocalDate.now())){
+                futureScreenings.add(screening);
+            }else if (screening.getScreeningTime().isAfter(LocalTime.now()) ||
+                    screening.getScreeningTime().equals(LocalTime.now())){
+                futureScreenings.add(screening);
+            }
+        });
+        model.addAttribute("screenings",futureScreenings);
+        return "admin/screenings/screeningsAllCinemaFutureScreenings";
+    }
+
     @GetMapping("/all/future")
     public String showAllAuditoriumsFutureScreenings(Model model){
         List<Screening> screeningList = screeningService.getScreenings();
