@@ -43,6 +43,18 @@ public class ScreeningController {
         return "admin/screenings/screeningsAllFutureList";
     }
 
+    @GetMapping("/auditoriums/all/{auditoriumId}")
+    public String showAllAuditoriumScreenings(@PathVariable long auditoriumId, Model model){
+        Optional<Auditorium> optionalAuditorium = auditoriumService.getAuditoriumById(auditoriumId);
+        if (optionalAuditorium.isPresent()){
+            model.addAttribute("screenings",screeningService.getScreeningsByAuditoriumId(auditoriumId));
+            model.addAttribute("auditoriumId",auditoriumId);
+            return "admin/screenings/screeningsAllAuditoriumScreenings";
+        }else{
+            return "redirect:/screenings/types";
+        }
+    }
+
     @GetMapping("/auditoriums/{cinemaId}")
     public String showCinemasAuditoriums(@PathVariable long cinemaId, Model model){
         Optional<Cinema> optionalCinema = cinemaService.getCinemaById(cinemaId);
