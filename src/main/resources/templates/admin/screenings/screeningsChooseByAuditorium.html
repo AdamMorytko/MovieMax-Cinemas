@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <head th:replace="admin/fragments/sidebar :: head"></head>
+    <title id="pageTitle">Wybierz salę</title>
+
+    <link th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet" type="text/css">
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <ul th:replace="admin/fragments/sidebar :: sidebar">
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-lg-9">
+                                <div class="p-2">
+                                    <p class="text-center text-lg-left h1" th:text="${cinemaName}">City | Street</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Lp</th>
+                                <th>Id Sali</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Lp</th>
+                                <th>Id Sali</th>
+                                <th></th>
+                                <th></th>
+
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <tr th:each="auditorium,iterStatus : ${auditoriums}">
+                                <td th:text="${iterStatus.count}">Lp</td>
+                                <td th:text="${auditorium.id}">Id Sali</td>
+                                <td>
+                                    <a th:href="@{/screenings/auditoriums/all/{id}(id=${auditorium.id})}">
+                                        <i class="fas fa-list"></i> pokaż wszystkie seanse w tej sali
+                                    </a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/screenings/auditoriums/future/{id}(id=${auditorium.id})}">
+                                        <i class="fas fa-info-circle"></i> pokaż tylko przyszłe seanse w tej sali
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+
+        <footer th:replace="admin/fragments/footer :: footer">
+
+        </footer>
+    </div>
+</div>
+
+<div th:include="admin/fragments/footer :: scripts"></div>
+<script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/dataTables.bootstrap4.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/datatables-demo.js}"></script>
+
+</body>
+</html>

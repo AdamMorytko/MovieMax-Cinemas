@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.morytko.moviemax.auditoriums.Auditorium;
 import pl.morytko.moviemax.auditoriums.AuditoriumService;
+import pl.morytko.moviemax.cinemas.Cinema;
 import pl.morytko.moviemax.cinemas.CinemaService;
 import pl.morytko.moviemax.movies.MovieService;
 import pl.morytko.moviemax.utils.DateUtil;
@@ -12,6 +14,7 @@ import pl.morytko.moviemax.utils.DateUtil;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/screenings")
@@ -38,6 +41,18 @@ public class ScreeningController {
     public String showAllAuditoriumsFutureScreenings(Model model){
         model.addAttribute("screenings",screeningService.getFutureScreenings());
         return "admin/screenings/screeningsAllFutureList";
+    }
+
+    @GetMapping("/auditoriums/{cinemaId}")
+    public String showCinemasAuditoriums(@PathVariable long cinemaId, Model model){
+        Optional<Cinema> optionalCinema = cinemaService.getCinemaById(cinemaId);
+        if (optionalCinema.isPresent()){
+            model.addAttribute("cinemaName", optionalCinema.get().getCity()+" | "+optionalCinema.get().getStreet());
+            model.addAttribute("auditoriums",auditoriumService.getCinemaAuditoriums(cinemaId));
+            return "admin/screenings/screeningsChooseByAuditorium";
+        }else{
+            return "redirect:/screenings/types";
+        }
     }
 
     @GetMapping("/date")
