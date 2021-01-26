@@ -19,7 +19,6 @@ import pl.morytko.moviemax.utils.DateUtil;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @AllArgsConstructor
@@ -57,33 +56,19 @@ public class DatabaseInitialization {
                 Auditorium savedAuditorium = auditoriumService.addAuditorium(newAuditorium);
                 twoWeeks.forEach(day -> {
                     List<LocalTime> timesList = new LinkedList<>(Arrays.asList(
-                            LocalTime.of(10, 0),
                             LocalTime.of(11, 5),
-                            LocalTime.of(12, 10),
-                            LocalTime.of(13, 15),
-                            LocalTime.of(14, 20),
-                            LocalTime.of(15, 25),
                             LocalTime.of(16, 30),
-                            LocalTime.of(17, 35),
-                            LocalTime.of(18, 40),
-                            LocalTime.of(19, 45),
-                            LocalTime.of(20, 55),
-                            LocalTime.of(21, 0),
-                            LocalTime.of(22, 5),
-                            LocalTime.of(23, 10)
+                            LocalTime.of(21, 0)
                     ));
                     for (int i = 0; i < 3; i++) {
                         Movie movie = movieList.get(random.nextInt(movieList.size()));
                         Screening screening = new Screening();
                         LocalTime screeningTime;
-                        do {
-                            screeningTime = timesList.get(random.nextInt(timesList.size()));
-                            screening.setScreeningDate(day);
-                            screening.setScreeningTime(screeningTime);
-                            screening.setAuditorium(savedAuditorium);
-                            screening.setMovie(movie);
-                        } while (screeningService.checkOverlapping(screening));
-                        timesList.remove(screeningTime);
+                        screeningTime = timesList.get(i);
+                        screening.setScreeningDate(day);
+                        screening.setScreeningTime(screeningTime);
+                        screening.setAuditorium(savedAuditorium);
+                        screening.setMovie(movie);
                         newScreenings.add(screening);
                     }
                 });
@@ -109,7 +94,5 @@ public class DatabaseInitialization {
                 seatRepository.saveAll(seatList);
             }
         });
-
-
     }
 }
