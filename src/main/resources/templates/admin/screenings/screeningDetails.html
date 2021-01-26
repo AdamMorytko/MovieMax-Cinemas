@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <head th:replace="admin/fragments/sidebar :: head"></head>
+    <title id="pageTitle">Szczegóły seansu</title>
+
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <ul th:replace="admin/fragments/sidebar :: sidebar">
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-lg-9">
+                                <div class="p-2">
+                                    <p class="text-center text-lg-left h1"
+                                       th:text="'Kino: '+${screening.auditorium.cinema.city}+' | '+${screening.auditorium.cinema.street}">
+                                        City | Street</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary"
+                                    th:text="'Data: '+${screening.screeningDate}"></h6>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary"
+                                    th:text="'Godzina: '+${screening.screeningTime}"></h6>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary"
+                                    th:text="'Godzina zakończenia seansu: '+${endingTime}"></h6>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary"
+                                    th:text="'Id sali: '+${screening.auditorium.id}"></h6>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary"
+                                    th:text="'Film: '+${screening.movie.title}"></h6>
+                            </div>
+                            <div class="form-group align-content-center">
+                                <img class="img-fluid mx-auto d-block" th:src="@{${screening.movie.posterUrl}}"
+                                     alt="MoviePoster"/>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">
+                                    <a th:href="@{/screenings/edit/{id}(id=${screening.id})}">
+                                        <i class="fas fa-edit"></i>
+                                        Edytuj
+                                    </a>
+                                </h6>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">
+                                    <a th:href="@{/screenings/delete/{id}(id=${screening.id})}">
+                                        <i class="fas fa-trash"></i>
+                                        Usuń
+                                    </a>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+
+        <footer th:replace="admin/fragments/footer :: footer">
+
+        </footer>
+    </div>
+</div>
+
+<div th:include="admin/fragments/footer :: scripts">
+
+</div>
+</body>
+</html>

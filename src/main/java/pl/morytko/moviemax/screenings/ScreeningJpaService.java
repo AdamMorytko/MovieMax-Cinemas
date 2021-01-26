@@ -53,6 +53,11 @@ public class ScreeningJpaService implements ScreeningService {
     }
 
     @Override
+    public void deleteScreening(long screeningId) {
+        screeningRepository.deleteById(screeningId);
+    }
+
+    @Override
     public Optional<Screening> getScreeningById(long id) {
         return screeningRepository.findById(id);
     }
@@ -78,6 +83,33 @@ public class ScreeningJpaService implements ScreeningService {
             if (checkedScreeningStart.isBefore(screeningEnd) && checkedScreeningEnd.isAfter(screeningStart)){
                 available.set(true);
             }   
+        });
+        return available.get();
+    }
+
+    @Override
+    public boolean checkOverlapping(Screening screeningToCheck, long screeningIdToIgnore) {
+        long auditoriumId = screeningToCheck.getAuditorium().getId();
+        List<Screening> sameDayScreenings = screeningRepository.findAllByAuditorium_IdAndScreeningDate(auditoriumId, screeningToCheck.getScreeningDate());
+        AtomicBoolean available = new AtomicBoolean(false);
+        sameDayScreenings.forEach(screening -> {
+            if (screening.getId() != screeningIdToIgnore){
+                LocalDateTime screeningStart = LocalDateTime.of
+                        (screening.getScreeningDate(),
+                                screening.getScreeningTime());
+                LocalDateTime screeningEnd = LocalDateTime.of
+                        (screening.getScreeningDate(),
+                                screening.getScreeningTime().plusMinutes(screening.getMovie().getDuration()));
+                LocalDateTime checkedScreeningStart = LocalDateTime.of
+                        (screeningToCheck.getScreeningDate(),
+                                screeningToCheck.getScreeningTime());
+                LocalDateTime checkedScreeningEnd = LocalDateTime.of
+                        (screeningToCheck.getScreeningDate(),
+                                screeningToCheck.getScreeningTime().plusMinutes(screeningToCheck.getMovie().getDuration()));
+                if (checkedScreeningStart.isBefore(screeningEnd) && checkedScreeningEnd.isAfter(screeningStart)){
+                    available.set(true);
+                }
+            }
         });
         return available.get();
     }

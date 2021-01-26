@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head th:include="admin/fragments/sidebar :: head">
+    <title id="pageTitle">Potwierdź akcję</title>
+
+</head>
+<body>
+<div id="wrapper">
+    <ul th:replace="admin/fragments/sidebar :: sidebar">
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div class="container">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4" th:inline="text">
+                                        Nie można edytować seansu, który już miał miejsce.
+                                    </h1>
+                                </div>
+                                <hr>
+                                <a class="btn btn-primary" th:href="@{/screenings/types}">
+                                    <i class="fas fa-list"></i> Powrót do listy seansów
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer th:replace="admin/fragments/footer :: footer">
+
+        </footer>
+    </div>
+</div>
+
+<div th:replace="admin/fragments/footer :: scripts">
+
+</div>
+
+</body>
+
+</html>

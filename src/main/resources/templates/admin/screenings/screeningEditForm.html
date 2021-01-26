@@ -1,0 +1,246 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <head th:replace="admin/fragments/sidebar :: head"></head>
+    <title id="pageTitle">Edycja Seansu</title>
+
+
+</head>
+<body>
+<div id="wrapper">
+    <ul th:replace="admin/fragments/sidebar :: sidebar">
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div class="container">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4" th:inline="text">Edycja Seansu Id [[${screening.id}]]</h1>
+                                </div>
+
+                                <div class="form-group">
+                                    <form th:action="@{/screenings/edit}" th:object="${screening}" method="post"
+                                          class="user">
+                                        <input type="hidden" th:value="${screening.screeningDate}" name="screeningDate">
+                                        <input type="hidden" th:value="${screening.id}" name="screeningId">
+                                        <div class="form-group">
+                                            <div class="text-center">
+                                                <span class="d-block" th:inline="text">
+                                                    <i class="fas fa-calendar-day"></i>
+                                                    Data seansu: [[${screening.screeningDate}]]
+                                                </span>
+                                                <span class="d-block text-warning">
+                                                Edytuj datę przed zmianą innych pól (zmiany innych pól nie zostaną zapisane po zmianie daty)
+                                                </span>
+                                            </div>
+                                            <div class="text-center">
+                                                <a class="btn btn-primary"
+                                                   th:href="@{/screenings/edit/date/{id}(id=${screening.id})}">
+                                                    <i class="fas fa-edit"></i> Edytuj datę
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="text-center">
+                                                <p>Wybierz salę</p>
+                                            </div>
+                                            <select class="form-control" name="auditoriumId" onfocus='this.size=5;'
+                                                    onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                                                <option th:each="auditorium : ${auditoriums}"
+                                                        th:inline="text"
+                                                        th:value="${auditorium.id}"
+                                                        th:field="*{auditorium}">
+                                                    Sala id = [[${auditorium.id}]] w kinie [[${auditorium.cinema.city}]]
+                                                    [[${auditorium.cinema.street}]]
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="text-center">
+                                                <p>Wybierz film</p>
+                                            </div>
+                                            <select class="form-control" name="movieId" onfocus='this.size=5;'
+                                                    onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                                                <option th:each="movie: ${movies}"
+                                                        th:inline="text"
+                                                        th:value="${movie.id}"
+                                                        th:field="*{movie}">
+                                                    [[${movie.title}]]
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="text-center">
+                                                <p>Wybierz nową godzinę</p>
+                                            </div>
+                                            <div id="choosingHour">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="text-center">
+                                                <p>Wybierz nową minutę</p>
+                                            </div>
+                                            <div id="choosingMinute">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="hidden" id="localTimeField" name="screeningTime"
+                                                   th:value="${screening.screeningTime}">
+                                            <div class="text-center">
+                                                <p>Wybrana godzina:</p>
+                                            </div>
+                                            <div class="text-center">
+                                                <button class="btn btn-success btn-icon-split m-1" type="button"
+                                                        th:inline="text">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-hourglass">
+                                                        </i>
+                                                    </span>
+                                                    <span class="text" id="finalHour" th:inline="text">[[${screening.screeningTime}]]</span>
+                                                </button>
+                                            </div>
+                                            <div th:if="${timeEmpty}" class="text-center text-danger">
+                                                <p>Nie wybrano godziny!</p>
+                                            </div>
+                                            <div th:if="${overlapping}" class="text-center text-danger">
+                                                <p>W wybranym czasie już istnieje seans!</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <input class="btn btn-primary btn-user btn-block" type="submit"
+                                                       value="Dodaj"/>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="admin/fragments/footer :: footer">
+
+        </footer>
+    </div>
+</div>
+
+<div th:replace="admin/fragments/footer :: scripts">
+
+</div>
+<script>
+    Number.prototype.pad = function (size) {
+        let s = String(this);
+        while (s.length < (size || 2)) {
+            s = "0" + s;
+        }
+        return s;
+    }
+    let hour = "00";
+    let minute = "00";
+    const choosingHourElement = document.querySelector("#choosingHour");
+    const choosingMinuteElement = document.querySelector("#choosingMinute");
+    let screeningTimeInput = document.querySelector("#localTimeField");
+    const finalHourElement = document.querySelector("#finalHour");
+    let lastSelectedHour;
+    let lastSelectedMinute;
+    for (let i = 0; i <= 23; i++) {
+        let buttonElement = document.createElement("button");
+        buttonElement.classList.add("btn", "btn-info", "btn-icon-split", "m-1");
+        buttonElement.type = "button";
+        buttonElement.addEventListener("click", function (ev) {
+            if (typeof lastSelectedHour !== 'undefined') {
+                lastSelectedHour.classList.remove("btn-success");
+                lastSelectedHour.classList.add("btn-info");
+            }
+            let clickedNodeName = ev.target.nodeName;
+            let mainParent;
+            if (clickedNodeName === "BUTTON") {
+                mainParent = ev.target;
+            }
+            if (clickedNodeName === "I") {
+                mainParent = ev.target.parentElement.parentElement;
+            }
+            if (clickedNodeName === "SPAN") {
+                mainParent = ev.target.parentElement;
+            }
+            hour = mainParent.firstChild.nextSibling.innerText;
+            finalHourElement.innerText = hour + ":" + minute;
+            screeningTimeInput.value = hour + ":" + minute;
+            mainParent.classList.remove("btn-info");
+            mainParent.classList.add("btn-success");
+            lastSelectedHour = mainParent;
+        })
+
+        let span1 = document.createElement("span");
+        span1.classList.add("icon", "text-white-50");
+
+        let iElement = document.createElement("i");
+        iElement.classList.add("fas", "fa-hourglass-start");
+
+        let span2 = document.createElement("span");
+        span2.classList.add("text");
+        span2.innerText = (i).pad(2).toString();
+
+        span1.appendChild(iElement);
+        buttonElement.appendChild(span1);
+        buttonElement.appendChild(span2);
+
+        choosingHourElement.appendChild(buttonElement);
+    }
+    for (let i = 0; i <= 11; i++) {
+        let buttonElement = document.createElement("button");
+        buttonElement.classList.add("btn", "btn-info", "btn-icon-split", "m-1");
+        buttonElement.type = "button";
+        buttonElement.addEventListener("click", function (ev) {
+            if (typeof lastSelectedMinute !== 'undefined') {
+                lastSelectedMinute.classList.remove("btn-success");
+                lastSelectedMinute.classList.add("btn-info");
+            }
+            let clickedNodeName = ev.target.nodeName;
+            let mainParent;
+            if (clickedNodeName === "BUTTON") {
+                mainParent = ev.target;
+            }
+            if (clickedNodeName === "I") {
+                mainParent = ev.target.parentElement.parentElement;
+            }
+            if (clickedNodeName === "SPAN") {
+                mainParent = ev.target.parentElement;
+            }
+            minute = mainParent.firstChild.nextSibling.innerText;
+            finalHourElement.innerText = hour + ":" + minute;
+            screeningTimeInput.value = hour + ":" + minute;
+            mainParent.classList.remove("btn-info");
+            mainParent.classList.add("btn-success");
+            lastSelectedMinute = mainParent;
+        })
+
+        let span1 = document.createElement("span");
+        span1.classList.add("icon", "text-white-50");
+
+        let iElement = document.createElement("i");
+        iElement.classList.add("fas", "fa-hourglass-end");
+
+        let span2 = document.createElement("span");
+        span2.classList.add("text");
+        span2.innerText = (i * 5).pad(2).toString();
+
+        span1.appendChild(iElement);
+        buttonElement.appendChild(span1);
+        buttonElement.appendChild(span2);
+
+        choosingMinuteElement.appendChild(buttonElement);
+    }
+</script>
+
+</body>
+</html>
