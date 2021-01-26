@@ -38,7 +38,7 @@ public class Filmweb {
     }
 
     public String getDescription() {
-        String divDescription = doc.select("div[itemprop=description]").text();
+        String divDescription = doc.select("span[itemprop=description]").text();
         if (divDescription.isEmpty()){
             return "BŁĄD W TRAKCIE WCZYTYWANIA OPISU (UZUPEŁNIJ OPIS RĘCZNIE)";
         }else{
