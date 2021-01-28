@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <head th:replace="admin/fragments/sidebar :: head"></head>
-    <title id="pageTitle">Szczegóły seansu</title>
+    <title id="pageTitle">Szczegóły rezerwacji</title>
 
 </head>
 <body id="page-top">
@@ -22,7 +22,7 @@
                             <div class="col-lg-9">
                                 <div class="p-2">
                                     <p class="text-center text-lg-left h1"
-                                       th:text="'Kino: '+${screening.auditorium.cinema.city}+' | '+${screening.auditorium.cinema.street}">
+                                       th:text="'Kino: '+${reservation.screening.auditorium.cinema.city}+' | '+${reservation.screening.auditorium.cinema.street}">
                                         City | Street</p>
                                 </div>
                             </div>
@@ -30,41 +30,41 @@
                         <div class="form-group card shadow mb-4">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"
-                                    th:text="'Data: '+${screening.screeningDate}"></h6>
+                                    th:text="'Data: '+${reservation.screening.screeningDate}"></h6>
                             </div>
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"
-                                    th:text="'Godzina: '+${screening.screeningTime}"></h6>
+                                    th:text="'Godzina: '+${reservation.screening.screeningTime}"></h6>
                             </div>
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"
-                                    th:text="'Godzina zakończenia seansu: '+${endingTime}"></h6>
-                            </div>
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary"
-                                    th:text="'Id sali: '+${screening.auditorium.id}"></h6>
+                                    th:text="'Id sali: '+${reservation.screening.auditorium.id}"></h6>
                             </div>
                             <div class="form-group card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"
-                                    th:text="'Film: '+${screening.movie.title}"></h6>
+                                    th:text="'Film: '+${reservation.screening.movie.title}"></h6>
                             </div>
-                            <div class="form-group align-content-center justify-content-center">
-                                <img class="img-fluid mx-auto d-block" th:src="@{${screening.movie.posterUrl}}"
-                                     alt="MoviePoster"/>
+                            <div class="form-group card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary"
+                                    th:text="'Email: '+${reservation.email}"></h6>
+                            </div>
+                            <div class="form-group card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary"
+                                    th:text="'Miejsca: '+${reservation.screening.movie.title}"></h6>
                             </div>
                         </div>
                         <div class="text-center">
-                            <a class="btn btn-primary m-1" th:href="@{/screenings/edit/{id}(id=${screening.id})}">
+                            <a class="btn btn-primary m-1" th:href="@{/reservations/edit/{id}(id=${screening.id})}">
                                 <i class="fas fa-edit"></i>
                                 Edytuj
                             </a>
-                            <a class="btn btn-primary m-1" th:href="@{/screenings/delete/{id}(id=${screening.id})}">
+                            <a class="btn btn-primary m-1" th:href="@{/reservations/delete/{id}(id=${screening.id})}">
                                 <i class="fas fa-trash"></i>
                                 Usuń
                             </a>
-                            <a class="btn btn-primary m-1" th:href="@{/reservations/screening/{id}(id=${screening.id})}">
-                                <i class="fas fa-book-open"></i>
-                                Rezerwacje
+                            <a class="btn btn-primary m-1" th:href="@{/reservations/screening/{id}(id=${reservation.screening.id})}">
+                                <i class="fas fa-info-circle"></i>
+                                Pozostałe rezerwacje tej sali
                             </a>
                         </div>
                     </div>

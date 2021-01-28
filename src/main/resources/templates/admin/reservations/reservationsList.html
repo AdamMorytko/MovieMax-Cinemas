@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <head th:replace="admin/fragments/sidebar :: head"></head>
+    <title id="pageTitle">Lista rezerwacji</title>
+
+    <link th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet" type="text/css">
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <ul th:replace="admin/fragments/sidebar :: sidebar">
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Lp</th>
+                                    <th>Seans</th>
+                                    <th>Data seansu</th>
+                                    <th>Godzina seansu</th>
+                                    <th>Kino | Numer sali</th>
+                                    <th>Email kupującego</th>
+                                    <th>Akcje</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Lp</th>
+                                    <th>Seans</th>
+                                    <th>Data seansu</th>
+                                    <th>Godzina seansu</th>
+                                    <th>Kino | Id sali</th>
+                                    <th>Email kupującego</th>
+                                    <th>Akcje</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                <tr th:each="reservation,iterStatus : ${reservations}">
+                                    <td th:text="${iterStatus.count}">Lp</td>
+                                    <td th:text="${reservation.screening.movie.title}">Seans</td>
+                                    <td th:text="${reservation.screening.screeningDate}">Data</td>
+                                    <td th:text="${reservation.screening.screeningTime}">Gatunek</td>
+                                    <td th:text="${reservation.screening.auditorium.cinema.city}
+                                        +' '${reservation.screening.auditorium.cinema.street}
+                                        +' | '+${reservation.screening.auditorium.id}">Kino | Id sali
+                                    </td>
+                                    <td th:text="${reservation.email}">Email kupującego</td>
+                                    <td>
+                                        <a th:href="@{/reservations/details/{id}(id=${reservation.id})}">
+                                            <i class="fas fa-edit"></i> Szczegóły
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/reservations/delete/{id}(id=${reservation.id})}">
+                                            <i class="fas fa-trash"></i> Usuń
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/reservations/edit/{id}(id=${reservation.id})}">
+                                            <i class="fas fa-edit"></i> Edytuj
+                                        </a>
+                                    </td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+
+        <footer th:replace="admin/fragments/footer :: footer">
+
+        </footer>
+    </div>
+</div>
+
+<div th:include="admin/fragments/footer :: scripts">
+
+</div>
+<script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/dataTables.bootstrap4.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/datatables-demo.js}"></script>
+</body>
+</html>
