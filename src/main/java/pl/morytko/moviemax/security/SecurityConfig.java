@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/","/screenings","/css/*","/js/*").permitAll()
+                .antMatchers("/","/screenings","/css/*","/js/*","/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .defaultSuccessUrl("/",true)
                     .passwordParameter("password")
-                    .usernameParameter("userLogin")
+                    .usernameParameter("username")
                 .and()
                 .logout()
                     .logoutUrl("/logout")

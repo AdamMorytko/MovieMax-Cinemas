@@ -71,7 +71,12 @@ public class HomeController {
         model.addAttribute("dates", DateUtil.getTwoWeeks());
         model.addAttribute("cinemas", cinemaService.getCinemas());
         return "main/screenings";
-
     }
+
+    @GetMapping("/login")
+    public String showLoginForm(){
+        return "main/login";
+    }
+
 
 }

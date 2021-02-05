@@ -1,3 +1,9 @@
+INSERT INTO user_role (name) VALUES ('USER');
+INSERT INTO user_role (name) VALUES ('ADMIN');
+INSERT INTO user (username,password,enabled) VALUES ('admin@admin.pl','$2y$12$41kHG11khV51pe.4EBPEQeSqniBGsV9aT2hHo/53d.FUWR5O29ckG',true);
+INSERT INTO user (username,password,enabled) VALUES ('user@user.pl','$2y$12$Gimxty5hGnLjbu922IQGJunrIfsbJZdIzKCS4/XPWVwdT2gSusrHq',true);
+INSERT INTO user_roles (user_id, roles_id) VALUES (1,2);
+INSERT INTO user_roles (user_id, roles_id) VALUES (2,1);
 INSERT INTO movie (title, director, country_origin, description, genre, duration, poster_url) VALUES ('W deszczowy dzień w Nowym Jorku','Woody Allen','USA','Gdy dwoje młodych ludzi przyjeżdża na weekend do Nowego Jorku, miasto wita ich niepogodą i serią przygód.','Komedia',92,'https://fwcdn.pl/fpo/41/94/794194/7889452.6.jpg');
 INSERT INTO movie (title, director, country_origin, description, genre, duration, poster_url) VALUES ('1917','Sam Mendes','Hiszpania Indie Kanada USA Wielka Brytania','Dwóch młodych żołnierzy - Schofield i Blake dostają rozkaz przedostania się za linie wroga, aby dostarczyć tajną wiadomość, która pozwoli brytyjskim żołnierzy uniknąć wpadnięcia w śmiertelną pułapkę.','Wojenny',119,'https://fwcdn.pl/fpo/69/80/816980/7913530.6.jpg');
 INSERT INTO movie (title, director, country_origin, description, genre, duration, poster_url) VALUES ('Joker','Todd Phillips','Kanada USA','Strudzony życiem komik popada w obłęd i staje się psychopatycznym mordercą.','Dramat / Kryminał',122,'https://fwcdn.pl/fpo/01/67/810167/7905225.6.jpg');
