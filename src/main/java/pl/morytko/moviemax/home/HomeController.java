@@ -73,10 +73,6 @@ public class HomeController {
         return "main/screenings";
     }
 
-    @GetMapping("/login")
-    public String showLoginForm(){
-        return "main/login";
-    }
 
 
 }
