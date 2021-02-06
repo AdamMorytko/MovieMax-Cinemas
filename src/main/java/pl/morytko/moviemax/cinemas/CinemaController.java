@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/cinemas")
+@RequestMapping("/admin/cinemas")
 @AllArgsConstructor
 public class CinemaController {
 

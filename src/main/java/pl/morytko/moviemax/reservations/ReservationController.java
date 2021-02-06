@@ -22,7 +22,7 @@ import pl.morytko.moviemax.utils.ReservedSeatUtil;
 import java.util.*;
 
 @Controller
-@RequestMapping("/reservations")
+@RequestMapping("/admin/reservations")
 @AllArgsConstructor
 public class ReservationController {
     private final ReservationService reservationService;

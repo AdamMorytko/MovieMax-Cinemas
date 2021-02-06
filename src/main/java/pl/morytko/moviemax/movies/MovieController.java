@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/movies")
+@RequestMapping("/admin/movies")
 public class MovieController {
 
     private final MovieService movieService;

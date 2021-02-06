@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/auditoriums")
+@RequestMapping("/admin/auditoriums")
 @AllArgsConstructor
 public class AuditoriumController {
 

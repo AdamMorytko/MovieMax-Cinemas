@@ -11,7 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import pl.morytko.moviemax.users.UserRole;
 import pl.morytko.moviemax.users.UserService;
+
+import static pl.morytko.moviemax.users.UserRole.*;
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/","/screenings","/css/*","/js/*","/login","/register").permitAll()
+                .antMatchers("/admin/**").hasRole(ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()

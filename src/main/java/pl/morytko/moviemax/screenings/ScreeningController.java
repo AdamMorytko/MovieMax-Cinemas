@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/screenings")
+@RequestMapping("/admin/screenings")
 @AllArgsConstructor
 public class ScreeningController {
     private final ScreeningService screeningService;
