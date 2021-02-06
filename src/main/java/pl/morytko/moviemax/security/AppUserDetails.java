@@ -17,11 +17,11 @@ public class AppUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<UserRole> roles = user.getRoles();
+        Set<AppUserRole> roles = user.getRoles();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-        for (UserRole role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        for (AppUserRole role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.name()));
         }
 
         return authorities;

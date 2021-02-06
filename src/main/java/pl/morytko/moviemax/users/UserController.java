@@ -7,10 +7,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import pl.morytko.moviemax.security.UserRole;
+import pl.morytko.moviemax.security.AppUserRole;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.Set;
+
+import static pl.morytko.moviemax.security.AppUserRole.*;
 
 @Controller
 @AllArgsConstructor
@@ -45,7 +48,11 @@ public class UserController {
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setEnabled(true);
-        user.setRoles(new HashSet<UserRole>(new UserRole()));
-
+        Set<AppUserRole> roles = new HashSet<>();
+        roles.add(USER);
+        user.setRoles(roles);
+        userService.addUser(user);
+        model.addAttribute("newRegistration",true);
+        return "redirect:/login";
     }
 }

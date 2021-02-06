@@ -2,12 +2,11 @@ package pl.morytko.moviemax.users;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.morytko.moviemax.security.UserRole;
+import pl.morytko.moviemax.security.AppUserRole;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,10 +20,11 @@ public class User {
     @Email
     @NotBlank
     private String username;
+    @NotBlank
     private String password;
     private boolean enabled;
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<UserRole> roles = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    @ElementCollection
+    private Set<AppUserRole> roles;
 
 }
