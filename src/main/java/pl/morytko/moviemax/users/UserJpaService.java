@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,5 +29,10 @@ public class UserJpaService implements UserService {
     @Override
     public void addUser(User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public void addUserList(List<User> users) {
+        userRepository.saveAll(users);
     }
 }
