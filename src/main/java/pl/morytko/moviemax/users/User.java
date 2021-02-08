@@ -28,6 +28,10 @@ public class User implements UserDetails {
     private String username;
     @NotBlank
     private String password;
+    @NotBlank
+    private String name;
+    @NotBlank
+    private String surname;
     private boolean enabled;
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)

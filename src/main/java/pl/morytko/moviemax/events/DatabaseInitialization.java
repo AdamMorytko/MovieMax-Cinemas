@@ -48,6 +48,8 @@ public class DatabaseInitialization {
         User user1 = new User();
         user1.setUsername("user@test.com");
         user1.setPassword(passwordEncoder.encode("usertest"));
+        user1.setName("Jan");
+        user1.setSurname("Kowalski");
         Set<UserRole> roles1 = new HashSet<>();
         roles1.add(USER);
         user1.setRoles(roles1);
@@ -57,6 +59,8 @@ public class DatabaseInitialization {
         User user2 = new User();
         user2.setUsername("admin@test.com");
         user2.setPassword(passwordEncoder.encode("admintest"));
+        user2.setName("Anna");
+        user2.setSurname("Nowak");
         Set<UserRole> roles2 = new HashSet<>();
         roles2.add(ADMIN);
         user2.setRoles(roles2);

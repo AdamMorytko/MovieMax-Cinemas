@@ -16,4 +16,9 @@ public class UserDto {
     private String password;
     @NotBlank
     private String matchingPassword;
+
+    @NotBlank
+    private String name;
+    @NotBlank
+    private String surname;
 }

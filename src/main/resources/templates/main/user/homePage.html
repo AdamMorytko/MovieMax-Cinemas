@@ -29,20 +29,22 @@
                                     Powitanie</h1>
                             </div>
                             <hr>
-                            <div class="d-inline-block">
-                                <div class="p-0 text-center col-6">
+                            <div class="col-12">
+                                <div class="p-0 text-center col-6 d-inline-block">
                                     Ostatnie rezerwacje:
                                     <ul class="list-group">
                                         <li class="list-group-item" th:each="reservation : ${lastReservations}"
                                             th:inline="text">
-                                            [[${reservation.screening.movie.title}]] [[${reservation.screening.screeningDate}]] [[${reservation.screening.screeningTime}]]
                                             <a class="btn btn-primary" th:href="@{/user/reservation/{id}(id=${reservation.id})}">
                                                 <i class="fas fa-info-circle"></i>
                                             </a>
+                                            [[${reservation.screening.screeningDate}]] [[${reservation.screening.screeningTime}]]
+                                            <hr>
+                                            [[${reservation.screening.movie.title}]]
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="p-0 text-center col-6">
+                                <div class="p-0 text-center col-6 d-inline-block">
 
                                 </div>
                             </div>

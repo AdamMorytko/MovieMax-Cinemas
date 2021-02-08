@@ -1,7 +1,6 @@
 package pl.morytko.moviemax.users;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.morytko.moviemax.reservations.Reservation;
-import pl.morytko.moviemax.security.PasswordEncoderConfig;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -34,24 +32,26 @@ public class UserController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
         model.addAttribute("user",new UserDto());
-        return "main/registration";
+        return "main/user/registration";
     }
 
     @PostMapping("/register")
     public String addNewUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
-            return "main/registration";
+            return "main/user/registration";
         }
         if (!userDto.getPassword().equals(userDto.getMatchingPassword())){
             bindingResult.rejectValue("matchingPassword","matchingPassword.notMatching"
                                 ,"Hasła nie są identyczne.");
         }
         if (bindingResult.hasErrors()){
-            return "main/registration";
+            return "main/user/registration";
         }
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setName(userDto.getName());
+        user.setSurname(userDto.getSurname());
         user.setEnabled(true);
         Set<UserRole> roles = new HashSet<>();
         roles.add(USER);

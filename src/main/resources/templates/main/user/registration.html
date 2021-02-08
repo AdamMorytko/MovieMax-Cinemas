@@ -38,6 +38,20 @@
                                            th:text="${error}">Validation error</p>
                                     </div>
                                     <div class="form-group">
+                                        <input type="email" class="form-control form-control-user"
+                                               th:field="*{name}"
+                                               placeholder="Wpisz email"/>
+                                        <p th:each="error: ${#fields.errors('name')}"
+                                           th:text="${error}">Validation error</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control form-control-user"
+                                               th:field="*{surname}"
+                                               placeholder="Wpisz email"/>
+                                        <p th:each="error: ${#fields.errors('surname')}"
+                                           th:text="${error}">Validation error</p>
+                                    </div>
+                                    <div class="form-group">
                                         <input type="password" class="form-control form-control-user"
                                                th:field="*{password}"
                                                placeholder="Wpisz hasło"/>
