@@ -26,7 +26,13 @@ public class UserController {
 
     @GetMapping("/login")
     public String showLoginForm(){
-        return "main/login";
+        return "main/user/login";
+    }
+
+    @GetMapping("/login/failure")
+    public String showLoginFormAndError(Model model){
+        model.addAttribute("loginError",true);
+        return "main/user/login";
     }
 
     @GetMapping("/register")

@@ -40,6 +40,7 @@
                                                name="password"
                                                placeholder="Wpisz hasło"/>
                                     </div>
+                                    <p th:if="${loginError}">Niepoprawny email lub hasło.</p>
                                     <div class="form-group">
                                         <input class="btn btn-primary btn-user btn-block" type="submit"
                                                value="Zaloguj się"/>
