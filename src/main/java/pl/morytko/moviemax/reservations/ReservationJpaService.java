@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,6 +16,11 @@ public class ReservationJpaService implements ReservationService{
     @Override
     public Reservation addReservation(Reservation reservation) {
         return reservationRepository.save(reservation);
+    }
+
+    @Override
+    public void addReservations(List<Reservation> reservationList) {
+        reservationRepository.saveAll(reservationList);
     }
 
     @Override

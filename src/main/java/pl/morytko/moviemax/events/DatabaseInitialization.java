@@ -11,6 +11,9 @@ import pl.morytko.moviemax.cinemas.Cinema;
 import pl.morytko.moviemax.cinemas.CinemaService;
 import pl.morytko.moviemax.movies.Movie;
 import pl.morytko.moviemax.movies.MovieService;
+import pl.morytko.moviemax.reservations.Reservation;
+import pl.morytko.moviemax.reservations.ReservationService;
+import pl.morytko.moviemax.reservedSeats.ReservedSeat;
 import pl.morytko.moviemax.screenings.Screening;
 import pl.morytko.moviemax.screenings.ScreeningService;
 import pl.morytko.moviemax.seats.Seat;
@@ -38,6 +41,7 @@ public class DatabaseInitialization {
     private final ScreeningService screeningService;
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
+    private final ReservationService reservationService;
     private final Random random = new Random();
 
 
@@ -130,5 +134,24 @@ public class DatabaseInitialization {
                 seatRepository.saveAll(seatList);
             }
         });
+        List<Reservation> reservations = new ArrayList<>();
+        for (int i = 1; i < 6; i++) {
+            Reservation reservation = new Reservation();
+            reservation.setUser(user1);
+            reservation.setScreening(screeningService.getScreeningById(i).get());
+            reservation.setReservedSeatNumber(2);
+            List<ReservedSeat> reservedSeats = new ArrayList<>();
+            ReservedSeat reservedSeat1 = new ReservedSeat();
+            ReservedSeat reservedSeat2 = new ReservedSeat();
+            reservedSeat1.setNumber(10);
+            reservedSeat1.setRow(1);
+            reservedSeat2.setNumber(11);
+            reservedSeat2.setRow(1);
+            reservedSeats.add(reservedSeat1);
+            reservedSeats.add(reservedSeat2);
+            reservation.setReservedSeats(reservedSeats);
+            reservations.add(reservation);
+        }
+        reservationService.addReservations(reservations);
     }
 }
