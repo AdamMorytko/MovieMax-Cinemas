@@ -16,13 +16,16 @@ import pl.morytko.moviemax.reservedSeats.ReservedSeatService;
 import pl.morytko.moviemax.screenings.Screening;
 import pl.morytko.moviemax.screenings.ScreeningService;
 import pl.morytko.moviemax.seats.SeatService;
+import pl.morytko.moviemax.users.User;
+import pl.morytko.moviemax.users.UserService;
 import pl.morytko.moviemax.utils.Counter;
 import pl.morytko.moviemax.utils.ReservedSeatUtil;
 
+import java.security.Principal;
 import java.util.*;
 
 @Controller
-@RequestMapping("/admin/reservations")
+@RequestMapping("/reservations")
 @AllArgsConstructor
 public class ReservationController {
     private final ReservationService reservationService;
@@ -30,6 +33,7 @@ public class ReservationController {
     private final ScreeningService screeningService;
     private final AuditoriumService auditoriumService;
     private final SeatService seatService;
+    private final UserService userService;
 
     @PostMapping("/new")
     public String showFirstForm(@RequestParam("screeningId") String screeningIdParam, Model model) {
@@ -152,7 +156,7 @@ public class ReservationController {
     }
 
     @PostMapping("/fifth")
-    public String showReservation(@RequestParam Map<String, String> allRequestParams, Model model) {
+    public String showReservation(@RequestParam Map<String, String> allRequestParams, Model model, Principal principal) {
         String screeningIdParam = allRequestParams.get("screeningId");
         String reservedSeatNumberParam = allRequestParams.get("reservedSeatNumber");
         long screeningId = 0;
@@ -163,14 +167,10 @@ public class ReservationController {
             screeningId = Long.parseLong(screeningIdParam);
             reservedSeatNumber = Integer.parseInt(reservedSeatNumberParam);
         }
-        String userName = allRequestParams.get("userName");
-        String userSurname = allRequestParams.get("userSurname");
-        String userEmail = allRequestParams.get("userEmail");
+        User user = (User) userService.loadUserByUsername(principal.getName());
 
         Reservation reservation = new Reservation();
-        reservation.setUserName(userName);
-        reservation.setUserSurname(userSurname);
-        reservation.setEmail(userEmail);
+        reservation.setUser(user);
         reservation.setReservedSeatNumber(reservedSeatNumber);
         Screening screening = screeningService.getScreeningById(screeningId).get();
         reservation.setScreening(screening);

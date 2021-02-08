@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.morytko.moviemax.reservedSeats.ReservedSeat;
 import pl.morytko.moviemax.screenings.Screening;
+import pl.morytko.moviemax.users.User;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,7 +21,6 @@ public class Reservation {
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
     private List<ReservedSeat> reservedSeats;
     private int reservedSeatNumber;
-    private String userName;
-    private String userSurname;
-    private String email;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
 }

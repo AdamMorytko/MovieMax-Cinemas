@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <title th:include=":: #pageTitle">Layout Generic Title </title>
 
@@ -34,7 +34,10 @@
                     <a class="nav-link" th:href="@{/}">Start</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/admin}">Panel Zarządzania</a>
+                    <a class="nav-link" sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Panel Zarządzania</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="hasRole('USER')" th:href="@{/user}">Panel Użytkownika</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/login}">Logowanie</a>
