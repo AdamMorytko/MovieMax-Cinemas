@@ -29,7 +29,7 @@
                                     Powitanie</h1>
                             </div>
                             <hr>
-                            <div class="text-center">
+                            <div class="text-right">
                                 <a class="btn btn-primary"
                                    th:href="@{/user/edit}">
                                     <i class="fas fa-user-edit"></i> Edycja konta
@@ -41,13 +41,18 @@
                                 <ul class="list-group">
                                     <li class="list-group-item" th:each="reservation : ${lastReservations}"
                                         th:inline="text">
+                                        Data: [[${reservation.screening.screeningDate}]]
+                                        <br>
+                                        Godz: [[${reservation.screening.screeningTime}]]
+                                        <br>
+                                        Film: [[${reservation.screening.movie.title}]]
+                                        <br>
+                                        Zarezerwowanych miejsc: [[${reservation.reservedSeatNumber}]]
+                                        <br>
                                         <a class="btn btn-primary"
                                            th:href="@{/user/reservation/{id}(id=${reservation.id})}">
                                             <i class="fas fa-info-circle"></i> Szczegóły
                                         </a>
-                                        [[${reservation.screening.screeningDate}]] godz: [[${reservation.screening.screeningTime}]]
-                                        <br>
-                                        [[${reservation.screening.movie.title}]]
                                     </li>
                                 </ul>
                             </div>
