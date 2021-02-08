@@ -72,8 +72,7 @@ public class UserController {
         User user = (User) userService.loadUserByUsername(principal.getName());
         List<Reservation> reservations = user.getReservations();
         List<Reservation> threeLastReservations = reservations.stream()
-                .sorted(Comparator.comparing((Reservation r) -> r.getScreening().getScreeningDate())
-                        .thenComparing((Reservation r) -> r.getScreening().getScreeningTime()))
+                .sorted(Comparator.comparing(Reservation::getId).reversed())
                 .limit(3)
                 .collect(Collectors.toList());
         model.addAttribute("lastReservations",threeLastReservations);

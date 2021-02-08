@@ -25,28 +25,31 @@
                     <div class="col-lg-12">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4" th:text="'Witaj '+${user.getUsername()}">
+                                <h1 class="h4 text-gray-900 mb-4" th:text="'Witaj '+${user.getName()}+'!'">
                                     Powitanie</h1>
                             </div>
                             <hr>
+                            <div class="text-center">
+                                <a class="btn btn-primary"
+                                   th:href="@{/user/edit}">
+                                    <i class="fas fa-user-edit"></i> Edycja konta
+                                </a>
+                            </div>
+                            <hr>
                             <div class="col-12">
-                                <div class="p-0 text-center col-6 d-inline-block">
-                                    Ostatnie rezerwacje:
-                                    <ul class="list-group">
-                                        <li class="list-group-item" th:each="reservation : ${lastReservations}"
-                                            th:inline="text">
-                                            <a class="btn btn-primary" th:href="@{/user/reservation/{id}(id=${reservation.id})}">
-                                                <i class="fas fa-info-circle"></i>
-                                            </a>
-                                            [[${reservation.screening.screeningDate}]] [[${reservation.screening.screeningTime}]]
-                                            <hr>
-                                            [[${reservation.screening.movie.title}]]
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="p-0 text-center col-6 d-inline-block">
-
-                                </div>
+                                Ostatnie rezerwacje:
+                                <ul class="list-group">
+                                    <li class="list-group-item" th:each="reservation : ${lastReservations}"
+                                        th:inline="text">
+                                        <a class="btn btn-primary"
+                                           th:href="@{/user/reservation/{id}(id=${reservation.id})}">
+                                            <i class="fas fa-info-circle"></i> Szczegóły
+                                        </a>
+                                        [[${reservation.screening.screeningDate}]] godz: [[${reservation.screening.screeningTime}]]
+                                        <br>
+                                        [[${reservation.screening.movie.title}]]
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
