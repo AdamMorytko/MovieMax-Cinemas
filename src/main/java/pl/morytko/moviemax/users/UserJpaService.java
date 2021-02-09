@@ -35,4 +35,9 @@ public class UserJpaService implements UserService {
     public void addUserList(List<User> users) {
         userRepository.saveAll(users);
     }
+
+    @Override
+    public void updateUser(User user) {
+        userRepository.save(user);
+    }
 }

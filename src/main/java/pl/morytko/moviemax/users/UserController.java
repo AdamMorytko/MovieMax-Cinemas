@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -78,5 +79,29 @@ public class UserController {
         model.addAttribute("lastReservations",threeLastReservations);
         model.addAttribute("user",user);
         return "main/user/homePage";
+    }
+
+    @GetMapping("/user/edit")
+    public String showEditUserDataForm(Principal principal, Model model){
+        User user = (User) userService.loadUserByUsername(principal.getName());
+        UserDto userDto = new UserDto();
+        userDto.setName(user.getName());
+        userDto.setSurname(user.getSurname());
+        userDto.setUsername(user.getUsername());
+        model.addAttribute("user",userDto);
+        return "main/user/userDataEdit";
+    }
+
+    @PostMapping("/user/edit")
+    public String editUser(@ModelAttribute("user") @Validated(UserValidationGroups.UserData.class) UserDto userDto, BindingResult bindingResult, Principal principal){
+        if (bindingResult.hasErrors()){
+            return "main/user/userDataEdit";
+        }
+        User userToUpdate = (User) userService.loadUserByUsername(principal.getName());
+        userToUpdate.setUsername(userDto.getUsername());
+        userToUpdate.setName(userDto.getName());
+        userToUpdate.setSurname(userDto.getSurname());
+        userService.updateUser(userToUpdate);
+        return "redirect:/user";
     }
 }
