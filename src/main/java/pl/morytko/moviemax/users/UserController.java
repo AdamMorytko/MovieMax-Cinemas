@@ -104,4 +104,28 @@ public class UserController {
         userService.updateUser(userToUpdate);
         return "redirect:/user";
     }
+
+    @GetMapping("/user/edit/password")
+    public String showEditUserPasswordForm(Model model){
+        model.addAttribute("user",new UserDto());
+        return "main/user/userPasswordEdit";
+    }
+
+    @PostMapping("/user/edit/password")
+    public String editUserPassword(@ModelAttribute("user") @Validated(UserValidationGroups.UserPassword.class) UserDto userDto, BindingResult bindingResult, Principal principal){
+        if (bindingResult.hasErrors()){
+            return "main/user/userPasswordEdit";
+        }
+        if (!userDto.getPassword().equals(userDto.getMatchingPassword())){
+            bindingResult.rejectValue("matchingPassword","matchingPassword.notMatching"
+                    ,"Hasła nie są identyczne.");
+        }
+        if (bindingResult.hasErrors()){
+            return "main/user/userPasswordEdit";
+        }
+        User userToUpdate = (User) userService.loadUserByUsername(principal.getName());
+        userToUpdate.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userService.updateUser(userToUpdate);
+        return "redirect:/user";
+    }
 }
