@@ -24,7 +24,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <form th:action="@{/screenings/edit}" th:object="${screening}" method="post"
+                                    <form th:action="@{/admin/screenings/edit}" th:object="${screening}" method="post"
                                           class="user">
                                         <input type="hidden" th:value="${screening.screeningDate}" name="screeningDate">
                                         <input type="hidden" th:value="${screening.id}" name="screeningId">
@@ -40,7 +40,7 @@
                                             </div>
                                             <div class="text-center">
                                                 <a class="btn btn-primary"
-                                                   th:href="@{/screenings/edit/date/{id}(id=${screening.id})}">
+                                                   th:href="@{/admin/screenings/edit/date/{id}(id=${screening.id})}">
                                                     <i class="fas fa-edit"></i> Edytuj datę
                                                 </a>
                                             </div>

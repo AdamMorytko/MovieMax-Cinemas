@@ -54,15 +54,15 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <a class="btn btn-primary m-1" th:href="@{/screenings/edit/{id}(id=${screening.id})}">
+                            <a class="btn btn-primary m-1" th:href="@{/admin/screenings/edit/{id}(id=${screening.id})}">
                                 <i class="fas fa-edit"></i>
                                 Edytuj
                             </a>
-                            <a class="btn btn-primary m-1" th:href="@{/screenings/delete/{id}(id=${screening.id})}">
+                            <a class="btn btn-primary m-1" th:href="@{/admin/screenings/delete/{id}(id=${screening.id})}">
                                 <i class="fas fa-trash"></i>
                                 Usuń
                             </a>
-                            <a class="btn btn-primary m-1" th:href="@{/reservations/screening/{id}(id=${screening.id})}">
+                            <a class="btn btn-primary m-1" th:href="@{/admin/reservations/screening/{id}(id=${screening.id})}">
                                 <i class="fas fa-book-open"></i>
                                 Rezerwacje
                             </a>

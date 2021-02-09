@@ -19,7 +19,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <div class="form-group">
-                            <a class="btn btn-primary" th:href="@{/screenings/cinema/all/{id}(id=${cinemaId})}">
+                            <a class="btn btn-primary" th:href="@{/admin/screenings/cinema/all/{id}(id=${cinemaId})}">
                                 <i class="fas fa-list"></i> Pokaż wszystkie seanse
                             </a>
                         </div>
@@ -63,19 +63,19 @@
                                     <td th:text="${screening.screeningDate}">Data</td>
                                     <td th:text="${screening.screeningTime}">Godzina</td>
                                     <td>
-                                        <a th:href="@{/screenings/details/{id}(id=${screening.id})}">
+                                        <a th:href="@{/admin/screenings/details/{id}(id=${screening.id})}">
                                             <i class="fas fa-edit"></i>
                                             Szczegóły
                                         </a>
                                     </td>
                                     <td>
-                                        <a th:href="@{/screenings/delete/{id}(id=${screening.id})}">
+                                        <a th:href="@{/admin/screenings/delete/{id}(id=${screening.id})}">
                                             <i class="fas fa-trash"></i>
                                             Usuń
                                         </a>
                                     </td>
                                     <td>
-                                        <a th:href="@{/screenings/edit/{id}(id=${screening.id})}">
+                                        <a th:href="@{/admin/screenings/edit/{id}(id=${screening.id})}">
                                             <i class="fas fa-edit"></i>
                                             Edytuj
                                         </a>

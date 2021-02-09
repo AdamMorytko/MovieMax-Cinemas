@@ -29,7 +29,7 @@
                                             <p>Wybierz dzień</p>
                                         </div>
                                         <div class="text-center">
-                                            <form th:action="@{/screenings/edit/{id}(id=${screening.id})}" method="get"
+                                            <form th:action="@{/admin/screenings/edit/{id}(id=${screening.id})}" method="get"
                                                   th:each="date : ${dates}"
                                                   th:inline="text"
                                                   class="d-inline">

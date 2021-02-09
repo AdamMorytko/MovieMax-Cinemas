@@ -53,17 +53,17 @@
                                     <td th:text="${movie.genre}">Gatunek</td>
                                     <td th:text="${movie.countryOrigin}">Kraj produkcji</td>
                                     <td>
-                                        <a th:href="@{/movies/details/{id}(id=${movie.id})}">
+                                        <a th:href="@{/admin/movies/details/{id}(id=${movie.id})}">
                                             <i class="fas fa-edit"></i> Szczegóły
                                         </a>
                                     </td>
                                     <td>
-                                        <a th:href="@{/movies/delete/{id}(id=${movie.id})}">
+                                        <a th:href="@{/admin/movies/delete/{id}(id=${movie.id})}">
                                             <i class="fas fa-trash"></i> Usuń
                                         </a>
                                     </td>
                                     <td>
-                                        <a th:href="@{/movies/edit/{id}(id=${movie.id})}">
+                                        <a th:href="@{/admin/movies/edit/{id}(id=${movie.id})}">
                                             <i class="fas fa-edit"></i> Edytuj
                                         </a>
                                     </td>

@@ -31,7 +31,7 @@
                                 </div>
                                 <hr>
                                 <div class="d-flex justify-content-center">
-                                    <form th:action="@{/screenings/delete}" method="post">
+                                    <form th:action="@{/admin/screenings/delete}" method="post">
                                         <input type="hidden" th:value="${screening.id}" name="screeningId">
                                         <button class="btn btn-info btn-icon-split m-1" type="submit"
                                                 th:inline="text">

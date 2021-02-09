@@ -20,7 +20,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <div class="form-group">
-                            <a class="btn btn-primary" th:href="@{/screenings/all}">
+                            <a class="btn btn-primary" th:href="@{/admin/screenings/all}">
                                 <i class="fas fa-list"></i> Pokaż wszystkie seanse w każdym kinie
                             </a>
                         </div>
@@ -48,12 +48,12 @@
                                 <td th:text="${iterStatus.count}">Lp</td>
                                 <td th:text="${cinema.city}+' '+${cinema.street}">Kino</td>
                                 <td>
-                                    <a th:href="@{/screenings/cinema/all/{id}(id=${cinema.id})}">
+                                    <a th:href="@{/admin/screenings/cinema/all/{id}(id=${cinema.id})}">
                                         <i class="fas fa-list"></i> wszystkie seanse
                                     </a>
                                 </td>
                                 <td>
-                                    <a th:href="@{/screenings/auditoriums/{id}(id=${cinema.id})}">
+                                    <a th:href="@{/admin/screenings/auditoriums/{id}(id=${cinema.id})}">
                                         <i class="fas fa-list"></i> wybierz po sali
                                     </a>
                                 </td>

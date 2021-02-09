@@ -88,7 +88,7 @@ public class ScreeningController {
             model.addAttribute("auditoriumId", auditoriumId);
             return "admin/screenings/screeningsAllAuditoriumScreenings";
         } else {
-            return "redirect:/screenings/types";
+            return "redirect:/admin/screenings/types";
         }
     }
 
@@ -110,7 +110,7 @@ public class ScreeningController {
             model.addAttribute("auditoriumId", auditoriumId);
             return "admin/screenings/screeningsAllAuditoriumFutureScreenings";
         } else {
-            return "redirect:/screenings/types";
+            return "redirect:/admin/screenings/types";
         }
     }
 
@@ -122,7 +122,7 @@ public class ScreeningController {
             model.addAttribute("auditoriums", auditoriumService.getCinemaAuditoriums(cinemaId));
             return "admin/screenings/screeningsChooseByAuditorium";
         } else {
-            return "redirect:/screenings/types";
+            return "redirect:/admin/screenings/types";
         }
     }
 
@@ -139,7 +139,7 @@ public class ScreeningController {
         model.addAttribute("screening", new Screening());
         String chosenDate = allParams.get("chosenDate");
         if (chosenDate==null || chosenDate.isEmpty()) {
-            return "redirect:/screenings/date";
+            return "redirect:/admin/screenings/date";
         }else{
             model.addAttribute("chosenDate", chosenDate);
         }
@@ -178,7 +178,7 @@ public class ScreeningController {
             return "admin/screenings/screeningAddForm";
         }
         screeningService.addScreening(screening);
-        return "redirect:/screenings/date";
+        return "redirect:/admin/screenings/date";
     }
 
     @GetMapping("/details/{screeningId}")
@@ -190,7 +190,7 @@ public class ScreeningController {
             model.addAttribute("endingTime", screening.getScreeningTime().plusMinutes(screening.getMovie().getDuration()));
             return "admin/screenings/screeningDetails";
         } else {
-            return "redirect:/screenings/types";
+            return "redirect:/admin/screenings/types";
         }
     }
 
@@ -201,14 +201,14 @@ public class ScreeningController {
             model.addAttribute("screening",optionalScreening.get());
             return "admin/screenings/screeningDeleteConfirmation";
         }
-        return "redirect:/screenings/types";
+        return "redirect:/admin/screenings/types";
     }
 
     @PostMapping("/delete")
     public String deleteScreening(@RequestParam("screeningId") String screeningIdParam) throws NumberFormatException{
         long screeningId;
         if (screeningIdParam.isEmpty()){
-            return "redirect:/screenings/types";
+            return "redirect:/admin/screenings/types";
         }else{
             try {
                 screeningId = Long.parseLong(screeningIdParam);
@@ -220,7 +220,7 @@ public class ScreeningController {
         if (screeningOptional.isPresent()){
             screeningService.deleteScreening(screeningId);
         }
-        return "redirect:/screenings/types";
+        return "redirect:/admin/screenings/types";
     }
 
     @GetMapping("/edit/{screeningId}")
@@ -241,7 +241,7 @@ public class ScreeningController {
             model.addAttribute("auditoriums",auditoriumService.getAuditoriums());
             return "admin/screenings/screeningEditForm";
         }
-        return "redirect:/screenings/types";
+        return "redirect:/admin/screenings/types";
     }
 
     @GetMapping("/edit/date/{screeningId}")
@@ -252,7 +252,7 @@ public class ScreeningController {
             model.addAttribute("dates",DateUtil.getTwoWeeks());
             return "admin/screenings/screeningDateEdit";
         }
-        return "redirect:/screenings/types";
+        return "redirect:/admin/screenings/types";
     }
 
     @PostMapping("/edit")
@@ -289,6 +289,6 @@ public class ScreeningController {
             return "admin/screenings/screeningEditForm";
         }
         screeningService.addScreening(screening);
-        return "redirect:/screenings/types";
+        return "redirect:/admin/screenings/types";
     }
 }

@@ -32,7 +32,7 @@ public class CinemaController {
             return "admin/cinemas/cinemaAddForm";
         }
         cinemaService.addCinema(cinema);
-        return "redirect:/cinemas/list";
+        return "redirect:/admin/cinemas/list";
     }
 
     @GetMapping("/details/{id}")
@@ -55,7 +55,7 @@ public class CinemaController {
     public String showDeleteConfirmation(@PathVariable("cinemaId") String cinemaIdParam, Model model) throws NumberFormatException{
         long cinemaId;
         if (cinemaIdParam.isEmpty()){
-            return "redirect:/cinemas/list";
+            return "redirect:/admin/cinemas/list";
         }else{
             try {
                 cinemaId = Long.parseLong(cinemaIdParam);
@@ -68,14 +68,14 @@ public class CinemaController {
             model.addAttribute("cinema",cinemaOptional.get());
             return "admin/cinemas/cinemaDeleteConfirmation";
         }
-        return "redirect:/cinemas/list";
+        return "redirect:/admin/cinemas/list";
     }
 
     @PostMapping("/delete")
     public String deleteCinema(@RequestParam("cinemaId") String cinemaIdParam) throws NumberFormatException{
         long cinemaId;
         if (cinemaIdParam.isEmpty()){
-            return "redirect:/cinemas/list";
+            return "redirect:/admin/cinemas/list";
         }else{
             try {
                 cinemaId = Long.parseLong(cinemaIdParam);
@@ -87,14 +87,14 @@ public class CinemaController {
         if (cinemaOptional.isPresent()){
             cinemaService.deleteCinema(cinemaId);
         }
-        return "redirect:/cinemas/list";
+        return "redirect:/admin/cinemas/list";
     }
 
     @GetMapping("/edit/{cinemaId}")
     public String showEditForm(@PathVariable("cinemaId") String cinemaIdParam, Model model) throws NumberFormatException{
         long cinemaId;
         if (cinemaIdParam.isEmpty()){
-            return "redirect:/cinemas/list";
+            return "redirect:/admin/cinemas/list";
         }else{
             try {
                 cinemaId = Long.parseLong(cinemaIdParam);
@@ -107,6 +107,6 @@ public class CinemaController {
             model.addAttribute("cinema",cinemaOptional.get());
             return "admin/cinemas/cinemaEditForm";
         }
-        return "redirect:/cinemas/list";
+        return "redirect:/admin/cinemas/list";
     }
 }

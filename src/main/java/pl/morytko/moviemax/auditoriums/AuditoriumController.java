@@ -32,7 +32,7 @@ public class AuditoriumController {
             model.addAttribute("counter",new Counter());
             return "admin/auditoriums/auditoriumDetails";
         }else{
-            return "redirect:cinemas/list";
+            return "redirect:/admin/cinemas/list";
         }
 
     }
@@ -45,7 +45,7 @@ public class AuditoriumController {
             model.addAttribute("auditorium", new Auditorium());
             return "admin/auditoriums/auditoriumAddForm";
         }
-        return "redirect:/cinemas/list";
+        return "redirect:/admin/cinemas/list";
     }
 
     @PostMapping("/add")
@@ -91,6 +91,6 @@ public class AuditoriumController {
             }
         }
 
-        return "redirect:/cinemas/details/"+allRequestParams.get("cinemaId");
+        return "redirect:/admin/cinemas/details/"+allRequestParams.get("cinemaId");
     }
 }

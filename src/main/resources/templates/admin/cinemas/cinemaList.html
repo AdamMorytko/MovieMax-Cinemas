@@ -46,19 +46,19 @@
                                     <td th:text="${cinema.city}">Miasto</td>
                                     <td th:text="${cinema.street}">Ulica</td>
                                     <td>
-                                        <a th:href="@{/cinemas/details/{id}(id=${cinema.id})}">
+                                        <a th:href="@{/admin/cinemas/details/{id}(id=${cinema.id})}">
                                             <i class="fas fa-edit"></i>
                                             Szczegóły
                                         </a>
                                     </td>
                                     <td>
-                                        <a th:href="@{/cinemas/delete/{id}(id=${cinema.id})}">
+                                        <a th:href="@{/admin/cinemas/delete/{id}(id=${cinema.id})}">
                                             <i class="fas fa-trash"></i>
                                             Usuń
                                         </a>
                                     </td>
                                     <td>
-                                        <a th:href="@{/cinemas/edit/{id}(id=${cinema.id})}">
+                                        <a th:href="@{/admin/cinemas/edit/{id}(id=${cinema.id})}">
                                             <i class="fas fa-edit"></i>
                                             Edytuj
                                         </a>

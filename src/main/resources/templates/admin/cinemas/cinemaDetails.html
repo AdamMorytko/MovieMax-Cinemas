@@ -33,7 +33,7 @@
                             </div>
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary">
-                                    <a th:href="@{/auditoriums/add/{id}(id=${cinema.id})}">
+                                    <a th:href="@{/admin/auditoriums/add/{id}(id=${cinema.id})}">
                                         <i class="fas fa-plus-square"></i>
                                         Dodaj nową salę
                                     </a>
@@ -41,7 +41,7 @@
                             </div>
                             <ul class="list-group">
                                 <li class="list-group-item" th:each="auditoriumId,iterStatus : ${auditoriumsIds}">
-                                    <a th:href="@{/auditoriums/details/{auditoriumId}(auditoriumId=${auditoriumId})}"
+                                    <a th:href="@{/admin/auditoriums/details/{auditoriumId}(auditoriumId=${auditoriumId})}"
                                        th:inline="text">
                                         Sala [[${iterStatus.count}]] <i class="fas fa-info-circle"></i> Szczegóły</a>
                                 </li>

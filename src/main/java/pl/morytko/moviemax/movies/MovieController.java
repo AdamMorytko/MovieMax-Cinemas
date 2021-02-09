@@ -44,7 +44,7 @@ public class MovieController {
             return "admin/movies/movieAddForm";
         }
         movieService.addMovie(movie);
-        return "redirect:/movies/list";
+        return "redirect:/admin/movies/list";
     }
 
     @RequestMapping("/filmweb")
@@ -79,7 +79,7 @@ public class MovieController {
     public String showDeleteConfirmation(@PathVariable("movieId") String movieIdParam, Model model) throws NumberFormatException{
         long movieId;
         if (movieIdParam.isEmpty()){
-            return "redirect:/movies/list";
+            return "redirect:/admin/movies/list";
         }else{
             try {
                 movieId = Long.parseLong(movieIdParam);
@@ -92,14 +92,14 @@ public class MovieController {
             model.addAttribute("movie",movieOptional.get());
             return "admin/movies/movieDeleteConfirmation";
         }
-        return "redirect:/movies/list";
+        return "redirect:/admin/movies/list";
     }
 
     @GetMapping("/edit/{movieId}")
     public String showEditForm(@PathVariable("movieId") String movieIdParam, Model model) throws NumberFormatException{
         long movieId;
         if (movieIdParam.isEmpty()){
-            return "redirect:/movies/list";
+            return "redirect:/admin/movies/list";
         }else{
             try {
                 movieId = Long.parseLong(movieIdParam);
@@ -112,14 +112,14 @@ public class MovieController {
             model.addAttribute("movie",movieOptional.get());
             return "admin/movies/movieEditForm";
         }
-        return "redirect:/movies/list";
+        return "redirect:/admin/movies/list";
     }
 
     @PostMapping("/delete")
     public String deleteMovie(@RequestParam("movieId") String movieIdParam) throws NumberFormatException{
         long movieId;
         if (movieIdParam.isEmpty()){
-            return "redirect:/movies/list";
+            return "redirect:/admin/movies/list";
         }else{
             try {
                 movieId = Long.parseLong(movieIdParam);
@@ -131,7 +131,7 @@ public class MovieController {
         if (movieOptional.isPresent()){
             movieService.deleteMovie(movieId);
         }
-        return "redirect:/movies/list";
+        return "redirect:/admin/movies/list";
     }
 
 
