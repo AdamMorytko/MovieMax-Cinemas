@@ -3,9 +3,12 @@ package pl.morytko.moviemax.home;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import pl.morytko.moviemax.cinemas.Cinema;
 import pl.morytko.moviemax.cinemas.CinemaService;
 import pl.morytko.moviemax.movies.Movie;
@@ -25,17 +28,46 @@ public class HomeController {
     private final CinemaService cinemaService;
     private final ScreeningService screeningService;
 
-    @RequestMapping
-    public String getCinema(Model model) {
-        List<Cinema> cinemas = cinemaService.getCinemas();
-        if (cinemas.size() > 0){
-            model.addAttribute("cinemas", cinemaService.getCinemas());
-            model.addAttribute("dates", DateUtil.getTwoWeeks());
-        }else{
-            model.addAttribute("cinemasEmpty",true);
+    @GetMapping("/")
+    public String showCinemaChooseForm(Model model) {
+        ServletRequestAttributes attr = (ServletRequestAttributes)
+                RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(true);
+        Object cinemaIdAttribute = session.getAttribute("cinemaId");
+        if (cinemaIdAttribute == null) {
+            List<Cinema> cinemas = cinemaService.getCinemas();
+            if (cinemas.size() > 0) {
+                model.addAttribute("cinemas", cinemas);
+            } else {
+                model.addAttribute("cinemasEmpty", true);
+            }
+        } else {
+            return "redirect:/dates";
         }
-        return "main/getCinemaId";
+        return "main/cinemaChooseForm";
     }
+
+    @GetMapping("/dates")
+    public String showDateChooseForm(@RequestParam Map<String, String> allRequestParams, Model model) {
+        ServletRequestAttributes attr = (ServletRequestAttributes)
+                RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(true);
+        if (allRequestParams.get("cinemaId") == null) {
+            // to do
+        } else {
+            long cinemaId = Long.parseLong(allRequestParams.get("cinemaId"));
+            Optional<Cinema> cinemaOptional = cinemaService.getCinemaById(cinemaId);
+            if (cinemaOptional.isPresent()) {
+                session.setAttribute("cinemaId", cinemaId);
+                model.addAttribute("cinema", cinemaOptional.get());
+                model.addAttribute("dates", DateUtil.getTwoWeeks());
+                return "main/dateChooseForm";
+            } else {
+                return "redirect:/";
+            }
+        }
+    }
+
 
     @GetMapping("/screenings")
     public String showScreenings(@RequestParam Map<String, String> allRequestParams,
@@ -52,30 +84,29 @@ public class HomeController {
             screeningDate = LocalDate.parse(screeningDateParam);
         }
         List<Screening> screeningList = screeningService.getScreeningsByCinemaAndDate(cinemaId, screeningDate);
-        Multimap<Movie,Screening> screeningMultimap = Multimaps.newSetMultimap(
+        Multimap<Movie, Screening> screeningMultimap = Multimaps.newSetMultimap(
                 new TreeMap<>(),
                 LinkedHashSet::new);
         List<Screening> futureScreenings = new ArrayList<>();
-        if (screeningDate.isEqual(LocalDate.now())){
+        if (screeningDate.isEqual(LocalDate.now())) {
             futureScreenings = screeningList
                     .stream()
                     .filter(s -> (s.getScreeningTime().isAfter(LocalTime.now()) ||
                             s.getScreeningTime().equals(LocalTime.now())))
                     .collect(Collectors.toList());
-        }else if (screeningDate.isAfter(LocalDate.now())){
+        } else if (screeningDate.isAfter(LocalDate.now())) {
             futureScreenings = screeningList;
         }
         futureScreenings = futureScreenings.stream()
                 .sorted(Comparator.comparing(Screening::getScreeningTime))
                 .collect(Collectors.toList());
-        futureScreenings.forEach(s->screeningMultimap.put(s.getMovie(),s));
-        model.addAttribute("screenings",screeningMultimap);
-        model.addAttribute("cinemaId",cinemaId);
+        futureScreenings.forEach(s -> screeningMultimap.put(s.getMovie(), s));
+        model.addAttribute("screenings", screeningMultimap);
+        model.addAttribute("cinemaId", cinemaId);
         model.addAttribute("dates", DateUtil.getTwoWeeks());
         model.addAttribute("cinemas", cinemaService.getCinemas());
         return "main/screenings";
     }
-
 
 
 }
