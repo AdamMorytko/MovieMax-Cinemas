@@ -36,7 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/login",
                         "/register",
                         "/reservations/**",
-                        "/dates").permitAll()
+                        "/dates",
+                        "/clearCinemaId").permitAll()
                 .antMatchers("/admin/**").hasRole(ADMIN.name())
                 .anyRequest()
                 .authenticated()

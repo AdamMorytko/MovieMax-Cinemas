@@ -25,11 +25,11 @@
         <div class="row align-items-center justify-content-center">
             <div class="p-2">
                 <div class="text-center">
-                    <p class="mb-0" th:inline="text">[[${cinema.city}]] [[${cinema.street}]]</p>
+                    <h1 class="h4 text-gray-900 mb-0" th:inline="text">[[${cinema.city}]] [[${cinema.street}]]</h1>
                 </div>
                 <div class="form-group">
                     <div class="text-center">
-                        <form th:action="@{/change}" method="post">
+                        <form th:action="@{/clearCinemaId}">
                             <input class="btn btn-primary" type="submit" value="Zmień kino"/>
                         </form>
                     </div>

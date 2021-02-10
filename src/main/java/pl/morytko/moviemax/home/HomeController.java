@@ -3,7 +3,6 @@ package pl.morytko.moviemax.home;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,20 +51,39 @@ public class HomeController {
         ServletRequestAttributes attr = (ServletRequestAttributes)
                 RequestContextHolder.currentRequestAttributes();
         HttpSession session = attr.getRequest().getSession(true);
-        if (allRequestParams.get("cinemaId") == null) {
-            // to do
-        } else {
-            long cinemaId = Long.parseLong(allRequestParams.get("cinemaId"));
-            Optional<Cinema> cinemaOptional = cinemaService.getCinemaById(cinemaId);
-            if (cinemaOptional.isPresent()) {
-                session.setAttribute("cinemaId", cinemaId);
-                model.addAttribute("cinema", cinemaOptional.get());
-                model.addAttribute("dates", DateUtil.getTwoWeeks());
-                return "main/dateChooseForm";
-            } else {
+        Object cinemaIdAttribute = session.getAttribute("cinemaId");
+        if (cinemaIdAttribute == null) {
+            if (allRequestParams.get("cinemaId") == null) {
                 return "redirect:/";
+            } else {
+                long cinemaId = Long.parseLong(allRequestParams.get("cinemaId"));
+                return addCinemaIdToSessionAndReturnDateChooseForm(model, session, cinemaId);
             }
+        } else {
+            long cinemaId = (long) cinemaIdAttribute;
+            return addCinemaIdToSessionAndReturnDateChooseForm(model, session, cinemaId);
         }
+    }
+
+    private String addCinemaIdToSessionAndReturnDateChooseForm(Model model, HttpSession session, long cinemaId) {
+        Optional<Cinema> cinemaOptional = cinemaService.getCinemaById(cinemaId);
+        if (cinemaOptional.isPresent()) {
+            session.setAttribute("cinemaId", cinemaId);
+            model.addAttribute("cinema", cinemaOptional.get());
+            model.addAttribute("dates", DateUtil.getTwoWeeks());
+            return "main/dateChooseForm";
+        } else {
+            return "redirect:/";
+        }
+    }
+
+    @GetMapping("/clearCinemaId")
+    public String clearCinemaIdFromSession(){
+        ServletRequestAttributes attr = (ServletRequestAttributes)
+                RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(true);
+        session.removeAttribute("cinemaId");
+        return "redirect:/";
     }
 
 
