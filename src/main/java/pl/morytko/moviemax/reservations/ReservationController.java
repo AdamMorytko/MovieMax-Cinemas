@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,9 +20,12 @@ import pl.morytko.moviemax.seats.SeatService;
 import pl.morytko.moviemax.users.User;
 import pl.morytko.moviemax.users.UserService;
 import pl.morytko.moviemax.utils.Counter;
+import pl.morytko.moviemax.utils.HttpUtil;
 import pl.morytko.moviemax.utils.ReservedSeatUtil;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -35,21 +39,45 @@ public class ReservationController {
     private final SeatService seatService;
     private final UserService userService;
 
-    @PostMapping("/new")
-    public String showFirstForm(@RequestParam("screeningId") String screeningIdParam, Model model) {
+    @GetMapping("/zero")
+    public String showGuestOrLoginCheckForm(@RequestParam("screeningId") String screeningIdParam, Principal principal){
         long screeningId = 0;
-        if (screeningIdParam.isEmpty()) {
+        if (screeningIdParam.isBlank()) {
             return "redirect:/";
         } else {
             screeningId = Long.parseLong(screeningIdParam);
         }
-        Optional<Screening> screening = screeningService.getScreeningById(screeningId);
-        if (screening.isPresent()) {
-            model.addAttribute("screeningId", screeningId);
-            return "main/reservations/chooseSeatNumberForm";
+        Optional<Screening> screeningOptional = screeningService.getScreeningById(screeningId);
+        if (screeningOptional.isPresent()) {
+            Screening screening = screeningOptional.get();
+            LocalDateTime screeningDateTime = LocalDateTime
+                    .of(screening.getScreeningDate(),screening.getScreeningTime());
+            if (screeningDateTime.isBefore(LocalDateTime.now())){
+                return "redirect:/";
+            }else{
+                HttpSession session = HttpUtil.getHttpSession();
+                session.setAttribute("screeningId",screeningId);
+                if (principal == null){
+                    return "main/reservations/zeroGuestOrLogin";
+                }else{
+                    return "redirect:/reservations/one";
+                }
+            }
         } else {
             return "redirect:/";
         }
+    }
+
+    @PostMapping("/guest")
+    public String addGuestSessionAttribute(){
+        HttpSession session = HttpUtil.getHttpSession();
+        session.setAttribute("guest",true);
+        return "main/reservations/firstFormSeatNumber";
+    }
+
+    @PostMapping("/one")
+    public String showFirstForm() {
+        return "main/reservations/firstFormSeatNumber";
     }
 
     @PostMapping("/second")

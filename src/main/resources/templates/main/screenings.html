@@ -78,7 +78,7 @@
                     <p class="text-center text-lg-left h2" th:text="${movie.countryOrigin}">Country Origin</p>
                     <p class="text-center text-lg-left" th:text="${movie.description}">description</p>
                 </div>
-                <form th:action="@{/reservations/new}" method="post"
+                <form th:action="@{/reservations/zero}" method="get"
                       th:each="screening : ${screenings.get(movie)}"
                       th:inline="text"
                       class="d-inline">
