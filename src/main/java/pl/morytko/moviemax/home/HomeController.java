@@ -14,6 +14,7 @@ import pl.morytko.moviemax.movies.Movie;
 import pl.morytko.moviemax.screenings.Screening;
 import pl.morytko.moviemax.screenings.ScreeningService;
 import pl.morytko.moviemax.utils.DateUtil;
+import pl.morytko.moviemax.utils.HttpUtil;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
@@ -30,7 +31,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String showCinemaChooseForm(Model model) {
-        HttpSession session = getHttpSession();
+        HttpSession session = HttpUtil.getHttpSession();
         Object cinemaIdAttribute = session.getAttribute("cinemaId");
         if (cinemaIdAttribute == null) {
             List<Cinema> cinemas = cinemaService.getCinemas();
@@ -45,15 +46,10 @@ public class HomeController {
         return "main/cinemaChooseForm";
     }
 
-    private HttpSession getHttpSession() {
-        ServletRequestAttributes attr = (ServletRequestAttributes)
-                RequestContextHolder.currentRequestAttributes();
-        return attr.getRequest().getSession(true);
-    }
 
     @GetMapping("/dates")
     public String showDateChooseForm(@RequestParam Map<String, String> allRequestParams, Model model) {
-        HttpSession session = getHttpSession();
+        HttpSession session = HttpUtil.getHttpSession();
         Object cinemaIdAttribute = session.getAttribute("cinemaId");
         if (cinemaIdAttribute == null) {
             if (allRequestParams.get("cinemaId") == null) {
@@ -82,7 +78,7 @@ public class HomeController {
 
     @GetMapping("/clearCinemaId")
     public String clearCinemaIdFromSession(){
-        HttpSession session = getHttpSession();
+        HttpSession session = HttpUtil.getHttpSession();
         session.removeAttribute("cinemaId");
         return "redirect:/";
     }
@@ -90,7 +86,7 @@ public class HomeController {
     @GetMapping("/screenings")
     public String showScreenings(@RequestParam Map<String, String> allRequestParams,
                                  Model model) {
-        HttpSession session = getHttpSession();
+        HttpSession session = HttpUtil.getHttpSession();
         Object cinemaIdAttribute = session.getAttribute("cinemaId");
         if (cinemaIdAttribute == null){
             return "redirect:/";
