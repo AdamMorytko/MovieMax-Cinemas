@@ -24,14 +24,13 @@ import java.util.stream.Collectors;
 @Controller
 @AllArgsConstructor
 public class HomeController {
+
     private final CinemaService cinemaService;
     private final ScreeningService screeningService;
 
     @GetMapping("/")
     public String showCinemaChooseForm(Model model) {
-        ServletRequestAttributes attr = (ServletRequestAttributes)
-                RequestContextHolder.currentRequestAttributes();
-        HttpSession session = attr.getRequest().getSession(true);
+        HttpSession session = getHttpSession();
         Object cinemaIdAttribute = session.getAttribute("cinemaId");
         if (cinemaIdAttribute == null) {
             List<Cinema> cinemas = cinemaService.getCinemas();
@@ -46,11 +45,15 @@ public class HomeController {
         return "main/cinemaChooseForm";
     }
 
-    @GetMapping("/dates")
-    public String showDateChooseForm(@RequestParam Map<String, String> allRequestParams, Model model) {
+    private HttpSession getHttpSession() {
         ServletRequestAttributes attr = (ServletRequestAttributes)
                 RequestContextHolder.currentRequestAttributes();
-        HttpSession session = attr.getRequest().getSession(true);
+        return attr.getRequest().getSession(true);
+    }
+
+    @GetMapping("/dates")
+    public String showDateChooseForm(@RequestParam Map<String, String> allRequestParams, Model model) {
+        HttpSession session = getHttpSession();
         Object cinemaIdAttribute = session.getAttribute("cinemaId");
         if (cinemaIdAttribute == null) {
             if (allRequestParams.get("cinemaId") == null) {
@@ -79,52 +82,51 @@ public class HomeController {
 
     @GetMapping("/clearCinemaId")
     public String clearCinemaIdFromSession(){
-        ServletRequestAttributes attr = (ServletRequestAttributes)
-                RequestContextHolder.currentRequestAttributes();
-        HttpSession session = attr.getRequest().getSession(true);
+        HttpSession session = getHttpSession();
         session.removeAttribute("cinemaId");
         return "redirect:/";
     }
 
-
     @GetMapping("/screenings")
     public String showScreenings(@RequestParam Map<String, String> allRequestParams,
                                  Model model) {
-        if (allRequestParams.get("cinemaId") == null) {
+        HttpSession session = getHttpSession();
+        Object cinemaIdAttribute = session.getAttribute("cinemaId");
+        if (cinemaIdAttribute == null){
             return "redirect:/";
-        }
-        long cinemaId = Long.parseLong(allRequestParams.get("cinemaId"));
-        String screeningDateParam = allRequestParams.get("screeningDate");
-        LocalDate screeningDate;
-        if (screeningDateParam == null) {
-            screeningDate = LocalDate.now();
-        } else {
-            screeningDate = LocalDate.parse(screeningDateParam);
-        }
-        List<Screening> screeningList = screeningService.getScreeningsByCinemaAndDate(cinemaId, screeningDate);
-        Multimap<Movie, Screening> screeningMultimap = Multimaps.newSetMultimap(
-                new TreeMap<>(),
-                LinkedHashSet::new);
-        List<Screening> futureScreenings = new ArrayList<>();
-        if (screeningDate.isEqual(LocalDate.now())) {
-            futureScreenings = screeningList
-                    .stream()
-                    .filter(s -> (s.getScreeningTime().isAfter(LocalTime.now()) ||
-                            s.getScreeningTime().equals(LocalTime.now())))
+        }else{
+            long cinemaId = (long) cinemaIdAttribute;
+            String screeningDateParam = allRequestParams.get("screeningDate");
+            LocalDate screeningDate;
+            if (screeningDateParam == null) {
+                screeningDate = LocalDate.now();
+            } else {
+                screeningDate = LocalDate.parse(screeningDateParam);
+            }
+            List<Screening> screeningList = screeningService.getScreeningsByCinemaAndDate(cinemaId, screeningDate);
+            Multimap<Movie, Screening> screeningMultimap = Multimaps.newSetMultimap(
+                    new TreeMap<>(),
+                    LinkedHashSet::new);
+            List<Screening> futureScreenings = new ArrayList<>();
+            if (screeningDate.isEqual(LocalDate.now())) {
+                futureScreenings = screeningList
+                        .stream()
+                        .filter(s -> (s.getScreeningTime().isAfter(LocalTime.now()) ||
+                                s.getScreeningTime().equals(LocalTime.now())))
+                        .collect(Collectors.toList());
+            } else if (screeningDate.isAfter(LocalDate.now())) {
+                futureScreenings = screeningList;
+            }
+            futureScreenings = futureScreenings.stream()
+                    .sorted(Comparator.comparing(Screening::getScreeningTime))
                     .collect(Collectors.toList());
-        } else if (screeningDate.isAfter(LocalDate.now())) {
-            futureScreenings = screeningList;
+            futureScreenings.forEach(s -> screeningMultimap.put(s.getMovie(), s));
+            model.addAttribute("screenings", screeningMultimap);
+            model.addAttribute("dates", DateUtil.getTwoWeeks());
+            model.addAttribute("nowDisplayingDate",screeningDate);
+            Optional<Cinema> cinemaOptional = cinemaService.getCinemaById(cinemaId);
+            model.addAttribute("cinema",cinemaOptional.get());
+            return "main/screenings";
         }
-        futureScreenings = futureScreenings.stream()
-                .sorted(Comparator.comparing(Screening::getScreeningTime))
-                .collect(Collectors.toList());
-        futureScreenings.forEach(s -> screeningMultimap.put(s.getMovie(), s));
-        model.addAttribute("screenings", screeningMultimap);
-        model.addAttribute("cinemaId", cinemaId);
-        model.addAttribute("dates", DateUtil.getTwoWeeks());
-        model.addAttribute("cinemas", cinemaService.getCinemas());
-        return "main/screenings";
     }
-
-
 }
