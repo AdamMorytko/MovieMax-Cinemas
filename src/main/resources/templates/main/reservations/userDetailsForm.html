@@ -20,9 +20,6 @@
 
                                 <div class="form-group">
                                     <form th:action="@{/reservations/fourth}" method="post" class="user">
-                                        <input type="hidden" name="screeningId" th:value="${screeningId}"/>
-                                        <input type="hidden" name="reservedSeatNumber" th:value="${reservedSeatNumber}"/>
-                                        <input type="hidden" name="reservedSeats" th:value="${reservedSeats}"/>
                                         <div class="text-center">
                                             <p class="mb-4">Podaj imię</p>
                                         </div>
@@ -47,7 +44,7 @@
                                         <hr>
                                         <div class="form-group">
                                             <input class="btn btn-primary btn-user btn-block" type="submit"
-                                                   value="Przejdź do podsumowania"/>
+                                                   value="Dalej"/>
                                         </div>
                                     </form>
                                 </div>

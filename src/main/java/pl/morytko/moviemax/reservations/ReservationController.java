@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ public class ReservationController {
     private final UserService userService;
 
     @GetMapping("/zero")
-    public String showGuestOrLoginCheckForm(@RequestParam("screeningId") String screeningIdParam, Principal principal){
+    public String showGuestOrLoginCheckForm(@RequestParam("screeningId") String screeningIdParam, Principal principal) {
         long screeningId = 0;
         if (screeningIdParam.isBlank()) {
             return "redirect:/";
@@ -51,16 +52,16 @@ public class ReservationController {
         if (screeningOptional.isPresent()) {
             Screening screening = screeningOptional.get();
             LocalDateTime screeningDateTime = LocalDateTime
-                    .of(screening.getScreeningDate(),screening.getScreeningTime());
-            if (screeningDateTime.isBefore(LocalDateTime.now())){
+                    .of(screening.getScreeningDate(), screening.getScreeningTime());
+            if (screeningDateTime.isBefore(LocalDateTime.now())) {
                 return "redirect:/";
-            }else{
+            } else {
                 HttpSession session = HttpUtil.getHttpSession();
-                session.setAttribute("screeningId",screeningId);
-                if (principal == null){
+                session.setAttribute("screeningId", screeningId);
+                if (principal == null) {
                     return "main/reservations/zeroGuestOrLogin";
-                }else{
-                    return "redirect:/reservations/one";
+                } else {
+                    return "main/reservations/firstFormSeatNumber";
                 }
             }
         } else {
@@ -69,35 +70,26 @@ public class ReservationController {
     }
 
     @PostMapping("/guest")
-    public String addGuestSessionAttribute(){
+    public String addGuestSessionAttribute() {
         HttpSession session = HttpUtil.getHttpSession();
-        session.setAttribute("guest",true);
-        return "main/reservations/firstFormSeatNumber";
-    }
-
-    @PostMapping("/one")
-    public String showFirstForm() {
+        session.setAttribute("guest", true);
         return "main/reservations/firstFormSeatNumber";
     }
 
     @PostMapping("/second")
-    public String showSecondForm(@RequestParam Map<String, String> allRequestParams, Model model) {
-        String screeningIdParam = allRequestParams.get("screeningId");
-        String reservedSeatNumberParam = allRequestParams.get("reservedSeatNumber");
-        long screeningId = 0;
-        int reservedSeatNumber = 0;
-        if (screeningIdParam.isEmpty() || reservedSeatNumberParam.isEmpty()) {
-            return "redirect:/";
-        } else {
-            screeningId = Long.parseLong(screeningIdParam);
-            reservedSeatNumber = Integer.parseInt(reservedSeatNumberParam);
+    public String showSecondForm(@RequestParam("reservedSeatNumber") String reservedSeatNumberParam, Model model) {
+        HttpSession session = HttpUtil.getHttpSession();
+        long screeningId = (long) session.getAttribute("screeningId");
+        int reservedSeatNumber = Integer.parseInt(reservedSeatNumberParam);
+        if (reservedSeatNumber < 1 || reservedSeatNumber > 10) {
+            throw new IllegalArgumentException("Nieprawidłowa liczba biletów.");
         }
-        Optional<Screening> screening = screeningService.getScreeningById(screeningId);
-        if (screening.isPresent() && reservedSeatNumber > 0) {
-            model.addAttribute("screeningId", screeningId);
-            model.addAttribute("reservedSeatNumber", reservedSeatNumber);
-            Optional<Auditorium> auditorium = auditoriumService.getAuditoriumById(screening.get().getAuditorium().getId());
+        Optional<Screening> screeningOptional = screeningService.getScreeningById(screeningId);
+        if (screeningOptional.isPresent()) {
+            Optional<Auditorium> auditorium = auditoriumService.getAuditoriumById(screeningOptional.get().getAuditorium().getId());
             if (auditorium.isPresent()) {
+                session.setAttribute("reservedSeatNumber",reservedSeatNumber);
+                model.addAttribute("reservedSeatNumber", reservedSeatNumber);
                 model.addAttribute("auditorium", auditorium.get());
                 model.addAttribute("cinema", auditorium.get().getCinema());
                 model.addAttribute("seats", seatService.getSeatsByAuditoriumId(auditorium.get().getId()));
@@ -115,16 +107,8 @@ public class ReservationController {
 
     @PostMapping("/third")
     public String showThirdForm(@RequestParam Map<String, String> allRequestParams, Model model) {
-        String screeningIdParam = allRequestParams.get("screeningId");
-        String reservedSeatNumberParam = allRequestParams.get("reservedSeatNumber");
-        long screeningId = 0;
-        int reservedSeatNumber = 0;
-        if (screeningIdParam.isEmpty() || reservedSeatNumberParam.isEmpty()) {
-            return "redirect:/";
-        } else {
-            screeningId = Long.parseLong(screeningIdParam);
-            reservedSeatNumber = Integer.parseInt(reservedSeatNumberParam);
-        }
+        HttpSession session = HttpUtil.getHttpSession();
+        int reservedSeatNumber = (int) session.getAttribute("reservedSeatNumber");
         List<ReservedSeat> reservedSeats = new ArrayList<>();
         for (int i = 0; i < reservedSeatNumber; i++) {
             ReservedSeat reservedSeat = new ReservedSeat();
@@ -144,27 +128,19 @@ public class ReservationController {
             e.printStackTrace();
             return "redirect:/";
         }
-        model.addAttribute("screeningId", screeningId);
-        model.addAttribute("reservedSeatNumber", reservedSeatNumber);
-        model.addAttribute("reservedSeats", jsonReservedSeats);
-        return "main/reservations/userDetailsForm";
+        session.setAttribute("reservedSeats",jsonReservedSeats);
+        if (session.getAttribute("guest") == null){
+            return "main/reservations/userDetailsForm";
+        }else{
+            // finished here
+        }
     }
 
     @PostMapping("/fourth")
     public String showSummary(@RequestParam Map<String, String> allRequestParams, Model model) {
-        String screeningIdParam = allRequestParams.get("screeningId");
-        String reservedSeatNumberParam = allRequestParams.get("reservedSeatNumber");
-        long screeningId = 0;
-        int reservedSeatNumber = 0;
-        if (screeningIdParam.isEmpty() || reservedSeatNumberParam.isEmpty()) {
-            return "redirect:/";
-        } else {
-            screeningId = Long.parseLong(screeningIdParam);
-            reservedSeatNumber = Integer.parseInt(reservedSeatNumberParam);
-        }
-        String reservedSeatsParam = allRequestParams.get("reservedSeats");
+
         ObjectMapper objectMapper = new ObjectMapper();
-        List<ReservedSeat> reservedSeats = new ArrayList<>();
+        List<ReservedSeat> reservedSeats;
         try {
             reservedSeats = objectMapper.readValue(reservedSeatsParam, new TypeReference<List<ReservedSeat>>() {
             });
@@ -216,7 +192,7 @@ public class ReservationController {
         }
         long savedReservationId = savedReservation.getId();
         Optional<Reservation> reservationOptional = reservationService.getReservation(savedReservationId);
-        model.addAttribute("reservation",reservationOptional.get());
+        model.addAttribute("reservation", reservationOptional.get());
         return "main/reservations/displayReservation";
     }
 

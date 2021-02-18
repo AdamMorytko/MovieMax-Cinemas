@@ -80,8 +80,9 @@
                                         </div>
                                     </div>
                                     <form th:action="@{/reservations/third}" method="post">
-                                        <input type="hidden" name="screeningId" th:value="${screeningId}"/>
                                         <input type="hidden" name="reservedSeatNumber" th:value="${reservedSeatNumber}" id="maxReservations"/>
+                                        <p th:each="error: ${#fields.errors('reservedSeats')}"
+                                           th:text="${error}">Validation error</p>
                                         <div class="text-center">
                                             <p class="mb-4" id="chosenSeatsCounter">
 
@@ -89,7 +90,7 @@
                                         </div>
                                         <hr>
                                         <div class="form-group">
-                                            <input class="btn btn-primary btn-user btn-block" type="submit"
+                                            <input class="btn btn-primary btn-user btn-block" type="submit" id="submitButton" disabled
                                                    value="Dalej"/>
                                         </div>
                                     </form>
@@ -144,6 +145,7 @@
     const maxReservations = document.querySelector("#maxReservations");
     const chosenSeatsCounterElement = document.querySelector("#chosenSeatsCounter");
     const formElement = document.querySelector("form");
+    const submitButtonElement = document.querySelector("#submitButton");
     let maxReservationsNumber = parseInt(maxReservations.value);
     let reservedNumber = 0;
     let namesArray = new Array();
@@ -167,6 +169,9 @@
                         classList.add("bg-warning");
                         reservedNumber++;
                         chosenSeatsCounterElement.innerText = "Wybrano "+reservedNumber+" z "+maxReservationsNumber+" miejsc";
+                        if (reservedNumber === maxReservationsNumber){
+                            submitButtonElement.disabled = false;
+                        }
                         let newInput = document.createElement("input");
                         newInput.type="hidden";
                         let availableName = new Name();
@@ -198,6 +203,9 @@
                         }
                         reservedNumber--;
                         chosenSeatsCounterElement.innerText = "Wybrano "+reservedNumber+" z "+maxReservationsNumber+" miejsc";
+                        if (reservedNumber < maxReservationsNumber){
+                            submitButtonElement.disabled = true;
+                        }
                     }
                 })
             }
