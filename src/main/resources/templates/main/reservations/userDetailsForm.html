@@ -24,27 +24,28 @@
                                             <p class="mb-4">Podaj imię</p>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" min="0" class="form-control form-control-user"
-                                                   name="userName"/>
+                                            <input type="text" class="form-control form-control-user"
+                                                   name="userName" id="userName"/>
                                         </div>
                                         <div class="text-center">
                                             <p class="mb-4">Podaj nazwisko</p>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" min="0" class="form-control form-control-user"
-                                                   name="userSurname"/>
+                                            <input type="text" class="form-control form-control-user"
+                                                   name="userSurname" id="userSurname"/>
                                         </div>
                                         <div class="text-center">
                                             <p class="mb-4">Podaj email</p>
                                         </div>
                                         <div class="form-group">
-                                            <input type="email" min="0" class="form-control form-control-user"
-                                                   name="userEmail"/>
+                                            <input type="email" class="form-control form-control-user"
+                                                   name="userEmail" id="userEmail"/>
                                         </div>
                                         <hr>
                                         <div class="form-group">
                                             <input class="btn btn-primary btn-user btn-block" type="submit"
-                                                   value="Dalej"/>
+                                                   id="submitButton"
+                                                   value="Dalej" disabled/>
                                         </div>
                                     </form>
                                 </div>
@@ -65,5 +66,38 @@
 <div th:replace="admin/fragments/footer :: scripts">
 
 </div>
+<script>
+    const userNameInputElement = document.querySelector("#userName");
+    const userSurnameInputElement = document.querySelector("#userSurname");
+    const userEmailInputElement = document.querySelector("#userEmail");
+    const submitButtonElement = document.querySelector("#submitButton");
+    userNameInputElement.addEventListener("change", function () {
+        if (userNameInputElement && userNameInputElement.value
+            && userSurnameInputElement && userSurnameInputElement.value
+            && userEmailInputElement && userEmailInputElement.value) {
+            submitButtonElement.disabled = false;
+        } else {
+            submitButtonElement.disabled = true;
+        }
+    })
+    userSurnameInputElement.addEventListener("change", function () {
+        if (userNameInputElement && userNameInputElement.value
+            && userSurnameInputElement && userSurnameInputElement.value
+            && userEmailInputElement && userEmailInputElement.value) {
+            submitButtonElement.disabled = false;
+        } else {
+            submitButtonElement.disabled = true;
+        }
+    })
+    userEmailInputElement.addEventListener("change", function () {
+        if (userNameInputElement && userNameInputElement.value
+            && userSurnameInputElement && userSurnameInputElement.value
+            && userEmailInputElement && userEmailInputElement.value) {
+            submitButtonElement.disabled = false;
+        } else {
+            submitButtonElement.disabled = true;
+        }
+    })
+</script>
 </body>
 </html>
