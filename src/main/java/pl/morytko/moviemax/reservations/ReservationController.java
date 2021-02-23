@@ -193,7 +193,12 @@ public class ReservationController {
         Screening screening = screeningService.getScreeningById(screeningId).get();
         reservation.setScreening(screening);
         Reservation savedReservation = reservationService.addReservation(reservation);
+        List<ReservedSeat> alreadyReservedScreeningSeats = reservedSeatService.getReservedSeatsByScreeningId(screeningId);
         reservedSeats.forEach(reservedSeat -> {
+            ReservedSeatUtil reservedSeatUtil = new ReservedSeatUtil();
+            if (reservedSeatUtil.isReserved(reservedSeat.getNumber(),reservedSeat.getRow(),alreadyReservedScreeningSeats)){
+                throw new IllegalArgumentException("Miejsce już jest zajęte.");
+            }
             reservedSeat.setReservation(savedReservation);
         });
         reservedSeatService.addReservedSeats(reservedSeats);
