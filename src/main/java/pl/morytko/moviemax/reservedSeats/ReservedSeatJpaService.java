@@ -18,6 +18,11 @@ public class ReservedSeatJpaService implements ReservedSeatService{
     }
 
     @Override
+    public void addReservedSeats(List<ReservedSeat> reservedSeats) {
+        reservedSeatRepository.saveAll(reservedSeats);
+    }
+
+    @Override
     public void getReservedSeatById(long id) {
         reservedSeatRepository.findById(id);
     }

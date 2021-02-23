@@ -190,10 +190,13 @@ public class ReservationController {
             reservation.setUser(user);
         }
         reservation.setReservedSeatNumber(reservedSeatNumber);
-        reservation.setReservedSeats(reservedSeats);
         Screening screening = screeningService.getScreeningById(screeningId).get();
         reservation.setScreening(screening);
         Reservation savedReservation = reservationService.addReservation(reservation);
+        reservedSeats.forEach(reservedSeat -> {
+            reservedSeat.setReservation(savedReservation);
+        });
+        reservedSeatService.addReservedSeats(reservedSeats);
         long savedReservationId = savedReservation.getId();
         Optional<Reservation> reservationOptional = reservationService.getReservation(savedReservationId);
         model.addAttribute("reservation", reservationOptional.get());
