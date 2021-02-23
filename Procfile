@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.heroku.kafka.demo.DemoApplication pl.morytko.moviemax.SpringApplicationRun
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* pl.morytko.moviemax.SpringApplicationRun
