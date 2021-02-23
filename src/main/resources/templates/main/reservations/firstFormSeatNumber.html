@@ -24,7 +24,7 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Nowa Rezerwacja - Miejsca</h1>
                                 </div>
-
+                                <hr>
                                 <div class="form-group">
                                     <form th:action="@{/reservations/second}" method="post" class="user">
                                         <div class="text-center">
@@ -33,8 +33,8 @@
                                         <div class="form-group">
                                             <select class="form-control" name="reservedSeatNumber">
                                                 <option th:each="i : ${#numbers.sequence(1,10)}"
-                                                th:value="${i}"
-                                                th:inline="text">
+                                                        th:value="${i}"
+                                                        th:inline="text">
                                                     [[${i}]]
                                                 </option>
                                             </select>

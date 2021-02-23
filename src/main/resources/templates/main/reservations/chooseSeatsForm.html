@@ -1,13 +1,22 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org" lang="en">
-<head th:include="admin/fragments/sidebar :: head">
+<head>
+    <head th:replace="main/fragments/header :: head"></head>
     <title id="pageTitle">Rezerwacja</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+    <link th:href="@{/css/all.min.css}" rel="stylesheet" type="text/css">
+
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/css/seats.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
+<nav th:replace="main/fragments/header :: navbar">
+
+</nav>
 <div id="wrapper">
     <div id="content-wrapper" class="d-flex flex-column">
+        <div class="container mt-4">
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
@@ -17,6 +26,7 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Nowa Rezerwacja - Miejsca</h1>
                                 </div>
+                                <hr>
                                 <div class="form-group">
                                     <div class="text-center">
                                         <p class="mb-4">Wybierz miejsca</p>
@@ -80,7 +90,8 @@
                                         </div>
                                     </div>
                                     <form th:action="@{/reservations/third}" method="post">
-                                        <input type="hidden" name="reservedSeatNumber" th:value="${reservedSeatNumber}" id="maxReservations"/>
+                                        <input type="hidden" name="reservedSeatNumber" th:value="${reservedSeatNumber}"
+                                               id="maxReservations"/>
                                         <p th:each="error: ${#fields.errors('reservedSeats')}"
                                            th:text="${error}">Validation error</p>
                                         <div class="text-center">
@@ -90,7 +101,8 @@
                                         </div>
                                         <hr>
                                         <div class="form-group">
-                                            <input class="btn btn-primary btn-user btn-block" type="submit" id="submitButton" disabled
+                                            <input class="btn btn-primary btn-user btn-block" type="submit"
+                                                   id="submitButton" disabled
                                                    value="Dalej"/>
                                         </div>
                                     </form>
@@ -102,6 +114,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         <footer th:replace="admin/fragments/footer :: footer">
 
         </footer>
@@ -134,8 +147,8 @@
             this._available = value;
         }
 
-        isAvailable(obj){
-            if (obj.available === true){
+        isAvailable(obj) {
+            if (obj.available === true) {
                 return obj;
             }
         }
@@ -150,9 +163,9 @@
     let reservedNumber = 0;
     let namesArray = new Array();
     for (let i = 0; i < maxReservationsNumber; i++) {
-        namesArray[i] = new Name("reservedSeat"+i.toString(),true);
+        namesArray[i] = new Name("reservedSeat" + i.toString(), true);
     }
-    chosenSeatsCounterElement.innerText = "Wybrano "+reservedNumber+" z "+maxReservationsNumber+" miejsc";
+    chosenSeatsCounterElement.innerText = "Wybrano " + reservedNumber + " z " + maxReservationsNumber + " miejsc";
 
     for (let i = 0; i < tableBody.childNodes.length; i++) {
         for (let j = 0; j < tableBody.childNodes[i].childNodes.length; j++) {
@@ -161,32 +174,32 @@
                 element.addEventListener("click", function (ev) {
                     let cellName = ev.target.getAttribute('name');
                     let classList = ev.target.classList;
-                    if (reservedNumber < maxReservationsNumber && element.className !== "text-white bg-warning"){
+                    if (reservedNumber < maxReservationsNumber && element.className !== "text-white bg-warning") {
                         while (classList.length > 0) {
                             classList.remove(classList.item(0));
                         }
                         classList.add("text-white");
                         classList.add("bg-warning");
                         reservedNumber++;
-                        chosenSeatsCounterElement.innerText = "Wybrano "+reservedNumber+" z "+maxReservationsNumber+" miejsc";
-                        if (reservedNumber === maxReservationsNumber){
+                        chosenSeatsCounterElement.innerText = "Wybrano " + reservedNumber + " z " + maxReservationsNumber + " miejsc";
+                        if (reservedNumber === maxReservationsNumber) {
                             submitButtonElement.disabled = false;
                         }
                         let newInput = document.createElement("input");
-                        newInput.type="hidden";
+                        newInput.type = "hidden";
                         let availableName = new Name();
                         for (let i = 0; i < maxReservationsNumber; i++) {
-                            if (namesArray[i].available === true){
+                            if (namesArray[i].available === true) {
                                 availableName = namesArray[i];
                                 break;
                             }
                         }
-                        newInput.name=availableName.name;
+                        newInput.name = availableName.name;
                         availableName.available = false;
-                        newInput.id=cellName;
-                        newInput.value=cellName;
+                        newInput.id = cellName;
+                        newInput.value = cellName;
                         formElement.append(newInput);
-                    }else if (element.className === "text-white bg-warning"){
+                    } else if (element.className === "text-white bg-warning") {
                         while (classList.length > 0) {
                             classList.remove(classList.item(0));
                         }
@@ -196,14 +209,14 @@
                         let idToChange = parseInt(elementById.getAttribute('name').split("reservedSeat")[1]);
                         elementById.remove();
                         for (let i = 0; i < maxReservationsNumber; i++) {
-                            if (namesArray[i].name === "reservedSeat"+idToChange.toString()){
+                            if (namesArray[i].name === "reservedSeat" + idToChange.toString()) {
                                 namesArray[i].available = true;
                                 break;
                             }
                         }
                         reservedNumber--;
-                        chosenSeatsCounterElement.innerText = "Wybrano "+reservedNumber+" z "+maxReservationsNumber+" miejsc";
-                        if (reservedNumber < maxReservationsNumber){
+                        chosenSeatsCounterElement.innerText = "Wybrano " + reservedNumber + " z " + maxReservationsNumber + " miejsc";
+                        if (reservedNumber < maxReservationsNumber) {
                             submitButtonElement.disabled = true;
                         }
                     }

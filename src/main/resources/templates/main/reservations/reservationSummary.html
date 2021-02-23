@@ -1,13 +1,20 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org" lang="en">
-<head th:include="admin/fragments/sidebar :: head">
+<head>
+    <head th:replace="main/fragments/header :: head"></head>
     <title id="pageTitle">Rezerwacja</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+    <link th:href="@{/css/all.min.css}" rel="stylesheet" type="text/css">
 
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
+<nav th:replace="main/fragments/header :: navbar">
+
+</nav>
 <div id="wrapper">
     <div id="content-wrapper" class="d-flex flex-column">
-        <div class="container">
+        <div class="container mt-4">
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
@@ -17,6 +24,7 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Nowa Rezerwacja - Podsumowanie</h1>
                                 </div>
+                                <hr>
                                 <div class="form-group">
                                     <div class="card-header py-2 d-flex flex-column align-items-start justify-content-start">
                                         <h6 class="m-0 font-weight-bold text-primary"
