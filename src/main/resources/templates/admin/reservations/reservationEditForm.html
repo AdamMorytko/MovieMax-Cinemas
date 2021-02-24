@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <head th:replace="admin/fragments/sidebar :: head"></head>
+    <title id="pageTitle">Edycja rezerwacji</title>
+    <link th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/seats.css}" rel="stylesheet" type="text/css">
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <ul th:replace="admin/fragments/sidebar :: sidebar">
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Edycja Miejsc Rezerwacji</h1>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="text-center">
+                                <p class="mb-4">Wybierz miejsca</p>
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <p class="text-center text-lg-left">Legenda</p>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered w-auto">
+                                        <tbody>
+                                        <tr>
+                                            <td class="bg-info text-white">
+                                                ekran
+                                            </td>
+                                            <td class="bg-success text-white">
+                                                wolne miejsce
+                                            </td>
+                                            <td class="bg-secondary text-white">
+                                                zajęte miejsce
+                                            </td>
+                                            <td class="bg-danger text-white">
+                                                wybrane miejsce
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered w-auto">
+                                        <tbody id="tableBody">
+                                        <tr>
+                                            <th></th>
+                                            <td th:each="i : ${#numbers.sequence(1,auditorium.seatNumberCount)}"
+                                                th:value="${i}"
+                                                th:classappend="${(i >= auditorium.screenStart && i <= auditorium.screenEnd) ? 'bg-info' : ''}">
+                                            </td>
+                                            <th></th>
+                                        </tr>
+                                        <tr th:each="i,iterStat : ${#numbers.sequence(1,auditorium.seatRowCount)}"
+                                            th:value="${i}">
+                                            <th th:text="${iterStat.count}"></th>
+                                            <td class="text-white"
+                                                th:each="j: ${#numbers.sequence(1,auditorium.seatNumberCount)}"
+                                                th:value="${j}"
+                                                th:with="index = ${counter.getAndIncrement()}"
+                                                th:classappend="${((seats.get(index).status == 1
+                                                            && !rsUtil.isReserved(seats.get(index).number,seats.get(index).row,reservedSeats))
+                                                            ? 'bg-success' : '')
+                                                            +(rsUtil.isReserved(seats.get(index).number,seats.get(index).row,reservedSeats)
+                                                            ? 'bg-secondary' : '')
+                                                            +(rsUtil.reservationEditIsReserved(seats.get(index).number,seats.get(index).row,reservationReservedSeats)
+                                                            ? 'bg-danger' : '')}"
+                                                th:text="${seats.get(index).status} == 1 ? ${#numbers.formatInteger(seats.get(index).getNumber(),2)}: ''"
+                                                th:name="${i+'n'+j}">
+                                            </td>
+                                            <th th:text="${iterStat.count}"></th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <form th:action="@{/admin/reservations/edit}" method="post">
+                                <input type="hidden" name="reservedSeatNumber" th:value="${reservedSeatNumber}"
+                                       id="maxReservations"/>
+                                <div class="text-center">
+                                    <p class="mb-4" id="chosenSeatsCounter">
+
+                                    </p>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <input class="btn btn-primary btn-user btn-block" type="submit"
+                                           id="submitButton" disabled
+                                           value="Dalej"/>
+                                </div>
+                                <input type="hidden" name="reservedSeat0" id="9n10" value="9n10">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+
+        <footer th:replace="admin/fragments/footer :: footer">
+
+        </footer>
+    </div>
+</div>
+
+<div th:include="admin/fragments/footer :: scripts">
+
+</div>
+<script>
+    class Name {
+        constructor(name, available) {
+            this._name = name;
+            this._available = available;
+        }
+
+        get name() {
+            return this._name;
+        }
+
+        set name(value) {
+            this._name = value;
+        }
+
+        get available() {
+            return this._available;
+        }
+
+        set available(value) {
+            this._available = value;
+        }
+
+        isAvailable(obj) {
+            if (obj.available === true) {
+                return obj;
+            }
+        }
+    }
+
+    const tableBody = document.querySelector("#tableBody");
+    const maxReservations = document.querySelector("#maxReservations");
+    const chosenSeatsCounterElement = document.querySelector("#chosenSeatsCounter");
+    const formElement = document.querySelector("form");
+    const submitButtonElement = document.querySelector("#submitButton");
+    let maxReservationsNumber = parseInt(maxReservations.value);
+    let reservedNumber = 0;
+    let namesArray = new Array();
+    for (let i = 0; i < maxReservationsNumber; i++) {
+        namesArray[i] = new Name("reservedSeat" + i.toString(), true);
+    }
+    chosenSeatsCounterElement.innerText = "Wybrano " + reservedNumber + " z " + maxReservationsNumber + " miejsc";
+
+    for (let i = 0; i < tableBody.childNodes.length; i++) {
+        for (let j = 0; j < tableBody.childNodes[i].childNodes.length; j++) {
+            let element = tableBody.childNodes[i].childNodes[j];
+            if (element.className === "text-white bg-success") {
+                element.addEventListener("click", function (ev) {
+                    let cellName = ev.target.getAttribute('name');
+                    let classList = ev.target.classList;
+                    if (reservedNumber < maxReservationsNumber && element.className !== "text-white bg-danger") {
+                        while (classList.length > 0) {
+                            classList.remove(classList.item(0));
+                        }
+                        classList.add("text-white");
+                        classList.add("bg-danger");
+                        reservedNumber++;
+                        chosenSeatsCounterElement.innerText = "Wybrano " + reservedNumber + " z " + maxReservationsNumber + " miejsc";
+                        if (reservedNumber === maxReservationsNumber) {
+                            submitButtonElement.disabled = false;
+                        }
+                        let newInput = document.createElement("input");
+                        newInput.type = "hidden";
+                        let availableName = new Name();
+                        for (let i = 0; i < maxReservationsNumber; i++) {
+                            if (namesArray[i].available === true) {
+                                availableName = namesArray[i];
+                                break;
+                            }
+                        }
+                        newInput.name = availableName.name;
+                        availableName.available = false;
+                        newInput.id = cellName;
+                        newInput.value = cellName;
+                        formElement.append(newInput);
+                    } else if (element.className === "text-white bg-danger") {
+                        while (classList.length > 0) {
+                            classList.remove(classList.item(0));
+                        }
+                        classList.add("text-white");
+                        classList.add("bg-success");
+                        let elementById = document.getElementById(cellName);
+                        let idToChange = parseInt(elementById.getAttribute('name').split("reservedSeat")[1]);
+                        elementById.remove();
+                        for (let i = 0; i < maxReservationsNumber; i++) {
+                            if (namesArray[i].name === "reservedSeat" + idToChange.toString()) {
+                                namesArray[i].available = true;
+                                break;
+                            }
+                        }
+                        reservedNumber--;
+                        chosenSeatsCounterElement.innerText = "Wybrano " + reservedNumber + " z " + maxReservationsNumber + " miejsc";
+                        if (reservedNumber < maxReservationsNumber) {
+                            submitButtonElement.disabled = true;
+                        }
+                    }
+                })
+            }
+        }
+    }
+</script>
+</body>
+</html>

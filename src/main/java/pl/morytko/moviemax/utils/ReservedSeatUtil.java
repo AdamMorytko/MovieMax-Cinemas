@@ -21,4 +21,19 @@ public class ReservedSeatUtil {
         }
         return found;
     }
+
+    public boolean reservationEditIsReserved(int number, int row, List<ReservedSeat> reservationReservedSeats){
+        ReservedSeat suspectedReservedSeat = new ReservedSeat();
+        suspectedReservedSeat.setNumber(number);
+        suspectedReservedSeat.setRow(row);
+        boolean found = false;
+        for (ReservedSeat reservedSeat:
+                reservationReservedSeats) {
+            if (reservedSeat.equals(suspectedReservedSeat)) {
+                found = true;
+                break;
+            }
+        }
+        return found;
+    }
 }

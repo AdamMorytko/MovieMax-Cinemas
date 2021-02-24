@@ -46,11 +46,11 @@
                             </div>
                             <div class="form-group card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"
-                                    th:if="${reservation.user != null}"
-                                    th:text="'Email: '+${reservation.user.username}">Email</h6>
+                                    th:if="${reservation.user.username.equals('guest@guest.guest')}"
+                                    th:text="'Email: '+${reservation.user.name}">Email</h6>
                                 <h6 class="m-0 font-weight-bold text-primary"
-                                    th:if="${reservation.user != null}"
-                                    th:text="'Rezerwacja kupiona przez gościa'">Gość</h6>
+                                    th:if="${!reservation.user.username.equals('guest@guest.guest')}"
+                                    th:text="'Email: '+${reservation.user.username}">Email</h6>
                             </div>
                             <div class="form-group card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"

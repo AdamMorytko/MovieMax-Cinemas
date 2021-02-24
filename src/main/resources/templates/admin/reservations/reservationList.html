@@ -57,8 +57,8 @@
                                     +${reservation.screening.auditorium.cinema.street}+' | '
                                     +${reservation.screening.auditorium.id}">Kino | Id sali
                                     </td>
-                                    <td th:if="${reservation.user == null}" th:text="Brak - Gość">Null</td>
-                                    <td th:if="${reservation.user != null}" th:text="${reservation.user.username}">Email kupującego</td>
+                                    <td th:if="${reservation.user.username.equals('guest@guest.guest')}" th:text="${reservation.user.name}">Email kupującego</td>
+                                    <td th:if="${!reservation.user.username.equals('guest@guest.guest')}" th:text="${reservation.user.username}">Email kupującego</td>
                                     <td>
                                         <a th:href="@{/admin/reservations/details/{id}(id=${reservation.id})}">
                                             <i class="fas fa-edit"></i> Szczegóły
