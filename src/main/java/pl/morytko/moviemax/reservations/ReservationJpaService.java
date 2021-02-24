@@ -32,4 +32,9 @@ public class ReservationJpaService implements ReservationService{
     public Optional<Reservation> getReservation(long id) {
         return reservationRepository.findById(id);
     }
+
+    @Override
+    public List<Reservation> getReservations() {
+        return reservationRepository.findAll();
+    }
 }

@@ -30,23 +30,27 @@
                         <div class="form-group card shadow mb-4">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"
-                                    th:text="'Data: '+${reservation.screening.screeningDate}"></h6>
+                                    th:text="'Data: '+${reservation.screening.screeningDate}">Data</h6>
                             </div>
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"
-                                    th:text="'Godzina: '+${reservation.screening.screeningTime}"></h6>
+                                    th:text="'Godzina: '+${reservation.screening.screeningTime}">Godzina</h6>
                             </div>
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"
-                                    th:text="'Id sali: '+${reservation.screening.auditorium.id}"></h6>
+                                    th:text="'Id sali: '+${reservation.screening.auditorium.id}">Id sali</h6>
                             </div>
                             <div class="form-group card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"
-                                    th:text="'Film: '+${reservation.screening.movie.title}"></h6>
+                                    th:text="'Film: '+${reservation.screening.movie.title}">Film</h6>
                             </div>
                             <div class="form-group card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"
-                                    th:text="'Email: '+${reservation.email}"></h6>
+                                    th:if="${reservation.user != null}"
+                                    th:text="'Email: '+${reservation.user.username}">Email</h6>
+                                <h6 class="m-0 font-weight-bold text-primary"
+                                    th:if="${reservation.user != null}"
+                                    th:text="'Rezerwacja kupiona przez gościa'">Gość</h6>
                             </div>
                             <div class="form-group card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary"
@@ -54,15 +58,15 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <a class="btn btn-primary m-1" th:href="@{/reservations/edit/{id}(id=${screening.id})}">
+                            <a class="btn btn-primary m-1" th:href="@{/admin/reservations/edit/{id}(id=${reservation.id})}">
                                 <i class="fas fa-edit"></i>
                                 Edytuj
                             </a>
-                            <a class="btn btn-primary m-1" th:href="@{/reservations/delete/{id}(id=${screening.id})}">
+                            <a class="btn btn-primary m-1" th:href="@{/admin/reservations/delete/{id}(id=${reservation.id})}">
                                 <i class="fas fa-trash"></i>
                                 Usuń
                             </a>
-                            <a class="btn btn-primary m-1" th:href="@{/reservations/screening/{id}(id=${reservation.screening.id})}">
+                            <a class="btn btn-primary m-1" th:href="@{/admin/reservations/screening/{id}(id=${reservation.screening.id})}">
                                 <i class="fas fa-info-circle"></i>
                                 Pozostałe rezerwacje tej sali
                             </a>

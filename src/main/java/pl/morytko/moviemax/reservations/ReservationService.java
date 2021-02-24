@@ -9,4 +9,5 @@ public interface ReservationService {
     void addReservations(List<Reservation> reservationList);
     void updateReservation(Reservation reservation);
     Optional<Reservation> getReservation(long id);
+    List<Reservation> getReservations();
 }
