@@ -28,10 +28,12 @@
                                 <div class="form-group">
                                     <div class="card-header py-2 d-flex flex-column align-items-start justify-content-start">
                                         <h6 class="m-0 font-weight-bold text-primary"
+                                            th:if="${userName != null}"
                                             th:inline="text">
                                             <i class="fas fa-user"></i> Imię: [[${userName}]]
                                         </h6>
                                         <h6 class="m-0 font-weight-bold text-primary"
+                                            th:if="${userSurname != null}"
                                             th:inline="text">
                                             <i class="fas fa-user"></i> Nazwisko: [[${userSurname}]]
                                         </h6>
@@ -65,19 +67,6 @@
                                     </div>
                                     <hr>
                                     <form th:action="@{/reservations/fifth}" method="post" class="user">
-                                        <input type="hidden" name="screeningId"
-                                               th:value="${screening.id}"/>
-                                        <input type="hidden" name="reservedSeatNumber"
-                                               th:value="${reservedSeatNumber}"/>
-                                        <input type="hidden" th:each="reservedSeat,iterStatus : ${reservedSeats}"
-                                               th:name="'reservedSeat'+${iterStatus.count}"
-                                               th:value="${reservedSeat.row}+'n'+${reservedSeat.number}"/>
-                                        <input type="hidden" name="userName"
-                                               th:value="${userName}"/>
-                                        <input type="hidden" name="userSurname"
-                                               th:value="${userSurname}"/>
-                                        <input type="hidden" name="userEmail"
-                                               th:value="${userEmail}"/>
                                         <div class="form-group">
                                             <input class="btn btn-primary btn-user btn-block" type="submit"
                                                    value="Potwierdź i zapłać"/>

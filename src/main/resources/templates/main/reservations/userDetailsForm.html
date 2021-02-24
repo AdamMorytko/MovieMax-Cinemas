@@ -28,25 +28,11 @@
                                 <div class="form-group">
                                     <form th:action="@{/reservations/fourth}" method="post" class="user">
                                         <div class="text-center">
-                                            <p class="mb-4">Podaj imię</p>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                   name="userName" id="userName"/>
-                                        </div>
-                                        <div class="text-center">
-                                            <p class="mb-4">Podaj nazwisko</p>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                   name="userSurname" id="userSurname"/>
-                                        </div>
-                                        <div class="text-center">
-                                            <p class="mb-4">Podaj email</p>
+                                            <p class="mb-4">Podaj email, na który zostanie wysłane potwierdzenie rezerwacji</p>
                                         </div>
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
-                                                   name="userEmail" id="userEmail"/>
+                                                   name="userEmail" id="userEmail" placeholder="Adres email"/>
                                         </div>
                                         <hr>
                                         <div class="form-group">
@@ -74,32 +60,10 @@
 
 </div>
 <script>
-    const userNameInputElement = document.querySelector("#userName");
-    const userSurnameInputElement = document.querySelector("#userSurname");
     const userEmailInputElement = document.querySelector("#userEmail");
     const submitButtonElement = document.querySelector("#submitButton");
-    userNameInputElement.addEventListener("change", function () {
-        if (userNameInputElement && userNameInputElement.value
-            && userSurnameInputElement && userSurnameInputElement.value
-            && userEmailInputElement && userEmailInputElement.value) {
-            submitButtonElement.disabled = false;
-        } else {
-            submitButtonElement.disabled = true;
-        }
-    })
-    userSurnameInputElement.addEventListener("change", function () {
-        if (userNameInputElement && userNameInputElement.value
-            && userSurnameInputElement && userSurnameInputElement.value
-            && userEmailInputElement && userEmailInputElement.value) {
-            submitButtonElement.disabled = false;
-        } else {
-            submitButtonElement.disabled = true;
-        }
-    })
     userEmailInputElement.addEventListener("change", function () {
-        if (userNameInputElement && userNameInputElement.value
-            && userSurnameInputElement && userSurnameInputElement.value
-            && userEmailInputElement && userEmailInputElement.value) {
+        if (userEmailInputElement && userEmailInputElement.value) {
             submitButtonElement.disabled = false;
         } else {
             submitButtonElement.disabled = true;

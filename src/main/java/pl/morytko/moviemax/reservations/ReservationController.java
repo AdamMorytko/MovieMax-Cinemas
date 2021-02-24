@@ -156,14 +156,11 @@ public class ReservationController {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        String userName = allRequestParams.get("userName");
-        String userSurname = allRequestParams.get("userSurname");
         String userEmail = allRequestParams.get("userEmail");
+        session.setAttribute("userEmail",userEmail);
         model.addAttribute("screening", screeningService.getScreeningById(screeningId).get());
         model.addAttribute("reservedSeatNumber", reservedSeatNumber);
         model.addAttribute("reservedSeats", reservedSeats);
-        model.addAttribute("userName", userName);
-        model.addAttribute("userSurname", userSurname);
         model.addAttribute("userEmail", userEmail);
         return "main/reservations/reservationSummary";
     }
@@ -185,10 +182,21 @@ public class ReservationController {
         }
 
         Reservation reservation = new Reservation();
+        User user = new User();
         if (principal != null){
-            User user = (User) userService.loadUserByUsername(principal.getName());
-            reservation.setUser(user);
+            user = (User) userService.loadUserByUsername(principal.getName());
+        }else{
+            // creating disabled user with "password" password
+            // in a real application this should be replaced with a proper logic for guests buying tickets
+            // field "name" will contain email to track the reservation later and connect to a person
+            user.setName(session.getAttribute("userEmail").toString());
+            user.setUsername("guest@guest.guest");
+            user.setSurname("gosc");
+            user.setPassword("$2y$12$NzVOdFPSOtI/d3vsZbHGveTGO77r2Y/ERx0iJCaPkdwohRZIptzyi");
+            user.setEnabled(false);
+            userService.addUser(user);
         }
+        reservation.setUser(user);
         reservation.setReservedSeatNumber(reservedSeatNumber);
         Screening screening = screeningService.getScreeningById(screeningId).get();
         reservation.setScreening(screening);
