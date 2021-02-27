@@ -7,6 +7,7 @@ public interface MovieService {
     List<Movie> getMovies();
     Optional<Movie> getMovieById(long id);
     void addMovie(Movie movie);
+    void addMovies(List<Movie> movieList);
     void updateMovie(Movie movie);
     void deleteMovie(long id);
 }

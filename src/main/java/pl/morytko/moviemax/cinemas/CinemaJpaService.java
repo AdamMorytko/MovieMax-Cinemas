@@ -31,6 +31,11 @@ public class CinemaJpaService implements CinemaService{
     }
 
     @Override
+    public void addCinemas(List<Cinema> cinemaList) {
+        cinemaRepository.saveAll(cinemaList);
+    }
+
+    @Override
     public void updateCinema(Cinema cinema) {
         cinemaRepository.save(cinema);
     }

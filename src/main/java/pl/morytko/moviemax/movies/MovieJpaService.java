@@ -31,6 +31,11 @@ public class MovieJpaService implements MovieService{
     }
 
     @Override
+    public void addMovies(List<Movie> movieList) {
+        movieRepository.saveAll(movieList);
+    }
+
+    @Override
     public void updateMovie(Movie movie) {
         movieRepository.save(movie);
     }
