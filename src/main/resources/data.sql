@@ -1,5 +1,5 @@
-SET GLOBAL auto_increment_increment = 1;
-SET GLOBAL auto_increment_offset = 1;
+SET @@auto_increment_increment=1;
+SET @@auto_increment_offset=1;
 INSERT INTO user (username, name, surname, enabled, password) VALUES ('user@test.com', 'Mateusz', 'Testerowy', true, '$2a$10$oDalvJMD4WfdiCHRcoeRZ.vcYZHg4I.vJ9Bc8nIfRMoTcuOtD9PPa');
 INSERT INTO user_roles (user_id, roles) VALUES (1, 'USER');
 INSERT INTO user (username, name, surname, enabled, password) VALUES ('admin@test.com', 'Alicja', 'Adminowska', true, '$2a$10$IA15SCmoR0KxNSGJq0Q/a.vhoPatrSzzXnq4hl5z0v9kiKrPumsna');
