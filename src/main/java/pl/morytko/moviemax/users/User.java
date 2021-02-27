@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-@Entity
+@Entity(name = "appUser")
 @Getter
 @Setter
 public class User implements UserDetails {
