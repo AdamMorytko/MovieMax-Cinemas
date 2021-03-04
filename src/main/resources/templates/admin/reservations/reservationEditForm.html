@@ -73,11 +73,9 @@
                                                 th:with="index = ${counter.getAndIncrement()}"
                                                 th:classappend="${((seats.get(index).status == 1
                                                             && !rsUtil.isReserved(seats.get(index).number,seats.get(index).row,reservedSeats))
-                                                            ? 'bg-success' : '')
-                                                            +(rsUtil.isReserved(seats.get(index).number,seats.get(index).row,reservedSeats)
-                                                            ? 'bg-secondary' : '')
-                                                            +(rsUtil.reservationEditIsReserved(seats.get(index).number,seats.get(index).row,reservationReservedSeats)
-                                                            ? 'bg-danger' : '')}"
+                                                            ? 'bg-success' : (rsUtil.isReserved(seats.get(index).number,seats.get(index).row,reservationReservedSeats)
+                                                            ? 'bg-danger' : (rsUtil.isReserved(seats.get(index).number,seats.get(index).row,reservedSeats)
+                                                            ? 'bg-secondary' : '')))}"
                                                 th:text="${seats.get(index).status} == 1 ? ${#numbers.formatInteger(seats.get(index).getNumber(),2)}: ''"
                                                 th:name="${i+'n'+j}">
                                             </td>
@@ -88,8 +86,12 @@
                                 </div>
                             </div>
                             <form th:action="@{/admin/reservations/edit}" method="post">
-                                <input type="hidden" name="reservedSeatNumber" th:value="${reservedSeatNumber}"
-                                       id="maxReservations"/>
+                                <input type="hidden" th:value="${reservedSeatNumber}"
+                                       id="maxReservations"
+                                       name="reservedNumber"/>
+                                <input type="hidden" th:value="${reservationId}"
+                                       id="reservationId"
+                                       name="reservationId"/>
                                 <div class="text-center">
                                     <p class="mb-4" id="chosenSeatsCounter">
 
@@ -101,7 +103,10 @@
                                            id="submitButton" disabled
                                            value="Dalej"/>
                                 </div>
-                                <input type="hidden" name="reservedSeat0" id="9n10" value="9n10">
+                                <input th:each="rrs,iterStat : ${reservationReservedSeats}" type="hidden"
+                                       th:name="'reservedSeat'+${iterStat.count - 1}"
+                                       th:id="${rrs.row}+'n'+${rrs.number}"
+                                       th:value="${rrs.row}+'n'+${rrs.number}"/>
                             </form>
                         </div>
                     </div>
@@ -151,27 +156,37 @@
         }
     }
 
+    const inputElements = document.querySelectorAll("input");
     const tableBody = document.querySelector("#tableBody");
     const maxReservations = document.querySelector("#maxReservations");
     const chosenSeatsCounterElement = document.querySelector("#chosenSeatsCounter");
     const formElement = document.querySelector("form");
     const submitButtonElement = document.querySelector("#submitButton");
     let maxReservationsNumber = parseInt(maxReservations.value);
-    let reservedNumber = 0;
-    let namesArray = new Array();
-    for (let i = 0; i < maxReservationsNumber; i++) {
-        namesArray[i] = new Name("reservedSeat" + i.toString(), true);
-    }
+    let reservedNumber = maxReservationsNumber;
+    let namesArray = [];
+    let arrayIndex = 0;
+    inputElements.forEach(function(elem){
+        if (elem.name.includes("reservedSeat")){
+            let availableName = new Name();
+            availableName.name = "reservedSeat"+arrayIndex;
+            availableName.available = false;
+            namesArray[arrayIndex] = availableName;
+            arrayIndex++;
+        }
+    })
+    console.log(namesArray);
     chosenSeatsCounterElement.innerText = "Wybrano " + reservedNumber + " z " + maxReservationsNumber + " miejsc";
 
     for (let i = 0; i < tableBody.childNodes.length; i++) {
         for (let j = 0; j < tableBody.childNodes[i].childNodes.length; j++) {
             let element = tableBody.childNodes[i].childNodes[j];
-            if (element.className === "text-white bg-success") {
+            if (element.className === "text-white bg-success" ||
+                element.className === "text-white bg-danger") {
                 element.addEventListener("click", function (ev) {
                     let cellName = ev.target.getAttribute('name');
                     let classList = ev.target.classList;
-                    if (reservedNumber < maxReservationsNumber && element.className !== "text-white bg-danger") {
+                    if (reservedNumber < maxReservationsNumber && element.className === "text-white bg-success") {
                         while (classList.length > 0) {
                             classList.remove(classList.item(0));
                         }
