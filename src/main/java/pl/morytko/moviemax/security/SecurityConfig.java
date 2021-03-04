@@ -30,6 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/",
+                        "/webjars/jquery/3.5.1/**",
+                        "/webjars/bootstrap/4.5.3/js/**",
+                        "/webjars/bootstrap/4.5.3/css/**",
                         "/screenings",
                         "/css/**",
                         "/js/**",
