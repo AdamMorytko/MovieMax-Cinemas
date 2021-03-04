@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.morytko.moviemax.reservations.Reservation;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.*;
@@ -26,32 +27,43 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
-    public String showLoginForm(){
+    public String showLoginForm() {
         return "main/user/login";
     }
 
     @GetMapping("/login/failure")
-    public String showLoginFormAndError(Model model){
-        model.addAttribute("loginError",true);
+    public String showLoginFormAndError(Model model) {
+        model.addAttribute("loginError", true);
         return "main/user/login";
     }
 
+    @GetMapping("/login/success")
+    public String showPrincipalPanel(HttpServletRequest request) {
+        if (request.isUserInRole("ROLE_ADMIN")) {
+            return "redirect:/admin";
+        } else if (request.isUserInRole("ROLE_USER")) {
+            return "redirect:/user";
+        } else {
+            return "redirect:/";
+        }
+    }
+
     @GetMapping("/register")
-    public String showRegistrationForm(Model model){
-        model.addAttribute("user",new UserDto());
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new UserDto());
         return "main/user/registration";
     }
 
     @PostMapping("/register")
-    public String addNewUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult bindingResult, Model model){
-        if (bindingResult.hasErrors()){
+    public String addNewUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
             return "main/user/registration";
         }
-        if (!userDto.getPassword().equals(userDto.getMatchingPassword())){
-            bindingResult.rejectValue("matchingPassword","matchingPassword.notMatching"
-                                ,"Hasła nie są identyczne.");
+        if (!userDto.getPassword().equals(userDto.getMatchingPassword())) {
+            bindingResult.rejectValue("matchingPassword", "matchingPassword.notMatching"
+                    , "Hasła nie są identyczne.");
         }
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "main/user/registration";
         }
         User user = new User();
@@ -64,37 +76,37 @@ public class UserController {
         roles.add(USER);
         user.setRoles(roles);
         userService.addUser(user);
-        model.addAttribute("newRegistration",true);
+        model.addAttribute("newRegistration", true);
         return "redirect:/login";
     }
 
     @GetMapping("/user")
-    public String showUserPanel(Principal principal, Model model){
+    public String showUserPanel(Principal principal, Model model) {
         User user = (User) userService.loadUserByUsername(principal.getName());
         List<Reservation> reservations = user.getReservations();
         List<Reservation> threeLastReservations = reservations.stream()
                 .sorted(Comparator.comparing(Reservation::getId).reversed())
                 .limit(3)
                 .collect(Collectors.toList());
-        model.addAttribute("lastReservations",threeLastReservations);
-        model.addAttribute("user",user);
+        model.addAttribute("lastReservations", threeLastReservations);
+        model.addAttribute("user", user);
         return "main/user/homePage";
     }
 
     @GetMapping("/user/edit")
-    public String showEditUserDataForm(Principal principal, Model model){
+    public String showEditUserDataForm(Principal principal, Model model) {
         User user = (User) userService.loadUserByUsername(principal.getName());
         UserDto userDto = new UserDto();
         userDto.setName(user.getName());
         userDto.setSurname(user.getSurname());
         userDto.setUsername(user.getUsername());
-        model.addAttribute("user",userDto);
+        model.addAttribute("user", userDto);
         return "main/user/userDataEdit";
     }
 
     @PostMapping("/user/edit")
-    public String editUser(@ModelAttribute("user") @Validated(UserValidationGroups.UserData.class) UserDto userDto, BindingResult bindingResult, Principal principal){
-        if (bindingResult.hasErrors()){
+    public String editUser(@ModelAttribute("user") @Validated(UserValidationGroups.UserData.class) UserDto userDto, BindingResult bindingResult, Principal principal) {
+        if (bindingResult.hasErrors()) {
             return "main/user/userDataEdit";
         }
         User userToUpdate = (User) userService.loadUserByUsername(principal.getName());
@@ -106,21 +118,21 @@ public class UserController {
     }
 
     @GetMapping("/user/edit/password")
-    public String showEditUserPasswordForm(Model model){
-        model.addAttribute("user",new UserDto());
+    public String showEditUserPasswordForm(Model model) {
+        model.addAttribute("user", new UserDto());
         return "main/user/userPasswordEdit";
     }
 
     @PostMapping("/user/edit/password")
-    public String editUserPassword(@ModelAttribute("user") @Validated(UserValidationGroups.UserPassword.class) UserDto userDto, BindingResult bindingResult, Principal principal){
-        if (bindingResult.hasErrors()){
+    public String editUserPassword(@ModelAttribute("user") @Validated(UserValidationGroups.UserPassword.class) UserDto userDto, BindingResult bindingResult, Principal principal) {
+        if (bindingResult.hasErrors()) {
             return "main/user/userPasswordEdit";
         }
-        if (!userDto.getPassword().equals(userDto.getMatchingPassword())){
-            bindingResult.rejectValue("matchingPassword","matchingPassword.notMatching"
-                    ,"Hasła nie są identyczne.");
+        if (!userDto.getPassword().equals(userDto.getMatchingPassword())) {
+            bindingResult.rejectValue("matchingPassword", "matchingPassword.notMatching"
+                    , "Hasła nie są identyczne.");
         }
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "main/user/userPasswordEdit";
         }
         User userToUpdate = (User) userService.loadUserByUsername(principal.getName());
