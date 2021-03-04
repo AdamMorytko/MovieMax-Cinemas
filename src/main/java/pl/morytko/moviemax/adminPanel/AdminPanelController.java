@@ -10,6 +10,6 @@ public class AdminPanelController {
 
     @GetMapping
     public String showAdminPanel(){
-        return "/admin/mainPage";
+        return "admin/mainPage";
     }
 }
