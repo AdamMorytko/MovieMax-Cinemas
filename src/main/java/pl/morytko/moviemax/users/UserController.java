@@ -8,8 +8,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.morytko.moviemax.reservations.Reservation;
+import pl.morytko.moviemax.reservations.ReservationService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -24,6 +26,7 @@ import static pl.morytko.moviemax.users.UserRole.*;
 public class UserController {
 
     private final UserService userService;
+    private final ReservationService reservationService;
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
@@ -139,5 +142,22 @@ public class UserController {
         userToUpdate.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userService.updateUser(userToUpdate);
         return "redirect:/user";
+    }
+
+    @GetMapping("/user/reservation/{reservationId}")
+    public String showScreeningDetails(@PathVariable long reservationId, Model model, Principal principal){
+        User user = (User) userService.loadUserByUsername(principal.getName());
+        Optional<Reservation> reservationOptional = reservationService.getReservation(reservationId);
+        Reservation reservation;
+        if (reservationOptional.isPresent()){
+            reservation = reservationOptional.get();
+            if (!reservation.getUser().getUsername().equals(user.getUsername())){
+                throw new IllegalArgumentException("Odmowa dostępu. Rezerwacja nie należy do zalogowanego użytkownika.");
+            }
+        }else{
+            throw new IllegalArgumentException("Rezerwacja o podanym id nie istnieje.");
+        }
+        model.addAttribute("reservation",reservation);
+        return "main/user/userReservationDetails";
     }
 }
