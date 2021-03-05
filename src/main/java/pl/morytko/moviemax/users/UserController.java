@@ -145,7 +145,7 @@ public class UserController {
     }
 
     @GetMapping("/user/reservation/{reservationId}")
-    public String showScreeningDetails(@PathVariable long reservationId, Model model, Principal principal){
+    public String showUserReservationDetails(@PathVariable long reservationId, Model model, Principal principal){
         User user = (User) userService.loadUserByUsername(principal.getName());
         Optional<Reservation> reservationOptional = reservationService.getReservation(reservationId);
         Reservation reservation;
@@ -159,5 +159,13 @@ public class UserController {
         }
         model.addAttribute("reservation",reservation);
         return "main/user/userReservationDetails";
+    }
+
+    @GetMapping("/user/reservations")
+    public String showUserReservations(Model model, Principal principal){
+        User user = (User) userService.loadUserByUsername(principal.getName());
+        List<Reservation> reservations = user.getReservations();
+        model.addAttribute("reservations",reservations);
+        return "main/user/userReservations";
     }
 }
