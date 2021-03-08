@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.morytko.moviemax.reservedSeats.ReservedSeat;
 import pl.morytko.moviemax.reservedSeats.ReservedSeatService;
+import pl.morytko.moviemax.screenings.Screening;
+import pl.morytko.moviemax.screenings.ScreeningService;
 import pl.morytko.moviemax.seats.SeatService;
 import pl.morytko.moviemax.utils.Counter;
 import pl.morytko.moviemax.utils.ReservedSeatUtil;
@@ -22,6 +24,7 @@ public class ReservationAdminController {
 
     private final ReservationService reservationService;
     private final SeatService seatService;
+    private final ScreeningService screeningService;
     private final ReservedSeatService reservedSeatService;
 
     @GetMapping("/list")
@@ -92,5 +95,16 @@ public class ReservationAdminController {
         }
         reservedSeatService.updateReservedSeats(reservedSeats, reservation);
         return "redirect:/admin/reservations/list";
+    }
+
+    @GetMapping("/screening/{screeningId}")
+    public String showScreeningReservations(@PathVariable long screeningId, Model model){
+        Optional<Screening> screeningOptional = screeningService.getScreeningById(screeningId);
+        if (screeningOptional.isPresent()){
+            model.addAttribute("reservations",reservationService.getReservationsByScreening(screeningId));
+        }else{
+            throw new IllegalArgumentException("Brak seansu o takim id.");
+        }
+        return "admin/reservations/reservationList";
     }
 }

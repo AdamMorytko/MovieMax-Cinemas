@@ -10,4 +10,5 @@ public interface ReservationService {
     void updateReservation(Reservation reservation);
     Optional<Reservation> getReservation(long id);
     List<Reservation> getReservations();
+    List<Reservation> getReservationsByScreening(long screeningId);
 }

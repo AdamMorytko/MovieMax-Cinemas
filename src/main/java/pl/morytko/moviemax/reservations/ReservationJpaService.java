@@ -37,4 +37,9 @@ public class ReservationJpaService implements ReservationService{
     public List<Reservation> getReservations() {
         return reservationRepository.findAll();
     }
+
+    @Override
+    public List<Reservation> getReservationsByScreening(long screeningId) {
+        return reservationRepository.findReservationsByScreening_id(screeningId);
+    }
 }
