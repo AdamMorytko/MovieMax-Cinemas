@@ -38,6 +38,7 @@ public class ReservationAdminController {
         Optional<Reservation> reservationOptional = reservationService.getReservation(reservationId);
         if (reservationOptional.isPresent()) {
             model.addAttribute("reservation", reservationOptional.get());
+            model.addAttribute("reservedSeats",reservationOptional.get().getReservedSeats());
             return "admin/reservations/reservationDetails";
         } else {
             throw new IllegalArgumentException("Rezerwacja o podanym id nie istnieje.");
