@@ -101,8 +101,9 @@
                                 <div class="form-group">
                                     <input class="btn btn-primary btn-user btn-block" type="submit"
                                            id="submitButton" disabled
-                                           value="Dalej"/>
+                                           value="Potwierdź i zapisz zmiany"/>
                                 </div>
+                                <a class="btn btn-primary btn-user btn-block" th:href="@{/admin/reservations/list}">Powrót do listy</a>
                                 <input th:each="rrs,iterStat : ${reservationReservedSeats}" type="hidden"
                                        th:name="'reservedSeat'+${iterStat.count - 1}"
                                        th:id="${rrs.row}+'n'+${rrs.number}"
