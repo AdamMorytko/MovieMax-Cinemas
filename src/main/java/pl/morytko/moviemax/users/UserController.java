@@ -58,7 +58,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String addNewUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult bindingResult, Model model) {
+    public String addNewUser(@ModelAttribute("user") @Validated({UserValidationGroups.UserData.class, UserValidationGroups.UserPassword.class}) UserDto userDto,
+                             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "main/user/registration";
         }
@@ -67,7 +68,7 @@ public class UserController {
                     , "Hasła nie są identyczne.");
         }
         if (bindingResult.hasErrors()) {
-            return "main/user/registration";
+            return "main/user/userPasswordEdit";
         }
         User user = new User();
         user.setUsername(userDto.getUsername());
