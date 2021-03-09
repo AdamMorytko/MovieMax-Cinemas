@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+  <head th:replace="main/fragments/header :: head"></head>
+  <title id="pageTitle">Błąd</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+  <link th:href="@{/css/all.min.css}" rel="stylesheet" type="text/css">
+
+  <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<nav th:replace="main/fragments/header :: navbar">
+
+</nav>
+<div id="wrapper">
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div class="container mt-4">
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Coś poszło nie tak...</h1>
+                </div>
+                <hr>
+                <div class="text-center">
+                  <form th:action="@{/}" method="get">
+                    <button class="btn btn-primary" type="submit" th:inline="text">
+                      <span class="text">Powrót na stronę główną</span>
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer th:replace="admin/fragments/footer :: footer">
+
+    </footer>
+  </div>
+</div>
+
+
+<div th:replace="admin/fragments/footer :: scripts">
+
+</div>
+</body>
+</html>
