@@ -42,7 +42,17 @@ public class UserJpaService implements UserService {
     }
 
     @Override
+    public void deleteUser(User user) {
+        userRepository.delete(user);
+    }
+
+    @Override
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> getUserById(long userId) {
+        return userRepository.findById(userId);
     }
 }
