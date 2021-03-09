@@ -20,8 +20,6 @@ public class UserAdminController {
     @GetMapping("/admin/users/list")
     public String showUserList(Model model){
         List<User> users = userService.getUsers();
-        String s = users.stream().findFirst().get().getRoles().stream().findFirst().get().toString();
-        System.out.println(s);
         model.addAttribute("users",users);
         return "admin/users/userList";
     }
