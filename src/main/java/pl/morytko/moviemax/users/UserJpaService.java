@@ -40,4 +40,9 @@ public class UserJpaService implements UserService {
     public void updateUser(User user) {
         userRepository.save(user);
     }
+
+    @Override
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
 }

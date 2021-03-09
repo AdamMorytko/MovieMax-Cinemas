@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <head th:replace="admin/fragments/sidebar :: head"></head>
+    <title id="pageTitle">Lista użytkowników</title>
+
+    <link th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet" type="text/css">
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <ul th:replace="admin/fragments/sidebar :: sidebar">
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Imię</th>
+                                    <th>Nazwisko</th>
+                                    <th>Login (email)</th>
+                                    <th>Odblokuj/Zablokuj</th>
+                                    <th>Rola użytkownika</th>
+                                    <th>Akcje</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Imię</th>
+                                    <th>Nazwisko</th>
+                                    <th>Login (email)</th>
+                                    <th>Odblokuj/Zablokuj</th>
+                                    <th>Rola użytkownika</th>
+                                    <th>Akcje</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                <tr th:each="user : ${users}">
+                                    <td th:text="${user.id}">Id</td>
+                                    <td th:text="${user.name}">Name</td>
+                                    <td th:text="${user.surname}">Surname</td>
+                                    <td th:text="${user.username}">Username</td>
+                                    <td>
+                                        <form th:action="@{/admin/users/enable/{id}(id=${user.id})}" method="post">
+                                            <button class="btn btn-info btn-icon-split" type="submit"
+                                                    th:inline="text">
+                                                <!--unlock-->
+                                                <span class="icon text-white-50"
+                                                      th:if="${user.enabled == false}">
+                                                        <i class="fas fa-unlock"></i>
+                                                    </span>
+                                                <span class="text"
+                                                      th:if="${user.enabled == false}">Odblokuj</span>
+                                                <!--lock-->
+                                                <span class="icon text-white-50"
+                                                      th:if="${user.enabled == true}">
+                                                        <i class="fas fa-lock"></i>
+                                                    </span>
+                                                <span class="text"
+                                                      th:if="${user.enabled == true}">Zablokuj</span>
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form th:action="@{/admin/users/role/{id}(id=${user.id})}" method="post">
+                                            <button class="btn btn-info btn-icon-split m-1" type="submit"
+                                                    th:inline="text">
+                                                <!--admin-->
+                                                <span class="icon text-white-50"
+                                                      th:if="${user.getRoles().stream().findFirst().get().toString().equals('ADMIN')}">
+                                                        <i class="fas fa-user-shield"></i>
+                                                    </span>
+                                                <span class="text"
+                                                      th:if="${user.getRoles().stream().findFirst().get().toString().equals('ADMIN')}">Administrator</span>
+                                                <!--użytkownik-->
+                                                <span class="icon text-white-50"
+                                                      th:if="${user.getRoles().stream().findFirst().get().toString().equals('USER')}">
+                                                        <i class="fas fa-user"></i>
+                                                    </span>
+                                                <span class="text"
+                                                      th:if="${user.getRoles().stream().findFirst().get().toString().equals('USER')}">Użytkownik</span>
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info btn-icon-split m-1"
+                                           th:href="@{/admin/users/details/{id}(id=${user.id})}">
+                                            <span class="icon text-white-50">
+                                            <i class="fas fa-info-circle"></i>
+                                            </span>
+                                            <span class="text">
+                                                Szczegóły
+                                            </span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info btn-icon-split m-1"
+                                           th:href="@{/admin/users/delete/{id}(id=${user.id})}">
+                                            <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                            </span>
+                                            <span class="text">
+                                                Usuń
+                                            </span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info btn-icon-split m-1"
+                                           th:href="@{/admin/users/edit/{id}(id=${user.id})}">
+                                            <span class="icon text-white-50">
+                                            <i class="fas fa-edit"></i>
+                                            </span>
+                                            <span class="text">
+                                                Edytuj
+                                            </span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+
+        <footer th:replace="admin/fragments/footer :: footer">
+
+        </footer>
+    </div>
+</div>
+
+<div th:include="admin/fragments/footer :: scripts">
+
+</div>
+<script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/dataTables.bootstrap4.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/datatables-demo.js}"></script>
+</body>
+</html>
