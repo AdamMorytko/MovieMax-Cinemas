@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.morytko.moviemax.auditoriums.Auditorium;
 import pl.morytko.moviemax.auditoriums.AuditoriumService;
+import pl.morytko.moviemax.email.EmailService;
 import pl.morytko.moviemax.reservedSeats.ReservedSeat;
 import pl.morytko.moviemax.reservedSeats.ReservedSeatService;
 import pl.morytko.moviemax.screenings.Screening;
@@ -39,6 +41,7 @@ public class ReservationController {
     private final AuditoriumService auditoriumService;
     private final SeatService seatService;
     private final UserService userService;
+    private final EmailService emailService;
 
     @GetMapping("/zero")
     public String showGuestOrLoginCheckForm(@RequestParam("screeningId") String screeningIdParam, Principal principal) {
@@ -183,18 +186,22 @@ public class ReservationController {
 
         Reservation reservation = new Reservation();
         User user = new User();
+        String recipientEmail;
         if (principal != null){
             user = (User) userService.loadUserByUsername(principal.getName());
+            recipientEmail = user.getUsername();
         }else{
             // creating disabled user with "password" password
             // in a real application this should be replaced with a proper logic for guests buying tickets
             // field "name" will contain email to track the reservation later and connect to a person
-            user.setName(session.getAttribute("userEmail").toString());
+            String userEmail = session.getAttribute("userEmail").toString();
+            user.setName(userEmail);
             user.setUsername("guest@guest.guest");
             user.setSurname("gosc");
             user.setPassword("$2y$12$NzVOdFPSOtI/d3vsZbHGveTGO77r2Y/ERx0iJCaPkdwohRZIptzyi");
             user.setEnabled(false);
             userService.addUser(user);
+            recipientEmail = userEmail;
         }
         reservation.setUser(user);
         reservation.setReservedSeatNumber(reservedSeatNumber);
@@ -209,8 +216,10 @@ public class ReservationController {
             }
             reservedSeat.setReservation(savedReservation);
         });
+        savedReservation.setReservedSeats(reservedSeats);
         reservedSeatService.addReservedSeats(reservedSeats);
         long savedReservationId = savedReservation.getId();
+        emailService.sendReservationDetails(recipientEmail, savedReservation);
         Optional<Reservation> reservationOptional = reservationService.getReservation(savedReservationId);
         model.addAttribute("reservation", reservationOptional.get());
         return "main/reservations/displayReservation";
