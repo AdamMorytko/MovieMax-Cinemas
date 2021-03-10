@@ -360,13 +360,6 @@ template {
   display: none !important;
 }
 
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
-  margin-bottom: 0.5rem;
-  font-weight: 400;
-  line-height: 1.2;
-}
-
 h1, .h1 {
   font-size: 2.5rem;
 }
@@ -381,10 +374,6 @@ h3, .h3 {
 
 h4, .h4 {
   font-size: 1.5rem;
-}
-
-h5, .h5 {
-  font-size: 1.25rem;
 }
 
 h6, .h6 {
@@ -455,11 +444,6 @@ mark,
 
 .list-inline-item:not(:last-child) {
   margin-right: 0.5rem;
-}
-
-.initialism {
-  font-size: 90%;
-  text-transform: uppercase;
 }
 
 .blockquote {
@@ -2138,14 +2122,6 @@ textarea.form-control {
   box-shadow: 0 0 0 0.2rem rgba(28, 200, 138, 0.25);
 }
 
-.invalid-feedback {
-  display: none;
-  width: 100%;
-  margin-top: 0.25rem;
-  font-size: 80%;
-  color: #e74a3b;
-}
-
 .invalid-tooltip {
   position: absolute;
   top: 100%;
@@ -2160,13 +2136,6 @@ textarea.form-control {
   color: #fff;
   background-color: rgba(231, 74, 59, 0.9);
   border-radius: 0.35rem;
-}
-
-.was-validated :invalid ~ .invalid-feedback,
-.was-validated :invalid ~ .invalid-tooltip,
-.is-invalid ~ .invalid-feedback,
-.is-invalid ~ .invalid-tooltip {
-  display: block;
 }
 
 .was-validated .form-control:invalid, .form-control.is-invalid {
@@ -2201,12 +2170,6 @@ textarea.form-control {
 
 .was-validated .form-check-input:invalid ~ .form-check-label, .form-check-input.is-invalid ~ .form-check-label {
   color: #e74a3b;
-}
-
-.was-validated .form-check-input:invalid ~ .invalid-feedback,
-.was-validated .form-check-input:invalid ~ .invalid-tooltip, .form-check-input.is-invalid ~ .invalid-feedback,
-.form-check-input.is-invalid ~ .invalid-tooltip {
-  display: block;
 }
 
 .was-validated .custom-control-input:invalid ~ .custom-control-label, .custom-control-input.is-invalid ~ .custom-control-label {
