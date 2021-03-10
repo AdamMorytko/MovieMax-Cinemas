@@ -67,8 +67,12 @@ public class UserController {
             bindingResult.rejectValue("matchingPassword", "matchingPassword.notMatching"
                     , "Hasła nie są identyczne.");
         }
+        if (!userService.checkIfUsernameAvailable(userDto.getUsername())){
+            bindingResult.rejectValue("username", "username.alreadyExists"
+                    , "Adres email już jest w użyciu.");
+        }
         if (bindingResult.hasErrors()) {
-            return "main/user/userPasswordEdit";
+            return "main/user/registration";
         }
         User user = new User();
         user.setUsername(userDto.getUsername());

@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
     void addUser(User user);
+    boolean checkIfUsernameAvailable(String username);
     void addUserList(List<User> users);
     void updateUser(User user);
     void deleteUser(User user);

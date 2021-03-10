@@ -32,6 +32,12 @@ public class UserJpaService implements UserService {
     }
 
     @Override
+    public boolean checkIfUsernameAvailable(String username) {
+        Optional<User> userByUsername = userRepository.findUserByUsername(username);
+        return userByUsername.isEmpty();
+    }
+
+    @Override
     public void addUserList(List<User> users) {
         userRepository.saveAll(users);
     }
