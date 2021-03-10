@@ -10,22 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import pl.morytko.moviemax.reservations.ReservationService;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static pl.morytko.moviemax.users.UserRole.ADMIN;
+import static pl.morytko.moviemax.users.UserRole.USER;
 
 @Controller
 @RequestMapping("/admin/users")
 @AllArgsConstructor
 public class UserAdminController {
     private final UserService userService;
-    private final ReservationService reservationService;
-    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/list")
     public String showUserList(Model model){
         List<User> users = userService.getUsers();
-        model.addAttribute("users",users);
+        List<User> usersWithoutGuests = users.stream()
+                .filter(user -> !user.getUsername().equals("guest@guest.guest"))
+                .collect(Collectors.toList());
+        model.addAttribute("users",usersWithoutGuests);
         return "admin/users/userList";
     }
 
@@ -71,6 +74,11 @@ public class UserAdminController {
     public String showEditForm(@PathVariable long userId, Model model){
         Optional<User> userOptional = userService.getUserById(userId);
         if (userOptional.isPresent()){
+            User userToEdit = userOptional.get();
+            UserDto userDto = new UserDto();
+            userDto.setUsername(userToEdit.getUsername());
+            userDto.setName(userToEdit.getName());
+            userDto.setSurname(userToEdit.getSurname());
             model.addAttribute("user",userOptional.get());
         }else{
             throw new IllegalArgumentException("Użytkownik o podanym id nie istnieje.");
@@ -80,7 +88,6 @@ public class UserAdminController {
 
     @PostMapping("/edit")
     public String editUser(@ModelAttribute("user") @Validated(UserValidationGroups.UserData.class) UserDto userDto,
-                           Model model,
                            BindingResult bindingResult,
                            @RequestParam("userId") long userId){
         if (bindingResult.hasErrors()){
@@ -99,7 +106,39 @@ public class UserAdminController {
         return "redirect:/admin/users/list";
     }
 
+    @PostMapping("/role")
+    public String changeUserRole(@RequestParam("userId") long userId){
+        Optional<User> userOptional = userService.getUserById(userId);
+        if (userOptional.isPresent()){
+            User userToUpdate = userOptional.get();
+            String role = userToUpdate.getRoles().stream().findFirst().get().toString();
+            Set<UserRole> roles = new HashSet<>();
+            userToUpdate.setRoles(roles);
+            if (role.equals("USER")){
+                roles.add(ADMIN);
+            }else if (role.equals("ADMIN")){
+                roles.add(USER);
+            }
+            userToUpdate.setRoles(roles);
+            userService.updateUser(userToUpdate);
+        }else{
+            throw new IllegalArgumentException("Użytkownik o podanym id nie istnieje.");
+        }
+        return "redirect:/admin/users/list";
+    }
 
+    @PostMapping("/enable")
+    public String changeUserEnable(@RequestParam("userId") long userId){
+        Optional<User> userOptional = userService.getUserById(userId);
+        if (userOptional.isPresent()){
+            User userToUpdate = userOptional.get();
+            userToUpdate.setEnabled(!userToUpdate.isEnabled());
+            userService.updateUser(userToUpdate);
+        }else{
+            throw new IllegalArgumentException("Użytkownik o podanym id nie istnieje.");
+        }
+        return "redirect:/admin/users/list";
+    }
 
 
 }
