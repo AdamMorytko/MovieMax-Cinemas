@@ -149,8 +149,9 @@ public class DatabaseInitialization {
                 newAuditorium.setScreenEnd(seatsInARow - screenStart + 1);
                 newAuditorium.setCinema(cinema);
                 Auditorium savedAuditorium = auditoriumService.addAuditorium(newAuditorium);
-                System.out.printf("INSERT INTO auditorium (seat_number_count, seat_row_count, screen_start, screen_end, cinema_id) VALUES (%d, %d, %d, %d, %d);%n",
-                        newAuditorium.getSeatNumberCount(), newAuditorium.getSeatRowCount(), newAuditorium.getScreenStart(), newAuditorium.getScreenEnd(), newAuditorium.getCinema().getId());
+                //in case you want to swap to using data.sql, it generates syntax for you to copy later
+                //System.out.printf("INSERT INTO auditorium (seat_number_count, seat_row_count, screen_start, screen_end, cinema_id) VALUES (%d, %d, %d, %d, %d);%n",
+//                        newAuditorium.getSeatNumberCount(), newAuditorium.getSeatRowCount(), newAuditorium.getScreenStart(), newAuditorium.getScreenEnd(), newAuditorium.getCinema().getId());
                 AtomicInteger atomicInteger = new AtomicInteger(0);
                 twoWeeks.forEach(day -> {
                     List<LocalTime> timesList = new LinkedList<>(Arrays.asList(
@@ -167,8 +168,9 @@ public class DatabaseInitialization {
                         screening.setScreeningTime(screeningTime);
                         screening.setAuditorium(savedAuditorium);
                         screening.setMovie(movie);
-                        System.out.printf("INSERT INTO screening (screening_date, screening_time, auditorium_id, movie_id) VALUES ((SELECT CURDATE()+INTERVAL %d DAY), '%s', %d, %d);%n",
-                                atomicInteger.getAndIncrement(), screening.getScreeningTime().format(timeFormatter), screening.getAuditorium().getId(), screening.getMovie().getId());
+//                        in case you want to swap to using data.sql, it generates syntax for you to copy later
+//                        System.out.printf("INSERT INTO screening (screening_date, screening_time, auditorium_id, movie_id) VALUES ((SELECT CURDATE()+INTERVAL %d DAY), '%s', %d, %d);%n",
+//                                atomicInteger.getAndIncrement(), screening.getScreeningTime().format(timeFormatter), screening.getAuditorium().getId(), screening.getMovie().getId());
                         newScreenings.add(screening);
                         if (atomicInteger.get() == 14) {
                             atomicInteger.set(0);
@@ -191,8 +193,9 @@ public class DatabaseInitialization {
                             newSeat.setStatus((short) 1);
                         }
                         newSeat.setAuditorium(savedAuditorium);
-                        System.out.printf("INSERT INTO seat (row, number, status, auditorium_id) VALUES (%d, %d, %d, %d);%n",
-                                newSeat.getRow(), newSeat.getNumber(), newSeat.getStatus(), newSeat.getAuditorium().getId());
+//                        in case you want to swap to using data.sql, it generates syntax for you to copy later
+//                        System.out.printf("INSERT INTO seat (row, number, status, auditorium_id) VALUES (%d, %d, %d, %d);%n",
+//                                newSeat.getRow(), newSeat.getNumber(), newSeat.getStatus(), newSeat.getAuditorium().getId());
                         seatList.add(newSeat);
                     }
                 }
@@ -215,16 +218,17 @@ public class DatabaseInitialization {
             reservedSeats.add(reservedSeat2);
             reservation.setReservedSeats(reservedSeats);
             Reservation savedReservation = reservationService.addReservation(reservation);
-            System.out.printf("INSERT INTO reservation (reserved_seat_number, screening_id, user_id) VALUES (%d, %d, %d);%n",
-                    reservation.getReservedSeatNumber(), reservation.getScreening().getId(), reservation.getUser().getId());
+//            in case you want to swap to using data.sql, it generates syntax for you to copy later
+//            System.out.printf("INSERT INTO reservation (reserved_seat_number, screening_id, user_id) VALUES (%d, %d, %d);%n",
+//                    reservation.getReservedSeatNumber(), reservation.getScreening().getId(), reservation.getUser().getId());
             for (ReservedSeat reservedSeat : reservedSeats) {
                 reservedSeat.setReservation(savedReservation);
             }
             reservedSeatService.addReservedSeats(reservedSeats);
-            System.out.printf("INSERT INTO reserved_seat (number, row, reservation_id) VALUES (%d, %d, %d);%n",
-                    reservedSeat1.getNumber(), reservedSeat1.getRow(), reservedSeat1.getReservation().getId());
-            System.out.printf("INSERT INTO reserved_seat (number, row, reservation_id) VALUES (%d, %d, %d);%n",
-                    reservedSeat1.getNumber(), reservedSeat1.getRow(), reservedSeat1.getReservation().getId());
+//            System.out.printf("INSERT INTO reserved_seat (number, row, reservation_id) VALUES (%d, %d, %d);%n",
+//                    reservedSeat1.getNumber(), reservedSeat1.getRow(), reservedSeat1.getReservation().getId());
+//            System.out.printf("INSERT INTO reserved_seat (number, row, reservation_id) VALUES (%d, %d, %d);%n",
+//                    reservedSeat1.getNumber(), reservedSeat1.getRow(), reservedSeat1.getReservation().getId());
         }
     }
 }
