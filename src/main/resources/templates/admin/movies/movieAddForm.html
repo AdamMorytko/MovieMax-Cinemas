@@ -36,7 +36,19 @@
                                                    value="Wypełnij Formularz Danymi"/>
                                         </div>
                                         <div th:if="${errorLoadingFilmweb}" class="text-center">
-                                            <p class="mb-4">Coś poszło nie tak :(/p>
+                                            <p class="mb-4 text-danger">Niepoprawny link.</p>
+                                        </div>
+                                        <div th:if="${errors != null}"
+                                             class="text-center">
+                                            <p>
+                                                Błąd wczytywania, uzupełnij poniższe wartości ręcznie:
+                                            </p>
+                                            <div th:each="error : ${errors.values()}"
+                                                class="d-block">
+                                                <p th:text="${error}"
+                                                   class="text-danger">error
+                                                </p>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>

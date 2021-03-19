@@ -8,6 +8,9 @@ import pl.morytko.moviemax.utils.Filmweb;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -51,27 +54,67 @@ public class MovieController {
     public String fillAddForm(@RequestParam String filmwebUrl, Model model) {
         Movie movie = new Movie();
         Filmweb filmweb;
+        Map<String, String> errors = new HashMap<>();
         try {
             filmweb = new Filmweb(filmwebUrl);
-        }catch (IOException ioException){
+        } catch(IOException | IllegalArgumentException exception){
             model.addAttribute("errorLoadingFilmweb","true");
+            model.addAttribute("movie", movie);
             return "admin/movies/movieAddForm";
         }
-        String title = filmweb.getTitle();
-        movie.setTitle(title);
-        String director = filmweb.getDirector();
-        movie.setDirector(director);
-        String countryOfOrigin = filmweb.getCountryOfOrigin();
-        movie.setCountryOrigin(countryOfOrigin);
-        int duration = filmweb.getDuration();
-        movie.setDuration(duration);
-        String description = filmweb.getDescription();
-        movie.setDescription(description);
-        String genre = filmweb.getGenre();
-        movie.setGenre(genre);
-        String posterUrl = filmweb.getPosterUrl();
-        movie.setPosterUrl(posterUrl);
+
+        Optional<String> title = filmweb.getTitle();
+        if (title.isPresent()){
+            movie.setTitle(title.get());
+        }else{
+            errors.put("titleError", "tytuł");
+        }
+
+        Optional<String> director = filmweb.getDirector();
+        if (director.isPresent()){
+            movie.setDirector(director.get());
+        }else{
+            errors.put("directorError", "reżyser");
+        }
+
+        Optional<String> countryOfOrigin = filmweb.getCountryOfOrigin();
+        if (countryOfOrigin.isPresent()){
+            movie.setCountryOrigin(countryOfOrigin.get());
+        }else{
+            errors.put("countryOfOriginError", "kraj produkcji");
+        }
+
+        Optional<Integer> duration = filmweb.getDuration();
+        if (duration.isPresent()){
+            movie.setDuration(duration.get());
+        }else{
+            errors.put("durationError", "czas trwania");
+        }
+
+        Optional<String> description = filmweb.getDescription();
+        if (description.isPresent()){
+            movie.setDescription(description.get());
+        }else{
+            errors.put("descriptionError", "opis");
+        }
+
+        Optional<String> genre = filmweb.getGenre();
+        if (genre.isPresent()){
+            movie.setGenre(genre.get());
+        }else{
+            errors.put("genreError", "gatunek");
+        }
+
+        Optional<String> posterUrl = filmweb.getPosterUrl();
+        if (posterUrl.isPresent()){
+            movie.setPosterUrl(posterUrl.get());
+        }else{
+            errors.put("posterUrlError", "link do plakatu");
+        }
         model.addAttribute("movie",movie);
+        if (errors.size() > 0){
+            model.addAttribute("errors",errors);
+        }
         return "admin/movies/movieAddForm";
     }
 
