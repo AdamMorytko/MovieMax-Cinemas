@@ -6,11 +6,13 @@
 
     <link th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet" type="text/css">
 </head>
-<body>
+<body id="page-top">
 <div id="wrapper">
     <ul th:replace="admin/fragments/sidebar :: sidebar">
     </ul>
     <div id="content-wrapper" class="d-flex flex-column">
+        <nav th:replace="admin/fragments/sidebar :: topbar">
+        </nav>
         <div id="content">
 
             <!-- Begin Page Content -->
