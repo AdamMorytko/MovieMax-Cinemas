@@ -11,13 +11,152 @@
 
 <!-- Page Wrapper -->
 <div id="wrapper">
+    <ul th:replace="admin/fragments/sidebar :: sidebar">
 
-<ul th:replace="admin/fragments/sidebar :: sidebar">
-
-</ul>
-
+    </ul>
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
+        <nav th:replace="admin/fragments/sidebar :: topbar">
+
+        </nav>
+        <div class="container">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Instrukcja obsługi panelu administracyjnego</h1>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <p class="text-center">
+                                        Z boku widzimy menu, z którego możemy przejść do odpowiednich kategorii
+                                        zarządzania.
+                                        Po przejściu na listę, możemy zobaczyć listę kin i akcje, które możemy wykonać.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_1.png}" class="img-fluid d-block mb-2"
+                                         alt="menu">
+                                    <p class="text-center">
+                                        Po przejściu w szczegóły danego kina, możemy do niego dodać salę kinową lub
+                                        zobaczyć już istniejące sale.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_2.png}" class="img-fluid d-block mb-2"
+                                         alt="kino_szczegóły">
+                                    <p class="text-center">
+                                        Przechodząc do dodania nowej sali zobaczymy kreator nowej sali.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_3.png}" class="img-fluid d-block mb-2"
+                                         alt="dodawanie_sali_1">
+                                    <p class="text-center">
+                                        Po wyborze ilości rzędów i ilości miejsc w danym rzędzie, zostanie wygenerowana
+                                        sala, którą możemy edytować.
+                                        Możemy zmieniać długość ekranu sali oraz wyłączyć niektóre miejsca z użycia, w
+                                        przypadku gdyby np. były tam schody.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_4.png}" class="img-fluid d-block mb-2"
+                                         alt="dodawanie_sali_2">
+                                    <p class="text-center">
+                                        Operacje CRUD (create, read, update, delete) możemy dokonać na dowolnych
+                                        obiektach przechodząc do widoku listy tak jak w przypadku kin.
+                                        Możemy także dodawać np. nowy film do bazy danych.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_5.png}" class="img-fluid d-block mb-2"
+                                         alt="dodawanie_filmu">
+                                    <p class="text-center">
+                                        Dzięki bibliotece Jsoup, możemy podać link do filmu ze strony <a
+                                            href="https://www.filmweb.pl/">www.filmweb.pl</a>.
+                                        Pobierzemy dzięki temu wymagane do utworzenia filmu parametry. W przypadku, gdy
+                                        aplikacji nie uda się załadować jakiegoś elementu, zostaniemy o tym
+                                        poinformowani.
+                                        W takim przypadku dane należy dopisać ręcznie.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_6.png}" class="img-fluid d-block mb-2"
+                                         alt="dodawanie_filmu_2">
+                                    <p class="text-center">
+                                        Lista filmów wraz z możliwymi operacjami na każdym filmie.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_7.png}" class="img-fluid d-block mb-2"
+                                         alt="lista_filmów">
+                                    <p class="text-center">
+                                        Lista wyboru list seansów filmowych.
+                                        Możemy wyszukiwać seanse wg. kina, sali lub wszystkie w każdym kinie.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_8.png}" class="img-fluid d-block mb-2"
+                                         alt="lista_seansów">
+                                    <p class="text-center">
+                                        Możemy także przefiltrować wyniki aby zobaczyć tylko przyszłe seanse.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_9.png}" class="img-fluid d-block mb-2"
+                                         alt="lista_seansów_2">
+                                    <img th:src="@{/img/adminPageImgs/admin_10.png}" class="img-fluid d-block mb-2"
+                                         alt="lista_seansów_3">
+                                    <p class="text-center">
+                                        Przechodząc do kreatoru nowego seansu, musimy najpierw wybrać datę nowego
+                                        seansu.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_11.png}" class="img-fluid d-block mb-2"
+                                         alt="kreator_seansu">
+                                    <p class="text-center">
+                                        Wybierając potrzebne parametry do utworzenia seansu klikamy na "dodaj".
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_12.png}" class="img-fluid d-block mb-2"
+                                         alt="kreator_seansu_2">
+                                    <p class="text-center">
+                                        Rezerwacje możemy przeglądać w zakładce rezerwacje->lista.
+                                        Możemy także znaleźć rezerwacje każdego seansu, przechodząc w szczegóły
+                                        interesującego nas seansu.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_13.png}" class="img-fluid d-block mb-2"
+                                         alt="rezerwacje">
+                                    <p class="text-center">
+                                        Lub przechodząc z konkretnej rezerwacji do pozostałych rezerwacji danego seansu.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_14.png}" class="img-fluid d-block mb-2"
+                                         alt="rezerwacje_2">
+                                    <p class="text-center">
+                                        W zakładce użytkownicy->lista możemy zarządzać użytkownikami aplikacji.
+                                        Po kliknięciu w dany guzik możemy kogoś zablokować, nadać lub odebrać
+                                        uprawnienia administratora.
+                                        Możemy także dokonywać pozostałych operacji CRUD tak jak w przypadku innych
+                                        obiektów aplikacji.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_15.png}" class="img-fluid d-block mb-2"
+                                         alt="użytkownicy">
+                                    <p class="text-center">
+                                        W szczegółach każdego użytkownika możemy zobaczyć listę jego rezerwacji.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_16.png}" class="img-fluid d-block mb-2"
+                                         alt="użytkownicy">
+                                    <p class="text-center">
+                                        W przypadku próby usunięcia jakiegokolwiek obiektu w aplikacji, zostaniemy
+                                        poproszeni o potwierdzenie.
+                                        Zostaniemy także poinformowani o skutkach danego usunięcia.
+                                        W przypadku usunięcia użytkownika, powiązane z nim rezerwacje również zostaną
+                                        usunięte.
+                                    </p>
+                                    <img th:src="@{/img/adminPageImgs/admin_17.png}" class="img-fluid d-block mb-2"
+                                         alt="użytkownicy">
+                                    <hr>
+                                    <p class="text-center">
+                                        Zachęcam do korzystania aplikacji wedle uznania.
+                                        Po wyłączeniu aplikacji, która następuje po pół godzinnej nieaktywności baza
+                                        danych zostanie usunięta.
+                                        Po ponownym uruchomieniu, baza danych zostanie zrestartowana do wartości
+                                        początkowych.
+                                        Kontakt do twórcy aplikacji znajduje się w zakładce "kontakt" na stronie
+                                        głównej.
+                                    </p>
+                                    <hr>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <!-- Footer -->
