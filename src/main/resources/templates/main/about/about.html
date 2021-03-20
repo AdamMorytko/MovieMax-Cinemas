@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <head th:replace="main/fragments/header :: head"></head>
+  <title id="pageTitle">Logowanie</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+  <link th:href="@{/css/all.min.css}" rel="stylesheet" type="text/css">
+
+  <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<nav th:replace="main/fragments/header :: navbar">
+
+</nav>
+
+<div id="content-wrapper" class="d-flex flex-column">
+  <div class="container mt-5">
+    <div class="card o-hidden border-0 shadow-lg my-5">
+      <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="p-5">
+              <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">O aplikacji</h1>
+              </div>
+              <hr>
+              <div class="form-group">
+                <p class="text-center">
+                  Technologie i biblioteki wykorzystane w tej aplikacji:
+                </p>
+                <ul class="list-group">
+                  <li class="list-group-item">Java</li>
+                  <li class="list-group-item">Html</li>
+                  <li class="list-group-item">Css</li>
+                  <li class="list-group-item">Thymeleaf</li>
+                  <li class="list-group-item">Hibernate</li>
+                  <li class="list-group-item">Spring boot</li>
+                  <li class="list-group-item">Spring security</li>
+                  <li class="list-group-item">Spring boot mail</li>
+                  <li class="list-group-item">Spring boot validation</li>
+                  <li class="list-group-item">Maven</li>
+                  <li class="list-group-item">Bootstrap</li>
+                  <li class="list-group-item">Lombok</li>
+                  <li class="list-group-item">Jsoup</li>
+                  <li class="list-group-item">Guava</li>
+                  <li class="list-group-item">MySQL (lokalnie)</li>
+                  <li class="list-group-item">PostgreSQL (heroku)</li>
+                  <li class="list-group-item">Darmowy hosting: www.heroku.com</li>
+                </ul>
+                <hr>
+                <p class="text-center">
+                  Aplikacja MovieMaxCinemas pozwala użytkownikowi na zakup biletu na seans filmowy.
+                  Wchodząc na stronę główną możemy wybrać kino, które zostanie zapamiętane w sesji.
+                </p>
+                <img th:src="@{/img/homePageImgs/moviemax_1.png}" class="img-fluid d-block mb-2" alt="strona_główna">
+                <p class="text-center">
+                  Po zalogowaniu na konto administratora, możemy zarządzać kinami, repertuarem itd.
+                  Instrukcja obsługi panelu administracyjnego znajduje się na stronie głównej tego panelu.
+                </p>
+                <p class="text-center">
+                  Dane na konto administratora to:
+                </p>
+                <p class="text-center">
+                  login: admin@test.com
+                </p>
+                <p class="text-center">
+                  hasło: admintest
+                </p>
+                <p class="text-center">
+                  Zachęcam do utworzenia własnego konta, aby móc przetestować otrzymywanie maila z potwierdzeniem rezerwacji.
+                  Dane na testowe konto użytkownika, na którym znajdziemy przykładowe rezerwacje to:
+                </p>
+                <p class="text-center">
+                  login: user@test.com
+                </p>
+                <p class="text-center">
+                  hasło: usertest
+                </p>
+                <img th:src="@{/img/homePageImgs/moviemax_15.png}" class="img-fluid d-block mb-2" alt="logowanie">
+                <p class="text-center">
+                  Panel administracyjny to duża część tej aplikacji, dlatego zachęcam do zalogowania się i przetestowania go.
+                </p>
+                <img th:src="@{/img/homePageImgs/moviemax_16.png}" class="img-fluid d-block mb-2" alt="panel_administracyjny">
+                <p class="text-center">
+                  Aby założyc własne konto należy przejść na stronę rejestracji, link znajduje się w górnym menu.
+                </p>
+                <img th:src="@{/img/homePageImgs/moviemax_14.png}" class="img-fluid d-block mb-2" alt="rejestracja">
+                <hr>
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Instrukcja rezerwacji</h1>
+                </div>
+                <a th:href="@{/about/reservations}" class="btn btn-primary btn-user btn-block">Przejdź do instrukcji procesu rezerwacji miejsc na seans filmowy.</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer th:replace="main/fragments/footer :: footer">
+
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<div th:replace="main/fragments/footer :: scripts">
+
+</div>
+
+</body>
+
+</html>

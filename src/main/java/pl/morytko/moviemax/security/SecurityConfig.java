@@ -36,8 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/screenings",
                         "/css/**",
                         "/js/**",
+                        "/img/**",
                         "/login",
                         "/register",
+                        "/about/**",
+                        "/contact",
                         "/reservations/**",
                         "/dates",
                         "/clearCinemaId").permitAll()

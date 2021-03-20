@@ -125,4 +125,14 @@ public class HomeController {
             return "main/screenings";
         }
     }
+
+    @GetMapping("/about")
+    public String showAboutPage(){
+        return "main/about/about";
+    }
+
+    @GetMapping("/about/reservations")
+    public String showReservationInstruction(){
+        return "main/about/reservations";
+    }
 }

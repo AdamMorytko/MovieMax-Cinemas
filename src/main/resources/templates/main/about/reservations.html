@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <head th:replace="main/fragments/header :: head"></head>
+  <title id="pageTitle">Logowanie</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+  <link th:href="@{/css/all.min.css}" rel="stylesheet" type="text/css">
+
+  <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<nav th:replace="main/fragments/header :: navbar">
+
+</nav>
+
+<div id="content-wrapper" class="d-flex flex-column">
+  <div class="container mt-5">
+    <div class="card o-hidden border-0 shadow-lg my-5">
+      <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="p-5">
+              <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Instrukcja rezerwacji</h1>
+              </div>
+              <hr>
+              <div class="form-group">
+                <p class="text-center">
+                  Po wybraniu kina na stronie głównej, będziemy mogli wybrać datę seansu w danym kinie.
+                  Seanse w trybie testowym są zaplanowane na 2 tygodnie do przodu w każdym testowym kinie i resetują się po każdym ponownym uruchomieniu aplikacji.
+                </p>
+                <img th:src="@{/img/homePageImgs/moviemax_2.png}" class="img-fluid d-block mb-2" alt="wybieranie_daty">
+                <p class="text-center">
+                  Po wybraniu daty pojawi się repertuar. Możemy następnie wybrać godzinę emisji, która nas interesuje.
+                  Lista pokazuje tylko seanse, które dopiero będą mieć miejsce.
+                </p>
+                <img th:src="@{/img/homePageImgs/moviemax_3.png}" class="img-fluid d-block mb-2" alt="repertuar">
+                <p class="text-center">
+                  Utworzenie konta nie jest wymagane, aby dokonać rezerwacji. Możemy dokonać tego jako gość.
+                </p>
+                <img th:src="@{/img/homePageImgs/moviemax_4.png}" class="img-fluid d-block mb-2" alt="gość">
+                <p class="text-center">
+                  Po kontynuacji jako gość możemy wybrać ilość miejsc (maksymalnie 10 dla jednej rezerwacji).
+                  Jeśli jesteśmy zalogowani to aplikacja automatycznie przekieruje nas do tego wyboru.
+                </p>
+                <img th:src="@{/img/homePageImgs/moviemax_5.png}" class="img-fluid d-block mb-2" alt="ilość">
+                <p class="text-center">
+                  W następnym kroku możemy dokonać wyboru miejsca.
+                  Aplikacja nie dopuści do dokonania rezerwacji na już wybranym miejscu.
+                </p>
+                <img th:src="@{/img/homePageImgs/moviemax_6.png}" class="img-fluid d-block mb-2" alt="miejsca">
+                <p class="text-center">
+                  Następnie jako gość będziemy musieli podać adres email, na który zostanie wysłane potwierdzenie rezerwacji wraz z jej szczegółami.
+                </p>
+                <img th:src="@{/img/homePageImgs/moviemax_8.png}" class="img-fluid d-block mb-2" alt="dane_osobowe">
+                <img th:src="@{/img/homePageImgs/moviemax_9.png}" class="img-fluid d-block mb-2" alt="podsumowanie_gość">
+                <p class="text-center">
+                  W przypadku, gdy dokonujemy rezerwacji jako zalogowany użytkownik, automatycznie przejdziemy do jej podsumowania.
+                </p>
+                <img th:src="@{/img/homePageImgs/moviemax_7.png}" class="img-fluid d-block mb-2" alt="podsumowanie">
+                <p class="text-center">
+                  Jako aplikacja pokazowa, nie posiada ona procesu zapłaty i po przejściu dalej otrzymamy naszą nową rezerwację.
+                </p>
+                <img th:src="@{/img/homePageImgs/moviemax_10.png}" class="img-fluid d-block mb-2" alt="rezerwacja">
+                <p class="text-center">
+                  Na podany w formularzu adres email (lub w przypadku zalogowanego użytkownika na jego adres email) zostanie wysłane potwierdzenie rezerwacji wraz z jej szczegółami.
+                </p>
+                <img th:src="@{/img/homePageImgs/moviemax_17.png}" class="img-fluid d-block mb-2" alt="email">
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer th:replace="main/fragments/footer :: footer">
+
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<div th:replace="main/fragments/footer :: scripts">
+
+</div>
+
+</body>
+
+</html>
