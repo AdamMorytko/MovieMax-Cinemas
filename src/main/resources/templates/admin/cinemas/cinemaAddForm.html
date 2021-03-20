@@ -22,9 +22,6 @@
 
                                 <div class="form-group">
                                     <form th:action="@{/admin/cinemas/add}" th:object="${cinema}" method="post" class="user">
-                                        <div class="text-center">
-                                            <p class="mb-4">Tekst pomocniczy</p>
-                                        </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
                                                    th:field="*{city}"
@@ -37,14 +34,13 @@
                                                    placeholder="Ulica (Np. Aleja Jeziorańskiego 1)"/>
                                             <p class="m-0 text-danger" th:if="${#fields.hasErrors('street')}" th:errors="*{street}">error</p>
                                         </div>
+                                        <hr>
                                         <div class="form-group">
                                             <input class="btn btn-primary btn-user btn-block" type="submit"
                                                    value="Dodaj kino"/>
                                         </div>
                                     </form>
                                 </div>
-                                <hr>
-
                             </div>
                         </div>
                     </div>
