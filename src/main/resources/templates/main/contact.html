@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <head th:replace="main/fragments/header :: head"></head>
+  <title id="pageTitle">Logowanie</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+  <link th:href="@{/css/all.min.css}" rel="stylesheet" type="text/css">
+
+  <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<nav th:replace="main/fragments/header :: navbar">
+
+</nav>
+
+<div id="content-wrapper" class="d-flex flex-column">
+  <div class="container mt-5">
+    <div class="card o-hidden border-0 shadow-lg my-5">
+      <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="p-5">
+              <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">O aplikacji</h1>
+              </div>
+              <hr>
+              <div class="form-group">
+                <p class="text-center">
+                  Twórca aplikacji: Adam Morytko
+                </p>
+                <p class="text-center">
+                  Adres email: adam.morytko@gmail.com
+                </p>
+                <p class="text-center">
+                  Konto github: <a href="https://github.com/AdamMorytko">github.com/AdamMorytko</a>
+                </p>
+                <p class="text-center">
+                  Repozytorium aplikacji: <a href="https://github.com/AdamMorytko/MovieMax-Cinemas">github.com/AdamMorytko/MovieMax-Cinemas</a>
+                </p>
+                </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer th:replace="main/fragments/footer :: footer">
+
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<div th:replace="main/fragments/footer :: scripts">
+
+</div>
+
+</body>
+
+</html>

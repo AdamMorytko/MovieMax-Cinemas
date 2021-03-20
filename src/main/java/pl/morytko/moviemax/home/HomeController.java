@@ -135,4 +135,9 @@ public class HomeController {
     public String showReservationInstruction(){
         return "main/about/reservations";
     }
+
+    @GetMapping("/contact")
+    public String showContactPage(){
+        return "main/contact";
+    }
 }
