@@ -19,7 +19,7 @@ password: usertest
 Test admin:  
 login: admin@test.com  
 password: admintest
-# Workflow:
+# How does it look like:
 ![Homepage](https://github.com/AdamMorytko/MovieMax-Cinemas/blob/master/src/main/resources/static/img/homePageImgs/moviemax_1.png)
 # Used technologies and libraries:
 - Java
